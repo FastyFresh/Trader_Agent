@@ -1,13 +1,26 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 const logger = require('./utils/logger');
 const researchAgent = require('./agents/ResearchAgent');
 const driftService = require('./services/drift');
 
 const app = express();
 
-app.use(cors());
+// Middleware
+app.use(cors({
+  origin: ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175', 'http://localhost:5176'],
+  credentials: true
+}));
 app.use(express.json());
+
+// API Routes
+app.use('/api/health', (req, res) => {
+  res.json({ status: 'ok' });
+});
+
+app.use('/api/balance', require('./routes/balance'));
+app.use('/api/autotrader', require('./routes/autoTrader'));
 
 // Start research cycle
 async function startResearch() {
@@ -36,11 +49,12 @@ async function startResearch() {
     }
 }
 
-// Start server and research
+// Start server
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, async () => {
     logger.info(`Server running on port ${PORT}`);
+    logger.info(`CORS enabled for development ports 5173-5176`);
     
     try {
         const strategies = await startResearch();
@@ -48,12 +62,6 @@ app.listen(PORT, async () => {
     } catch (error) {
         logger.error('Failed to complete research cycle:', error);
     }
-});
-
-// API endpoint to get research results
-app.get('/api/research/results', (req, res) => {
-    const report = researchAgent.getResearchReport();
-    res.json(report);
 });
 
 // Error handling

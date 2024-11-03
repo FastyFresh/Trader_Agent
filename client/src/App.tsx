@@ -1,64 +1,142 @@
-import { useState, useEffect } from 'react'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { Routes, Route } from 'react-router-dom'
-import Dashboard from './components/Dashboard'
-import Trading from './components/Trading'
-import Analytics from './components/Analytics'
-import RiskManagement from './components/RiskManagement'
-import Performance from './components/Performance'
-import Settings from './components/Settings'
-import Sidebar from './components/Sidebar'
-import Header from './components/Header'
+import { useState } from 'react'
+import WalletConnect from './components/WalletConnect'
+import TraderControls from './components/TraderControls'
+import PortfolioStats from './components/PortfolioStats'
 
-const queryClient = new QueryClient()
+const App = () => {
+  const [connected, setConnected] = useState(false)
 
-function App() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true)
-  const [isLoading, setIsLoading] = useState(true)
-
-  useEffect(() => {
-    // Simulate initial data loading
-    const timer = setTimeout(() => {
-      setIsLoading(false)
-    }, 1000)
-
-    return () => clearTimeout(timer)
-  }, [])
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-500 mx-auto mb-4"></div>
-          <p className="text-lg">Loading Trader Agent...</p>
-        </div>
-      </div>
-    )
+  const handleConnect = (publicKey: string) => {
+    console.log('Wallet connected:', publicKey)
+    setConnected(true)
   }
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <div className="min-h-screen bg-gray-900 text-white relative">
-        <Header onMenuClick={() => setIsSidebarOpen(!isSidebarOpen)} />
-        <div className="flex">
-          <Sidebar isOpen={isSidebarOpen} />
-          <main 
-            className={`flex-1 p-4 transition-all duration-300 ${
-              isSidebarOpen ? 'ml-64' : 'ml-0'
-            } mt-16`}
-          >
-            <Routes>
-              <Route path="/" element={<Dashboard />} />
-              <Route path="/trading" element={<Trading />} />
-              <Route path="/analytics" element={<Analytics />} />
-              <Route path="/risk" element={<RiskManagement />} />
-              <Route path="/performance" element={<Performance />} />
-              <Route path="/settings" element={<Settings />} />
-            </Routes>
-          </main>
+    <div style={{
+      minHeight: '100vh',
+      backgroundColor: '#111827',
+      color: 'white',
+      padding: '2rem',
+      maxWidth: '1200px',
+      margin: '0 auto'
+    }}>
+      <header style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: '2rem'
+      }}>
+        <div>
+          <h1 style={{
+            fontSize: '2rem',
+            fontWeight: 'bold',
+            marginBottom: '0.25rem'
+          }}>
+            Trader Agent
+          </h1>
+          <p style={{
+            color: '#9ca3af',
+            fontSize: '0.875rem'
+          }}>
+            Automated trading on Drift Protocol
+          </p>
         </div>
-      </div>
-    </QueryClientProvider>
+        <WalletConnect onConnect={handleConnect} />
+      </header>
+
+      <main>
+        {connected ? (
+          <div>
+            {/* Overview Card */}
+            <div style={{
+              backgroundColor: '#1f2937',
+              borderRadius: '0.5rem',
+              padding: '1.5rem',
+              marginBottom: '1rem'
+            }}>
+              <h2 style={{
+                fontSize: '1.5rem',
+                marginBottom: '1rem'
+              }}>
+                Trading Dashboard
+              </h2>
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+                gap: '1rem'
+              }}>
+                <div>
+                  <p style={{ color: '#9ca3af', fontSize: '0.875rem' }}>Current Balance</p>
+                  <p style={{ fontSize: '1.25rem', color: '#22c55e' }}>1 SOL</p>
+                  <p style={{ color: '#9ca3af', fontSize: '0.75rem' }}>≈ $160</p>
+                </div>
+                <div>
+                  <p style={{ color: '#9ca3af', fontSize: '0.875rem' }}>Active Strategy</p>
+                  <p style={{ fontSize: '1.25rem' }}>Initial Phase</p>
+                  <p style={{ color: '#9ca3af', fontSize: '0.75rem' }}>Momentum Trading</p>
+                </div>
+                <div>
+                  <p style={{ color: '#9ca3af', fontSize: '0.875rem' }}>Risk Level</p>
+                  <p style={{ fontSize: '1.25rem' }}>Moderate</p>
+                  <p style={{ color: '#9ca3af', fontSize: '0.75rem' }}>3x max leverage</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Trading Controls */}
+            <TraderControls />
+
+            {/* Performance Stats */}
+            <PortfolioStats />
+
+            {/* Info Card */}
+            <div style={{
+              backgroundColor: '#1f2937',
+              borderRadius: '0.5rem',
+              padding: '1.5rem',
+              marginTop: '1rem',
+              fontSize: '0.875rem',
+              color: '#9ca3af'
+            }}>
+              <h3 style={{
+                fontSize: '1rem',
+                fontWeight: 'bold',
+                marginBottom: '0.5rem',
+                color: 'white'
+              }}>
+                About Trading Bot
+              </h3>
+              <p style={{ marginBottom: '0.5rem' }}>
+                This trading bot uses advanced algorithms to trade on Drift Protocol, aiming to grow your portfolio from $100 to $1,000,000.
+              </p>
+              <ul style={{ listStyle: 'disc', marginLeft: '1.5rem' }}>
+                <li>Automated trading 24/7</li>
+                <li>Dynamic risk management</li>
+                <li>Automatic strategy adjustments</li>
+                <li>Real-time performance tracking</li>
+              </ul>
+            </div>
+          </div>
+        ) : (
+          <div style={{
+            backgroundColor: '#1f2937',
+            borderRadius: '0.5rem',
+            padding: '2rem',
+            textAlign: 'center'
+          }}>
+            <h2 style={{
+              fontSize: '1.5rem',
+              marginBottom: '1rem'
+            }}>
+              Connect Your Wallet
+            </h2>
+            <p style={{ color: '#9ca3af' }}>
+              Connect your Phantom wallet to begin trading
+            </p>
+          </div>
+        )}
+      </main>
+    </div>
   )
 }
 

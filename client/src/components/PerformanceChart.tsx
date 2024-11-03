@@ -1,144 +1,76 @@
-import { useEffect, useRef } from 'react'
-import { Chart, registerables } from 'chart.js'
+import { Line } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+} from 'chart.js';
 
-Chart.register(...registerables)
-
-interface PerformanceData {
-  dates: string[]
-  equity: number[]
-  returns: number[]
-}
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 interface PerformanceChartProps {
-  data: PerformanceData
+  data?: Array<{ timestamp: number; value: number }>;
 }
 
-const PerformanceChart = ({ data }: PerformanceChartProps) => {
-  const chartRef = useRef<HTMLCanvasElement>(null)
-  const chartInstance = useRef<Chart | null>(null)
+const PerformanceChart = ({ data = [] }: PerformanceChartProps) => {
+  const chartData = {
+    labels: data.map(point => new Date(point.timestamp).toLocaleDateString()),
+    datasets: [
+      {
+        label: 'Portfolio Value ($)',
+        data: data.map(point => point.value),
+        borderColor: 'rgb(75, 192, 192)',
+        tension: 0.1
+      }
+    ]
+  };
 
-  useEffect(() => {
-    if (chartRef.current) {
-      const ctx = chartRef.current.getContext('2d')
-
-      if (ctx) {
-        // Destroy previous chart instance
-        if (chartInstance.current) {
-          chartInstance.current.destroy()
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: 'top' as const,
+      },
+      title: {
+        display: false,
+      }
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        grid: {
+          color: 'rgba(255, 255, 255, 0.1)'
         }
-
-        // Create new chart
-        chartInstance.current = new Chart(ctx, {
-          type: 'line',
-          data: {
-            labels: data.dates,
-            datasets: [
-              {
-                label: 'Portfolio Value',
-                data: data.equity,
-                borderColor: '#10B981',
-                backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                tension: 0.4,
-                fill: true,
-              },
-              {
-                label: 'Returns %',
-                data: data.returns,
-                borderColor: '#60A5FA',
-                backgroundColor: 'rgba(96, 165, 250, 0.1)',
-                tension: 0.4,
-                fill: true,
-                yAxisID: 'returns',
-              },
-            ],
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              legend: {
-                position: 'top',
-                labels: {
-                  color: '#E5E7EB',
-                },
-              },
-              tooltip: {
-                mode: 'index',
-                intersect: false,
-              },
-            },
-            scales: {
-              x: {
-                grid: {
-                  color: 'rgba(107, 114, 128, 0.1)',
-                },
-                ticks: {
-                  color: '#9CA3AF',
-                },
-              },
-              y: {
-                grid: {
-                  color: 'rgba(107, 114, 128, 0.1)',
-                },
-                ticks: {
-                  color: '#9CA3AF',
-                  callback: (value) => {
-                    return new Intl.NumberFormat('en-US', {
-                      style: 'currency',
-                      currency: 'USD',
-                      maximumFractionDigits: 0,
-                    }).format(value as number)
-                  },
-                },
-              },
-              returns: {
-                position: 'right',
-                grid: {
-                  drawOnChartArea: false,
-                },
-                ticks: {
-                  color: '#9CA3AF',
-                  callback: (value) => {
-                    return `${value}%`
-                  },
-                },
-              },
-            },
-            interaction: {
-              intersect: false,
-              mode: 'index',
-            },
-          },
-        })
+      },
+      x: {
+        grid: {
+          display: false
+        }
       }
     }
-
-    // Cleanup
-    return () => {
-      if (chartInstance.current) {
-        chartInstance.current.destroy()
-      }
-    }
-  }, [data])
+  };
 
   return (
-    <div className="card">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-lg font-semibold">Performance</h2>
-        <div className="flex space-x-2">
-          <button className="btn-secondary text-sm">1D</button>
-          <button className="btn-secondary text-sm">1W</button>
-          <button className="btn-primary text-sm">1M</button>
-          <button className="btn-secondary text-sm">3M</button>
-          <button className="btn-secondary text-sm">1Y</button>
-          <button className="btn-secondary text-sm">ALL</button>
-        </div>
-      </div>
-      <div className="h-96">
-        <canvas ref={chartRef}></canvas>
+    <div className="bg-gray-800 rounded-lg p-4">
+      <h3 className="text-lg font-semibold mb-4">Performance</h3>
+      <div className="h-[300px]">
+        <Line data={chartData} options={options} />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default PerformanceChart
+export default PerformanceChart;
