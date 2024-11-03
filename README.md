@@ -1,143 +1,120 @@
-# Trader Agent - AI Cryptocurrency Trading System
+# Trader Agent - Automated Crypto Trading Bot
 
-A sophisticated AI-powered cryptocurrency trading system designed to achieve $1,000,000 in equity from a $500 initial investment over 3-5 years using machine learning and multi-agent architecture.
+An automated trading system that aims to grow $100 to $1M using the Drift Protocol on Solana.
 
-## System Architecture
+## Development Setup
 
-### Trading Components
-- Multiple AI trading agents for different strategies
-- Real-time market data processing
-- ML-based signal generation
-- Advanced risk management
-- Portfolio optimization
-- Performance analytics
-- Historical backtesting
+### Prerequisites
+- Node.js v16+
+- NPM or Yarn
+- Phantom Wallet Browser Extension
 
-### Technology Stack
-- **Backend:**
-  - Node.js/Express
-  - MongoDB for data persistence
-  - TensorFlow.js for ML models
-  - WebSocket for real-time updates
-  - Alpaca API for trading
-  
-- **Frontend:**
-  - React with TypeScript
-  - TailwindCSS for styling
-  - Chart.js for data visualization
-  - Real-time WebSocket integration
+### Environment Setup
 
-### Features
+1. Clone the repository:
+```bash
+git clone https://github.com/FastyFresh/Trader_Agent.git
+cd Trader_Agent
+```
 
-1. **Multi-Agent Trading System**
-   - TrendFollowing strategy
-   - MeanReversion strategy
-   - ML-enhanced decision making
-   - Automated trade execution
+2. Install dependencies:
+```bash
+# Install server dependencies
+cd server
+npm install
 
-2. **Risk Management**
-   - Position sizing
-   - Stop-loss management
-   - Portfolio exposure control
-   - Drawdown protection
+# Install client dependencies
+cd ../client
+npm install
+```
 
-3. **Real-Time Analytics**
-   - Portfolio performance tracking
-   - Trade history analysis
-   - Risk metrics monitoring
-   - Strategy performance evaluation
+3. Configure development environment:
+```bash
+# Copy environment files
+cp server/.env.development server/.env
+cp client/.env.development client/.env
+```
 
-4. **Professional Dashboard**
-   - Real-time market data
-   - Portfolio overview
-   - Active trades monitoring
-   - Performance charts
-   - Strategy controls
+### Devnet Testing
 
-## Setup and Installation
+1. **Setup Phantom Wallet for Devnet**:
+   - Open Phantom Wallet
+   - Click Settings (gear icon)
+   - Select "Developer Settings"
+   - Choose "Solana Devnet"
 
-1. Prerequisites:
-   ```bash
-   # Install MongoDB
-   docker pull mongo
-   docker run -d -p 27017:27017 --name trader-agent-mongo mongo
-   ```
+2. **Get Devnet SOL**:
+   - Visit [Solana Faucet](https://solfaucet.com)
+   - Enter your wallet address
+   - Request 2 SOL (this simulates the $125 minimum requirement)
 
-2. Clone the repository:
-   ```bash
-   git clone https://github.com/FastyFresh/Trader_Agent.git
-   cd Trader_Agent
-   ```
+3. **Start the Development Servers**:
+```bash
+# Terminal 1 - Start server
+cd server
+npm run dev
 
-3. Install dependencies:
-   ```bash
-   # Backend
-   cd server
-   npm install
-   
-   # Frontend
-   cd ../client
-   npm install
-   ```
+# Terminal 2 - Start client
+cd client
+npm run dev
+```
 
-4. Set up environment variables:
-   Create `.env` file in the server directory with:
-   ```
-   ALPACA_API_KEY=your_key
-   ALPACA_API_SECRET=your_secret
-   MONGODB_URI=mongodb://localhost:27017/trader_agent
-   ```
+4. **Access the Application**:
+   - Open browser to http://localhost:5173
+   - Connect your Phantom wallet
+   - Click "Start Trading Bot"
 
-5. Start the application:
-   ```bash
-   # Start backend (from server directory)
-   npm run dev
-   
-   # Start frontend (from client directory)
-   npm run dev
-   ```
+### Testing Features
 
-6. Access the application:
-   - Frontend: http://localhost:5176
-   - Backend API: http://localhost:3000
-   - WebSocket: ws://localhost:3000
+1. **Wallet Connection**:
+   - Click "Connect Wallet" button
+   - Approve connection in Phantom
+   - System will check for 2 SOL minimum balance
 
-## API Endpoints
+2. **Trading Bot**:
+   - Initial Phase uses aggressive momentum strategy
+   - Grid trading activates at higher balances
+   - Real-time updates in dashboard
+   - Automatic strategy adjustments
 
-### Trading Operations
-- `GET /api/trading/portfolio` - Get portfolio overview
-- `GET /api/trading/performance` - Get performance metrics
-- `GET /api/trading/active-trades` - List active trades
-- `POST /api/trading/execute-trade` - Execute a trade
+3. **Monitoring**:
+   - View portfolio value
+   - Track active trades
+   - Monitor risk metrics
+   - Check strategy performance
 
-### Strategy Management
-- `GET /api/strategies` - List available strategies
-- `POST /api/strategies/:name/start` - Start a strategy
-- `POST /api/strategies/:name/stop` - Stop a strategy
-- `GET /api/strategies/:name/performance` - Get strategy performance
+### Development Notes
 
-### Analytics
-- `GET /api/analytics/portfolio/history` - Get portfolio history
-- `GET /api/analytics/trade/performance` - Get trade performance
-- `GET /api/analytics/risk/metrics` - Get risk metrics
+- All trades are simulated in development mode
+- Price data uses realistic market simulation
+- Wallet transactions use devnet
+- Real-time updates every 5 seconds
 
-## Development Status
+### Troubleshooting
 
-- [x] Basic trading infrastructure
-- [x] Database integration
-- [x] Real-time market data
-- [x] Trading strategies implementation
-- [x] Risk management system
-- [x] Frontend dashboard
-- [ ] Advanced ML models
-- [ ] Strategy optimization
-- [ ] Portfolio rebalancing
-- [ ] Extended backtesting
+1. **Wallet Connection Issues**:
+   - Ensure Phantom is set to Devnet
+   - Check wallet has sufficient SOL
+   - Clear browser cache if needed
+
+2. **Server Connection Issues**:
+   - Verify both servers are running
+   - Check console for error messages
+   - Ensure ports 3000 and 5173 are free
+
+3. **Trading Issues**:
+   - Check server logs for details
+   - Verify Drift Protocol connection
+   - Ensure wallet has approved transactions
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
+1. Fork the repository
+2. Create feature branch
+3. Commit changes
+4. Push to branch
+5. Create Pull Request
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+MIT
