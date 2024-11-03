@@ -3,41 +3,67 @@ const mongoose = require('mongoose');
 const TradeSchema = new mongoose.Schema({
     symbol: {
         type: String,
-        required: true
+        required: true,
+        index: true
     },
     type: {
         type: String,
         enum: ['BUY', 'SELL'],
         required: true
     },
-    price: {
-        type: Number,
-        required: true
-    },
     quantity: {
         type: Number,
-        required: true
+        required: true,
+        validate: {
+            validator: function(v) {
+                return v > 0;
+            },
+            message: 'Quantity must be greater than 0'
+        }
     },
-    timestamp: {
-        type: Date,
-        default: Date.now
-    },
-    strategy: {
-        type: String,
-        required: true
+    price: {
+        type: Number,
+        required: true,
+        validate: {
+            validator: function(v) {
+                return v > 0;
+            },
+            message: 'Price must be greater than 0'
+        }
     },
     status: {
         type: String,
-        enum: ['PENDING', 'EXECUTED', 'CANCELLED', 'FAILED'],
-        default: 'PENDING'
+        enum: ['PENDING', 'ACTIVE', 'COMPLETED', 'CANCELLED', 'FAILED'],
+        default: 'PENDING',
+        index: true
+    },
+    strategy: {
+        type: String,
+        required: true,
+        index: true
     },
     stopLoss: {
         type: Number,
-        required: true
+        validate: {
+            validator: function(v) {
+                return v > 0;
+            },
+            message: 'Stop loss must be greater than 0'
+        }
     },
     takeProfit: {
         type: Number,
-        required: true
+        validate: {
+            validator: function(v) {
+                return v > 0;
+            },
+            message: 'Take profit must be greater than 0'
+        }
+    },
+    timestamp: {
+        type: Date,
+        default: Date.now,
+        index: true
     },
     executionDetails: {
         orderId: String,
@@ -55,51 +81,92 @@ const TradeSchema = new mongoose.Schema({
             volume: Number
         }
     }
+}, {
+    timestamps: true
 });
 
-TradeSchema.methods.calculatePnL = function() {
-    if (this.status !== 'EXECUTED' || !this.executionDetails.executionPrice) {
-        return null;
-    }
+// Methods
+TradeSchema.methods.calculateValue = function() {
+    return this.quantity * this.price;
+};
 
-    const currentValue = this.quantity * this.price;
-    const costBasis = this.quantity * this.executionDetails.executionPrice;
+TradeSchema.methods.calculatePnL = function(currentPrice) {
+    if (!currentPrice) return null;
     
-    return this.type === 'BUY' 
-        ? currentValue - costBasis 
-        : costBasis - currentValue;
+    const value = this.quantity * (currentPrice - this.price);
+    return this.type === 'BUY' ? value : -value;
 };
 
-TradeSchema.methods.shouldTriggerStopLoss = function(currentPrice) {
-    if (this.status !== 'EXECUTED') return false;
-
-    return this.type === 'BUY' 
-        ? currentPrice <= this.stopLoss
-        : currentPrice >= this.stopLoss;
+TradeSchema.methods.calculatePnLPercent = function(currentPrice) {
+    const pnl = this.calculatePnL(currentPrice);
+    if (pnl === null) return null;
+    
+    const initialValue = this.quantity * this.price;
+    return (pnl / initialValue) * 100;
 };
 
-TradeSchema.methods.shouldTriggerTakeProfit = function(currentPrice) {
-    if (this.status !== 'EXECUTED') return false;
-
-    return this.type === 'BUY'
-        ? currentPrice >= this.takeProfit
-        : currentPrice <= this.takeProfit;
+// Static methods
+TradeSchema.statics.getTradesByDateRange = async function(startDate, endDate) {
+    return this.find({
+        timestamp: {
+            $gte: startDate,
+            $lte: endDate || new Date()
+        }
+    }).sort({ timestamp: -1 });
 };
 
+TradeSchema.statics.getTradesBySymbol = async function(symbol, limit = 100) {
+    return this.find({ symbol })
+        .sort({ timestamp: -1 })
+        .limit(limit);
+};
+
+TradeSchema.statics.getActiveTradesByStrategy = async function(strategy) {
+    return this.find({
+        strategy,
+        status: 'ACTIVE'
+    }).sort({ timestamp: -1 });
+};
+
+TradeSchema.statics.getStrategyPerformance = async function(strategy, startDate, endDate) {
+    const trades = await this.find({
+        strategy,
+        status: 'COMPLETED',
+        timestamp: {
+            $gte: startDate,
+            $lte: endDate || new Date()
+        }
+    });
+
+    if (!trades.length) return null;
+
+    const profitableTrades = trades.filter(t => t.calculatePnL(t.executionDetails.executionPrice) > 0);
+    
+    return {
+        totalTrades: trades.length,
+        profitableTrades: profitableTrades.length,
+        winRate: (profitableTrades.length / trades.length) * 100,
+        totalPnL: trades.reduce((sum, trade) => {
+            const pnl = trade.calculatePnL(trade.executionDetails.executionPrice);
+            return sum + (pnl || 0);
+        }, 0)
+    };
+};
+
+// Pre-save middleware
 TradeSchema.pre('save', function(next) {
     if (this.isNew) {
-        // Validate trade parameters
-        if (this.quantity <= 0) {
-            next(new Error('Trade quantity must be positive'));
+        if (!this.stopLoss) {
+            // Set default stop loss (2% for now)
+            this.stopLoss = this.type === 'BUY' 
+                ? this.price * 0.98 
+                : this.price * 1.02;
         }
-        if (this.price <= 0) {
-            next(new Error('Trade price must be positive'));
-        }
-        if (this.stopLoss <= 0) {
-            next(new Error('Stop loss must be positive'));
-        }
-        if (this.takeProfit <= 0) {
-            next(new Error('Take profit must be positive'));
+        if (!this.takeProfit) {
+            // Set default take profit (4% for now)
+            this.takeProfit = this.type === 'BUY'
+                ? this.price * 1.04
+                : this.price * 0.96;
         }
     }
     next();

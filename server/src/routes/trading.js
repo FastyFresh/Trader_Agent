@@ -1,12 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const mockData = require('../mockData');
 const logger = require('../utils/logger');
+const tradingService = require('../services/trading');
 
 // Get portfolio overview
-router.get('/portfolio', (req, res) => {
+router.get('/portfolio', async (req, res) => {
     try {
-        res.json(mockData.portfolio);
+        const portfolio = await tradingService.getPortfolio();
+        res.json(portfolio);
     } catch (error) {
         logger.error('Error fetching portfolio:', error);
         res.status(500).json({ error: 'Failed to fetch portfolio' });
@@ -14,9 +15,10 @@ router.get('/portfolio', (req, res) => {
 });
 
 // Get performance metrics
-router.get('/performance', (req, res) => {
+router.get('/performance', async (req, res) => {
     try {
-        res.json(mockData.performanceData);
+        const performance = await tradingService.calculatePerformanceMetrics();
+        res.json(performance);
     } catch (error) {
         logger.error('Error fetching performance metrics:', error);
         res.status(500).json({ error: 'Failed to fetch performance metrics' });
@@ -24,108 +26,72 @@ router.get('/performance', (req, res) => {
 });
 
 // Get active trades
-router.get('/active-trades', (req, res) => {
+router.get('/active-trades', async (req, res) => {
     try {
-        res.json(mockData.activeTrades);
+        const trades = await tradingService.getActiveTrades();
+        res.json(trades);
     } catch (error) {
         logger.error('Error fetching active trades:', error);
         res.status(500).json({ error: 'Failed to fetch active trades' });
     }
 });
 
-// Get trading strategies
-router.get('/strategies', (req, res) => {
+// Get trade history
+router.get('/trade-history', async (req, res) => {
     try {
-        res.json(mockData.strategies);
+        const { symbol, startDate, endDate } = req.query;
+        const trades = await tradingService.getTradeHistory(
+            symbol,
+            startDate ? new Date(startDate) : null,
+            endDate ? new Date(endDate) : null
+        );
+        res.json(trades);
     } catch (error) {
-        logger.error('Error fetching strategies:', error);
-        res.status(500).json({ error: 'Failed to fetch strategies' });
+        logger.error('Error fetching trade history:', error);
+        res.status(500).json({ error: 'Failed to fetch trade history' });
     }
 });
 
 // Execute trade
-router.post('/execute-trade', (req, res) => {
+router.post('/execute-trade', async (req, res) => {
     try {
-        const { strategy, market } = req.body;
+        const { symbol, type, quantity, price, strategy } = req.body;
         
-        if (!strategy || !market) {
-            return res.status(400).json({ error: 'Strategy and market parameters are required' });
+        if (!symbol || !type || !quantity || !price) {
+            return res.status(400).json({ 
+                error: 'Symbol, type, quantity, and price are required' 
+            });
         }
 
-        // Simulate trade execution
-        const trade = {
-            id: Date.now().toString(),
-            symbol: market,
-            type: Math.random() > 0.5 ? 'BUY' : 'SELL',
-            quantity: Math.random() * 0.1,
-            entryPrice: 1000 + Math.random() * 100,
-            strategy,
-            timestamp: new Date().toISOString()
-        };
+        const trade = await tradingService.executeTrade({
+            symbol,
+            type,
+            quantity: parseFloat(quantity),
+            price: parseFloat(price),
+            strategy
+        });
 
         res.json(trade);
     } catch (error) {
         logger.error('Error executing trade:', error);
-        res.status(500).json({ error: 'Failed to execute trade' });
+        res.status(500).json({ error: error.message || 'Failed to execute trade' });
     }
 });
 
-// Get market data
-router.get('/market-data', (req, res) => {
+// Update market data
+router.post('/update-prices', async (req, res) => {
     try {
-        const { symbol, interval } = req.query;
+        const { marketData } = req.body;
         
-        if (!symbol) {
-            return res.status(400).json({ error: 'Symbol parameter is required' });
+        if (!marketData || typeof marketData !== 'object') {
+            return res.status(400).json({ error: 'Market data is required' });
         }
 
-        // Generate mock market data
-        const data = {
-            symbol,
-            interval: interval || '1h',
-            prices: Array.from({ length: 100 }, (_, i) => ({
-                timestamp: new Date(Date.now() - i * 3600000).toISOString(),
-                price: 1000 + Math.random() * 100,
-                volume: Math.random() * 1000
-            }))
-        };
-
-        res.json(data);
+        await tradingService.updatePositionPrices(marketData);
+        res.json({ message: 'Prices updated successfully' });
     } catch (error) {
-        logger.error('Error fetching market data:', error);
-        res.status(500).json({ error: 'Failed to fetch market data' });
-    }
-});
-
-// Get risk assessment
-router.get('/risk-assessment', (req, res) => {
-    try {
-        const { market } = req.query;
-        
-        if (!market) {
-            return res.status(400).json({ error: 'Market parameter is required' });
-        }
-
-        // Generate mock risk assessment
-        const assessment = {
-            market,
-            riskScore: Math.random(),
-            metrics: {
-                volatility: Math.random() * 20,
-                exposure: Math.random() * 100,
-                correlation: Math.random() * 2 - 1
-            },
-            recommendations: {
-                maxPosition: Math.random() * 1000,
-                stopLoss: Math.random() * 5,
-                takeProfit: Math.random() * 10
-            }
-        };
-
-        res.json(assessment);
-    } catch (error) {
-        logger.error('Error performing risk assessment:', error);
-        res.status(500).json({ error: 'Failed to perform risk assessment' });
+        logger.error('Error updating prices:', error);
+        res.status(500).json({ error: 'Failed to update prices' });
     }
 });
 
