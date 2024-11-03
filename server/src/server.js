@@ -10,7 +10,7 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: ['http://localhost:5196'], // Updated to match the running client port
+  origin: ['http://localhost:5200'], // Updated to match the running client port
   credentials: true
 }));
 app.use(express.json());
