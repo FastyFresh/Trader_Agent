@@ -39,36 +39,57 @@ export const useTrading = () => {
   useEffect(() => {
     if (!connected) return;
 
-    // Connect to WebSocket
-    const ws = new WebSocket('ws://localhost:3000');
-    
-    ws.onopen = () => {
-      console.log('WebSocket connected');
-    };
+    let ws: WebSocket | null = null;
+    let reconnectAttempts = 0;
+    const maxReconnectAttempts = 5;
+    const reconnectDelay = 2000; // 2 seconds
 
-    ws.onmessage = (event) => {
-      try {
-        const data = JSON.parse(event.data);
-        handleMarketUpdate(data);
-      } catch (error) {
-        console.error('Error parsing WebSocket message:', error);
+    const connect = () => {
+      // Close existing connection if any
+      if (ws) {
+        ws.close();
       }
+
+      ws = new WebSocket('ws://localhost:3000');
+      
+      ws.onopen = () => {
+        console.log('WebSocket connected');
+        toast.success('Connected to trading server');
+        reconnectAttempts = 0;
+      };
+
+      ws.onmessage = (event) => {
+        try {
+          const data = JSON.parse(event.data);
+          handleMarketUpdate(data);
+        } catch (error) {
+          console.error('Error parsing WebSocket message:', error);
+        }
+      };
+
+      ws.onerror = (error) => {
+        console.error('WebSocket error:', error);
+      };
+
+      ws.onclose = () => {
+        console.log('WebSocket disconnected');
+        
+        if (connected && reconnectAttempts < maxReconnectAttempts) {
+          console.log(`Reconnecting... Attempt ${reconnectAttempts + 1}`);
+          reconnectAttempts++;
+          setTimeout(connect, reconnectDelay);
+        } else if (reconnectAttempts >= maxReconnectAttempts) {
+          toast.error('Failed to connect to trading server after multiple attempts');
+        }
+      };
     };
 
-    ws.onerror = (error) => {
-      console.error('WebSocket error:', error);
-      toast.error('Error connecting to trading server');
-    };
+    // Initial connection
+    connect();
 
-    ws.onclose = () => {
-      console.log('WebSocket disconnected');
-      if (connected) {
-        toast.error('Lost connection to trading server');
-      }
-    };
-
+    // Cleanup
     return () => {
-      if (ws.readyState === WebSocket.OPEN) {
+      if (ws) {
         ws.close();
       }
     };
@@ -82,7 +103,14 @@ export const useTrading = () => {
 
     try {
       setIsLoading(true);
-      const response = await fetch('/api/autotrader/initialize', {
+
+      // First check if the server is healthy
+      const healthCheck = await fetch('http://localhost:3000/api/health');
+      if (!healthCheck.ok) {
+        throw new Error('Trading server is not responding');
+      }
+
+      const response = await fetch('http://localhost:3000/api/autotrader/initialize', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -120,11 +148,14 @@ export const useTrading = () => {
 
     try {
       setIsLoading(true);
-      const response = await fetch('/api/autotrader/start', {
+      const response = await fetch('http://localhost:3000/api/autotrader/start', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
-        }
+        },
+        body: JSON.stringify({
+          walletPublicKey: publicKey
+        })
       });
 
       if (!response.ok) {
@@ -150,11 +181,14 @@ export const useTrading = () => {
 
     try {
       setIsLoading(true);
-      const response = await fetch('/api/autotrader/stop', {
+      const response = await fetch('http://localhost:3000/api/autotrader/stop', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
-        }
+        },
+        body: JSON.stringify({
+          walletPublicKey: publicKey
+        })
       });
 
       if (!response.ok) {
@@ -174,14 +208,22 @@ export const useTrading = () => {
 
   const checkHealth = useCallback(async () => {
     try {
-      const response = await fetch('/api/health');
+      const response = await fetch('http://localhost:3000/api/health');
       if (!response.ok) {
         throw new Error('Trading server not responding');
       }
-      return true;
+
+      const data = await response.json();
+      return {
+        healthy: data.status === 'ok',
+        details: data
+      };
     } catch (error) {
       console.error('Health check failed:', error);
-      return false;
+      return {
+        healthy: false,
+        error: error instanceof Error ? error.message : 'Failed to check server health'
+      };
     }
   }, []);
 
