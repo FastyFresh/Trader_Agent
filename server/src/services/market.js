@@ -1,52 +1,22 @@
 const logger = require('../utils/logger');
 const Portfolio = require('../models/Portfolio');
 const { withTransaction } = require('./database');
-const { ALPACA_API_KEY, ALPACA_API_SECRET } = process.env;
+const driftService = require('./drift');
 
 class MarketService {
     constructor() {
-        // Initialize Alpaca API client
-        this.alpaca = new (require('@alpacahq/alpaca-trade-api'))({
-            keyId: ALPACA_API_KEY,
-            secretKey: ALPACA_API_SECRET,
-            paper: true // Use paper trading
-        });
-
         this.marketDataSubscribers = new Map();
         this.priceUpdateInterval = null;
+        this.driftService = driftService;
     }
 
     async initialize() {
         try {
-            // Start WebSocket connection for real-time data
-            const client = this.alpaca.data_stream_v2;
-
-            client.onConnect(() => {
-                logger.info('Connected to Alpaca WebSocket');
-                this.subscribeToDefaultSymbols();
-            });
-
-            client.onStockTrade((trade) => {
-                this.handleTrade(trade);
-            });
-
-            client.onStockQuote((quote) => {
-                this.handleQuote(quote);
-            });
-
-            client.onError((error) => {
-                logger.error('Alpaca WebSocket error:', error);
-            });
-
-            client.onDisconnect(() => {
-                logger.warn('Disconnected from Alpaca WebSocket');
-            });
-
-            await client.connect();
-
+            await this.driftService.initialize();
+            logger.info('Market service initialized with Drift Protocol');
+            
             // Start price update interval
             this.startPriceUpdateInterval();
-
         } catch (error) {
             logger.error('Failed to initialize market service:', error);
             throw error;
@@ -54,45 +24,8 @@ class MarketService {
     }
 
     async subscribeToDefaultSymbols() {
-        const defaultSymbols = ['BTC/USD', 'ETH/USD', 'SOL/USD'];
-        await this.alpaca.data_stream_v2.subscribe(defaultSymbols);
+        const defaultSymbols = ['SOL-PERP'];
         logger.info(`Subscribed to symbols: ${defaultSymbols.join(', ')}`);
-    }
-
-    handleTrade(trade) {
-        const subscribers = this.marketDataSubscribers.get(trade.symbol) || [];
-        subscribers.forEach(callback => {
-            try {
-                callback({
-                    type: 'trade',
-                    symbol: trade.symbol,
-                    price: trade.price,
-                    size: trade.size,
-                    timestamp: trade.timestamp
-                });
-            } catch (error) {
-                logger.error(`Error in trade subscriber callback for ${trade.symbol}:`, error);
-            }
-        });
-    }
-
-    handleQuote(quote) {
-        const subscribers = this.marketDataSubscribers.get(quote.symbol) || [];
-        subscribers.forEach(callback => {
-            try {
-                callback({
-                    type: 'quote',
-                    symbol: quote.symbol,
-                    bidPrice: quote.bidPrice,
-                    bidSize: quote.bidSize,
-                    askPrice: quote.askPrice,
-                    askSize: quote.askSize,
-                    timestamp: quote.timestamp
-                });
-            } catch (error) {
-                logger.error(`Error in quote subscriber callback for ${quote.symbol}:`, error);
-            }
-        });
     }
 
     startPriceUpdateInterval() {
@@ -119,7 +52,7 @@ class MarketService {
                     });
                 });
 
-                // Get latest prices
+                // Get latest prices from Drift
                 const prices = await this.getCurrentPrices(Array.from(symbols));
 
                 // Update portfolio positions
@@ -154,8 +87,8 @@ class MarketService {
             
             for (const symbol of symbols) {
                 try {
-                    const trades = await this.alpaca.getLatestTrade(symbol);
-                    prices[symbol] = trades.price;
+                    const marketData = await this.driftService.getMarketData(symbol);
+                    prices[symbol] = marketData.currentPrice;
                 } catch (error) {
                     logger.error(`Failed to get price for ${symbol}:`, error);
                 }
@@ -168,58 +101,9 @@ class MarketService {
         }
     }
 
-    subscribeToMarketData(symbol, callback) {
-        if (!this.marketDataSubscribers.has(symbol)) {
-            this.marketDataSubscribers.set(symbol, []);
-            // Subscribe to the symbol if not already subscribed
-            this.alpaca.data_stream_v2.subscribe([symbol]);
-        }
-        
-        this.marketDataSubscribers.get(symbol).push(callback);
-        logger.info(`Subscribed to market data for ${symbol}`);
-    }
-
-    unsubscribeFromMarketData(symbol, callback) {
-        const subscribers = this.marketDataSubscribers.get(symbol);
-        if (subscribers) {
-            const index = subscribers.indexOf(callback);
-            if (index > -1) {
-                subscribers.splice(index, 1);
-                logger.info(`Unsubscribed from market data for ${symbol}`);
-            }
-            
-            if (subscribers.length === 0) {
-                this.marketDataSubscribers.delete(symbol);
-                // Unsubscribe from the symbol if no more subscribers
-                this.alpaca.data_stream_v2.unsubscribe([symbol]);
-            }
-        }
-    }
-
     async getHistoricalData(symbol, timeframe, startDate, endDate) {
         try {
-            const bars = await this.alpaca.getBarsV2(
-                symbol,
-                {
-                    start: startDate,
-                    end: endDate,
-                    timeframe: timeframe || '1Min'
-                }
-            );
-
-            const data = [];
-            for await (const bar of bars) {
-                data.push({
-                    timestamp: bar.Timestamp,
-                    open: bar.OpenPrice,
-                    high: bar.HighPrice,
-                    low: bar.LowPrice,
-                    close: bar.ClosePrice,
-                    volume: bar.Volume
-                });
-            }
-
-            return data;
+            return await this.driftService.getHistoricalData(symbol, timeframe, startDate, endDate);
         } catch (error) {
             logger.error(`Failed to get historical data for ${symbol}:`, error);
             throw error;
@@ -229,12 +113,6 @@ class MarketService {
     cleanup() {
         if (this.priceUpdateInterval) {
             clearInterval(this.priceUpdateInterval);
-        }
-        
-        try {
-            this.alpaca.data_stream_v2.disconnect();
-        } catch (error) {
-            logger.error('Error during market service cleanup:', error);
         }
     }
 }

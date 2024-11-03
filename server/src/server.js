@@ -9,7 +9,7 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175', 'http://localhost:5176'],
+  origin: ['http://localhost:5177'], // Updated to match the running client port
   credentials: true
 }));
 app.use(express.json());
@@ -40,12 +40,12 @@ async function startResearch() {
         
         // Log research results
         logger.info('Research cycle completed');
-        console.log('Research Report:', JSON.stringify(researchAgent.getResearchReport(), null, 2));
+        logger.info('Research Report:', JSON.stringify(researchAgent.getResearchReport(), null, 2));
 
         return optimalStrategies;
     } catch (error) {
         logger.error('Error in research cycle:', error);
-        throw error;
+        return null; // Return null instead of throwing to prevent server crash
     }
 }
 
@@ -54,11 +54,13 @@ const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, async () => {
     logger.info(`Server running on port ${PORT}`);
-    logger.info(`CORS enabled for development ports 5173-5176`);
+    logger.info(`CORS enabled for development port 5177`);
     
     try {
         const strategies = await startResearch();
-        logger.info('Optimal strategies found:', strategies);
+        if (strategies) {
+            logger.info('Optimal strategies found:', strategies);
+        }
     } catch (error) {
         logger.error('Failed to complete research cycle:', error);
     }
