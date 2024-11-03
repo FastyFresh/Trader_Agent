@@ -43,10 +43,30 @@ cp client/.env.development client/.env
    - Select "Developer Settings"
    - Choose "Solana Devnet"
 
-2. **Get Devnet SOL**:
-   - Visit [Solana Faucet](https://solfaucet.com)
+2. **Get Devnet SOL** (Multiple Options):
+
+   a) **Using QuickNode Faucet**:
+   - Visit [QuickNode Faucet](https://quicknode.com/faucet/sol)
    - Enter your wallet address
-   - Request 2 SOL (this simulates the $125 minimum requirement)
+   - Request SOL (supports larger amounts)
+
+   b) **Using Helius Faucet**:
+   - Visit [Helius](https://www.helius.dev/)
+   - Create free account
+   - Use their faucet feature
+
+   c) **Using Discord Faucets**:
+   - Join "The 76 Devs" or "LamportDAO" Discord
+   - Use their faucet bots
+   - Request devnet SOL
+
+   d) **Using CLI** (if other methods fail):
+   ```bash
+   solana config set --url https://api.devnet.solana.com
+   solana airdrop 2 YOUR_WALLET_ADDRESS
+   ```
+
+   You need 2 SOL minimum for testing (simulates $125 requirement)
 
 3. **Start the Development Servers**:
 ```bash
@@ -106,6 +126,13 @@ npm run dev
    - Check server logs for details
    - Verify Drift Protocol connection
    - Ensure wallet has approved transactions
+
+4. **SOL Airdrop Issues**:
+   If you get "airdrop limit reached" or other errors:
+   - Try different faucets listed above
+   - Wait a few hours between attempts
+   - Use multiple faucets to accumulate required amount
+   - Join Discord communities for additional help
 
 ## Contributing
 
