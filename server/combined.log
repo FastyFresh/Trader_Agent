@@ -927,3 +927,400 @@
 {"code":20,"codeName":"IllegalOperation","level":"error","message":"Error updating prices: Transaction numbers are only allowed on a replica set member or mongos","ok":0,"stack":"MongoServerError: Transaction numbers are only allowed on a replica set member or mongos\n    at Connection.onMessage (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/connection.js:202:26)\n    at MessageStream.<anonymous> (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/connection.js:61:60)\n    at MessageStream.emit (node:events:507:28)\n    at processIncomingData (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/message_stream.js:124:16)\n    at MessageStream._write (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/message_stream.js:33:9)\n    at writeOrBuffer (node:internal/streams/writable:570:12)\n    at _write (node:internal/streams/writable:499:10)\n    at Writable.write (node:internal/streams/writable:508:10)\n    at Socket.ondata (node:internal/streams/readable:1007:22)\n    at Socket.emit (node:events:507:28)","timestamp":"2024-11-03T21:48:40.668Z"}
 {"code":20,"codeName":"IllegalOperation","level":"error","message":"Failed to update prices: Transaction numbers are only allowed on a replica set member or mongos","ok":0,"stack":"MongoServerError: Transaction numbers are only allowed on a replica set member or mongos\n    at Connection.onMessage (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/connection.js:202:26)\n    at MessageStream.<anonymous> (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/connection.js:61:60)\n    at MessageStream.emit (node:events:507:28)\n    at processIncomingData (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/message_stream.js:124:16)\n    at MessageStream._write (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/message_stream.js:33:9)\n    at writeOrBuffer (node:internal/streams/writable:570:12)\n    at _write (node:internal/streams/writable:499:10)\n    at Writable.write (node:internal/streams/writable:508:10)\n    at Socket.ondata (node:internal/streams/readable:1007:22)\n    at Socket.emit (node:events:507:28)","timestamp":"2024-11-03T21:49:40.726Z"}
 {"code":20,"codeName":"IllegalOperation","level":"error","message":"Error updating prices: Transaction numbers are only allowed on a replica set member or mongos","ok":0,"stack":"MongoServerError: Transaction numbers are only allowed on a replica set member or mongos\n    at Connection.onMessage (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/connection.js:202:26)\n    at MessageStream.<anonymous> (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/connection.js:61:60)\n    at MessageStream.emit (node:events:507:28)\n    at processIncomingData (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/message_stream.js:124:16)\n    at MessageStream._write (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/message_stream.js:33:9)\n    at writeOrBuffer (node:internal/streams/writable:570:12)\n    at _write (node:internal/streams/writable:499:10)\n    at Writable.write (node:internal/streams/writable:508:10)\n    at Socket.ondata (node:internal/streams/readable:1007:22)\n    at Socket.emit (node:events:507:28)","timestamp":"2024-11-03T21:49:40.728Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T21:50:01.304Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T21:50:01.333Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T21:50:01.338Z"}
+{"level":"info","message":"Shutting down server...","timestamp":"2024-11-03T21:50:25.543Z"}
+{"level":"info","message":"Server shut down successfully","timestamp":"2024-11-03T21:50:25.581Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T21:50:31.425Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T21:50:31.479Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T21:50:31.493Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2024-11-03T21:50:31.494Z"}
+{"level":"info","message":"Initialized with simulated Drift Protocol data","timestamp":"2024-11-03T21:50:31.495Z"}
+{"level":"info","message":"Drift service initialized successfully","timestamp":"2024-11-03T21:50:31.495Z"}
+{"level":"info","message":"Market service initialized with Drift Protocol","timestamp":"2024-11-03T21:50:31.496Z"}
+{"level":"info","message":"Market service initialized","timestamp":"2024-11-03T21:50:31.496Z"}
+{"level":"info","message":"Strategy Manager initialized successfully","timestamp":"2024-11-03T21:50:31.497Z"}
+{"level":"info","message":"Strategy manager initialized","timestamp":"2024-11-03T21:50:31.498Z"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2024-11-03T21:50:31.500Z"}
+{"level":"info","message":"WebSocket server available at ws://localhost:3000","timestamp":"2024-11-03T21:50:31.500Z"}
+{"level":"info","message":"REST API available at http://localhost:3000/api","timestamp":"2024-11-03T21:50:31.500Z"}
+{"code":20,"codeName":"IllegalOperation","level":"error","message":"Failed to update prices: Transaction numbers are only allowed on a replica set member or mongos","ok":0,"stack":"MongoServerError: Transaction numbers are only allowed on a replica set member or mongos\n    at Connection.onMessage (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/connection.js:202:26)\n    at MessageStream.<anonymous> (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/connection.js:61:60)\n    at MessageStream.emit (node:events:507:28)\n    at processIncomingData (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/message_stream.js:124:16)\n    at MessageStream._write (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/message_stream.js:33:9)\n    at writeOrBuffer (node:internal/streams/writable:570:12)\n    at _write (node:internal/streams/writable:499:10)\n    at Writable.write (node:internal/streams/writable:508:10)\n    at Socket.ondata (node:internal/streams/readable:1007:22)\n    at Socket.emit (node:events:507:28)","timestamp":"2024-11-03T21:51:31.507Z"}
+{"code":20,"codeName":"IllegalOperation","level":"error","message":"Error updating prices: Transaction numbers are only allowed on a replica set member or mongos","ok":0,"stack":"MongoServerError: Transaction numbers are only allowed on a replica set member or mongos\n    at Connection.onMessage (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/connection.js:202:26)\n    at MessageStream.<anonymous> (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/connection.js:61:60)\n    at MessageStream.emit (node:events:507:28)\n    at processIncomingData (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/message_stream.js:124:16)\n    at MessageStream._write (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/message_stream.js:33:9)\n    at writeOrBuffer (node:internal/streams/writable:570:12)\n    at _write (node:internal/streams/writable:499:10)\n    at Writable.write (node:internal/streams/writable:508:10)\n    at Socket.ondata (node:internal/streams/readable:1007:22)\n    at Socket.emit (node:events:507:28)","timestamp":"2024-11-03T21:51:31.509Z"}
+{"code":20,"codeName":"IllegalOperation","level":"error","message":"Failed to update prices: Transaction numbers are only allowed on a replica set member or mongos","ok":0,"stack":"MongoServerError: Transaction numbers are only allowed on a replica set member or mongos\n    at Connection.onMessage (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/connection.js:202:26)\n    at MessageStream.<anonymous> (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/connection.js:61:60)\n    at MessageStream.emit (node:events:507:28)\n    at processIncomingData (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/message_stream.js:124:16)\n    at MessageStream._write (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/message_stream.js:33:9)\n    at writeOrBuffer (node:internal/streams/writable:570:12)\n    at _write (node:internal/streams/writable:499:10)\n    at Writable.write (node:internal/streams/writable:508:10)\n    at Socket.ondata (node:internal/streams/readable:1007:22)\n    at Socket.emit (node:events:507:28)","timestamp":"2024-11-03T21:52:31.504Z"}
+{"code":20,"codeName":"IllegalOperation","level":"error","message":"Error updating prices: Transaction numbers are only allowed on a replica set member or mongos","ok":0,"stack":"MongoServerError: Transaction numbers are only allowed on a replica set member or mongos\n    at Connection.onMessage (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/connection.js:202:26)\n    at MessageStream.<anonymous> (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/connection.js:61:60)\n    at MessageStream.emit (node:events:507:28)\n    at processIncomingData (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/message_stream.js:124:16)\n    at MessageStream._write (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/message_stream.js:33:9)\n    at writeOrBuffer (node:internal/streams/writable:570:12)\n    at _write (node:internal/streams/writable:499:10)\n    at Writable.write (node:internal/streams/writable:508:10)\n    at Socket.ondata (node:internal/streams/readable:1007:22)\n    at Socket.emit (node:events:507:28)","timestamp":"2024-11-03T21:52:31.514Z"}
+{"code":20,"codeName":"IllegalOperation","level":"error","message":"Failed to update prices: Transaction numbers are only allowed on a replica set member or mongos","ok":0,"stack":"MongoServerError: Transaction numbers are only allowed on a replica set member or mongos\n    at Connection.onMessage (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/connection.js:202:26)\n    at MessageStream.<anonymous> (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/connection.js:61:60)\n    at MessageStream.emit (node:events:507:28)\n    at processIncomingData (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/message_stream.js:124:16)\n    at MessageStream._write (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/message_stream.js:33:9)\n    at writeOrBuffer (node:internal/streams/writable:570:12)\n    at _write (node:internal/streams/writable:499:10)\n    at Writable.write (node:internal/streams/writable:508:10)\n    at Socket.ondata (node:internal/streams/readable:1007:22)\n    at Socket.emit (node:events:507:28)","timestamp":"2024-11-03T21:53:31.508Z"}
+{"code":20,"codeName":"IllegalOperation","level":"error","message":"Error updating prices: Transaction numbers are only allowed on a replica set member or mongos","ok":0,"stack":"MongoServerError: Transaction numbers are only allowed on a replica set member or mongos\n    at Connection.onMessage (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/connection.js:202:26)\n    at MessageStream.<anonymous> (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/connection.js:61:60)\n    at MessageStream.emit (node:events:507:28)\n    at processIncomingData (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/message_stream.js:124:16)\n    at MessageStream._write (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/message_stream.js:33:9)\n    at writeOrBuffer (node:internal/streams/writable:570:12)\n    at _write (node:internal/streams/writable:499:10)\n    at Writable.write (node:internal/streams/writable:508:10)\n    at Socket.ondata (node:internal/streams/readable:1007:22)\n    at Socket.emit (node:events:507:28)","timestamp":"2024-11-03T21:53:31.511Z"}
+{"code":20,"codeName":"IllegalOperation","level":"error","message":"Failed to update prices: Transaction numbers are only allowed on a replica set member or mongos","ok":0,"stack":"MongoServerError: Transaction numbers are only allowed on a replica set member or mongos\n    at Connection.onMessage (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/connection.js:202:26)\n    at MessageStream.<anonymous> (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/connection.js:61:60)\n    at MessageStream.emit (node:events:507:28)\n    at processIncomingData (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/message_stream.js:124:16)\n    at MessageStream._write (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/message_stream.js:33:9)\n    at writeOrBuffer (node:internal/streams/writable:570:12)\n    at _write (node:internal/streams/writable:499:10)\n    at Writable.write (node:internal/streams/writable:508:10)\n    at Socket.ondata (node:internal/streams/readable:1007:22)\n    at Socket.emit (node:events:507:28)","timestamp":"2024-11-03T21:54:31.505Z"}
+{"code":20,"codeName":"IllegalOperation","level":"error","message":"Error updating prices: Transaction numbers are only allowed on a replica set member or mongos","ok":0,"stack":"MongoServerError: Transaction numbers are only allowed on a replica set member or mongos\n    at Connection.onMessage (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/connection.js:202:26)\n    at MessageStream.<anonymous> (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/connection.js:61:60)\n    at MessageStream.emit (node:events:507:28)\n    at processIncomingData (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/message_stream.js:124:16)\n    at MessageStream._write (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/message_stream.js:33:9)\n    at writeOrBuffer (node:internal/streams/writable:570:12)\n    at _write (node:internal/streams/writable:499:10)\n    at Writable.write (node:internal/streams/writable:508:10)\n    at Socket.ondata (node:internal/streams/readable:1007:22)\n    at Socket.emit (node:events:507:28)","timestamp":"2024-11-03T21:54:31.506Z"}
+{"code":20,"codeName":"IllegalOperation","level":"error","message":"Failed to update prices: Transaction numbers are only allowed on a replica set member or mongos","ok":0,"stack":"MongoServerError: Transaction numbers are only allowed on a replica set member or mongos\n    at Connection.onMessage (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/connection.js:202:26)\n    at MessageStream.<anonymous> (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/connection.js:61:60)\n    at MessageStream.emit (node:events:507:28)\n    at processIncomingData (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/message_stream.js:124:16)\n    at MessageStream._write (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/message_stream.js:33:9)\n    at writeOrBuffer (node:internal/streams/writable:570:12)\n    at _write (node:internal/streams/writable:499:10)\n    at Writable.write (node:internal/streams/writable:508:10)\n    at Socket.ondata (node:internal/streams/readable:1007:22)\n    at Socket.emit (node:events:507:28)","timestamp":"2024-11-03T21:55:31.508Z"}
+{"code":20,"codeName":"IllegalOperation","level":"error","message":"Error updating prices: Transaction numbers are only allowed on a replica set member or mongos","ok":0,"stack":"MongoServerError: Transaction numbers are only allowed on a replica set member or mongos\n    at Connection.onMessage (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/connection.js:202:26)\n    at MessageStream.<anonymous> (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/connection.js:61:60)\n    at MessageStream.emit (node:events:507:28)\n    at processIncomingData (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/message_stream.js:124:16)\n    at MessageStream._write (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/message_stream.js:33:9)\n    at writeOrBuffer (node:internal/streams/writable:570:12)\n    at _write (node:internal/streams/writable:499:10)\n    at Writable.write (node:internal/streams/writable:508:10)\n    at Socket.ondata (node:internal/streams/readable:1007:22)\n    at Socket.emit (node:events:507:28)","timestamp":"2024-11-03T21:55:31.510Z"}
+{"code":20,"codeName":"IllegalOperation","level":"error","message":"Failed to update prices: Transaction numbers are only allowed on a replica set member or mongos","ok":0,"stack":"MongoServerError: Transaction numbers are only allowed on a replica set member or mongos\n    at Connection.onMessage (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/connection.js:202:26)\n    at MessageStream.<anonymous> (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/connection.js:61:60)\n    at MessageStream.emit (node:events:507:28)\n    at processIncomingData (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/message_stream.js:124:16)\n    at MessageStream._write (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/message_stream.js:33:9)\n    at writeOrBuffer (node:internal/streams/writable:570:12)\n    at _write (node:internal/streams/writable:499:10)\n    at Writable.write (node:internal/streams/writable:508:10)\n    at Socket.ondata (node:internal/streams/readable:1007:22)\n    at Socket.emit (node:events:507:28)","timestamp":"2024-11-03T21:56:31.508Z"}
+{"code":20,"codeName":"IllegalOperation","level":"error","message":"Error updating prices: Transaction numbers are only allowed on a replica set member or mongos","ok":0,"stack":"MongoServerError: Transaction numbers are only allowed on a replica set member or mongos\n    at Connection.onMessage (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/connection.js:202:26)\n    at MessageStream.<anonymous> (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/connection.js:61:60)\n    at MessageStream.emit (node:events:507:28)\n    at processIncomingData (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/message_stream.js:124:16)\n    at MessageStream._write (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/message_stream.js:33:9)\n    at writeOrBuffer (node:internal/streams/writable:570:12)\n    at _write (node:internal/streams/writable:499:10)\n    at Writable.write (node:internal/streams/writable:508:10)\n    at Socket.ondata (node:internal/streams/readable:1007:22)\n    at Socket.emit (node:events:507:28)","timestamp":"2024-11-03T21:56:31.509Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T21:57:34.790Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T21:57:34.791Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T21:57:34.796Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T21:57:34.807Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T21:57:34.823Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T21:57:34.827Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T21:57:34.830Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T21:57:34.839Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T21:57:34.853Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T21:57:34.860Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T21:57:34.865Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T21:57:34.864Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T21:57:34.879Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T21:57:34.912Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T21:57:34.915Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T21:57:34.918Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T21:57:34.923Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T21:57:34.938Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T21:57:34.941Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T21:57:34.947Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T21:57:34.949Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T21:57:34.964Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T21:57:34.976Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T21:57:34.980Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T21:57:34.994Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T21:57:35.006Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T21:57:35.035Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T21:57:35.040Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T21:57:35.058Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T21:57:35.065Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T21:57:36.333Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T21:57:36.395Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T21:57:36.406Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T21:57:36.420Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T21:57:36.435Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T21:57:36.447Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T21:57:36.467Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T21:57:36.468Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T21:57:36.480Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T21:57:36.482Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T21:57:36.494Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T21:57:36.496Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T21:57:36.513Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T21:57:36.515Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T21:57:36.525Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T21:57:36.529Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T21:57:36.545Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T21:57:36.557Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T21:57:36.570Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T21:57:36.576Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T21:57:36.585Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T21:57:36.637Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T21:57:36.667Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T21:57:36.697Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T21:57:36.729Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T21:57:36.760Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T21:57:36.997Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T21:57:37.017Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T21:57:37.030Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T21:57:37.043Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T21:57:37.056Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T21:57:37.058Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T21:57:37.069Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T21:57:37.079Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T21:57:37.092Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T21:57:37.104Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T21:57:37.117Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T21:57:37.130Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T21:57:37.188Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T21:57:37.200Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T21:57:37.250Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T21:57:37.262Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T21:57:37.484Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T21:57:37.496Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T21:57:37.509Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T21:57:37.524Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T21:57:37.536Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T21:57:37.546Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T21:57:37.551Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T21:57:37.558Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T21:57:37.568Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T21:57:37.570Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T21:57:37.586Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T21:57:37.598Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T21:57:37.613Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T21:57:37.629Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T21:57:37.865Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T21:57:37.873Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T21:57:37.933Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T21:57:37.937Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T22:04:29.347Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T22:04:29.345Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T22:04:29.366Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T22:04:29.372Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T22:04:29.374Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T22:04:29.382Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T22:04:29.394Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T22:04:29.397Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T22:04:29.409Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T22:04:29.424Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T22:04:29.452Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T22:04:29.467Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T22:04:29.481Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T22:04:29.494Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T22:04:29.514Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T22:04:29.529Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T22:04:29.559Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T22:04:29.577Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T22:04:29.583Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T22:04:29.594Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T22:04:29.627Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T22:04:29.636Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T22:04:29.657Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T22:04:29.699Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T22:04:29.715Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T22:04:29.761Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T22:04:29.783Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T22:04:29.816Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T22:04:29.865Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T22:04:29.912Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T22:04:29.954Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T22:04:31.260Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T22:04:31.260Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T22:04:31.277Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T22:04:31.277Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T22:04:31.298Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T22:04:31.308Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T22:04:31.324Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T22:04:31.345Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T22:04:31.354Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T22:04:31.363Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T22:04:31.369Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T22:04:31.384Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T22:04:31.391Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T22:04:31.404Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T22:04:31.407Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T22:04:31.421Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T22:04:31.424Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T22:04:31.452Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T22:04:31.468Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T22:04:31.484Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T22:04:31.567Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T22:04:31.578Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T22:04:31.593Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T22:04:31.608Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T22:04:31.623Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T22:04:31.628Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T22:04:31.639Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T22:04:31.639Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T22:04:31.651Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T22:04:31.654Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T22:04:31.664Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T22:04:31.670Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T22:04:31.679Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T22:04:31.684Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T22:04:31.703Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T22:04:31.712Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T22:04:31.724Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T22:04:31.741Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T22:04:31.764Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T22:04:31.803Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T22:04:31.826Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T22:04:31.865Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T22:04:31.908Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T22:04:31.924Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T22:04:31.952Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T22:04:31.966Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T22:04:31.968Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T22:04:31.979Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T22:04:31.985Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T22:04:31.992Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T22:04:32.007Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T22:04:32.017Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T22:04:32.024Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T22:04:32.028Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T22:04:32.040Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T22:04:32.042Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T22:04:32.053Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T22:04:32.068Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T22:04:32.085Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T22:04:32.104Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T22:04:32.192Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T22:04:32.255Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T22:05:41.866Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T22:05:41.893Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T22:05:41.898Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2024-11-03T22:05:41.899Z"}
+{"level":"error","message":"Failed to initialize Drift service: 410 Gone:  {\"jsonrpc\":\"2.0\",\"error\":{\"code\": 410, \"message\":\"The RPC call or parameters have been disabled\"}, \"id\": \"c3d9b1dc-53f0-4889-b8cc-35e9377c67ea\" } \r\n","stack":"Error: 410 Gone:  {\"jsonrpc\":\"2.0\",\"error\":{\"code\": 410, \"message\":\"The RPC call or parameters have been disabled\"}, \"id\": \"c3d9b1dc-53f0-4889-b8cc-35e9377c67ea\" } \r\n\n    at ClientBrowser.callServer (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/@solana/web3.js/lib/index.cjs.js:5091:18)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2024-11-03T22:05:43.216Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T22:06:59.604Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T22:06:59.642Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T22:06:59.649Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2024-11-03T22:06:59.650Z"}
+{"level":"info","message":"Initializing Drift service...","timestamp":"2024-11-03T22:06:59.650Z"}
+{"level":"info","message":"Connecting to Solana devnet...","timestamp":"2024-11-03T22:06:59.651Z"}
+{"level":"info","message":"Wallet created","timestamp":"2024-11-03T22:06:59.738Z"}
+{"level":"error","message":"Error during Drift initialization: Cannot read properties of undefined (reading 'DEVNET')","stack":"TypeError: Cannot read properties of undefined (reading 'DEVNET')\n    at DriftService.initialize (/Users/rickrichman/Desktop/Trader_Agent/server/src/services/drift.js:51:78)\n    at MarketService.initialize (/Users/rickrichman/Desktop/Trader_Agent/server/src/services/market.js:15:37)\n    at startServer (/Users/rickrichman/Desktop/Trader_Agent/server/src/index.js:157:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2024-11-03T22:06:59.738Z"}
+{"level":"error","message":"Failed to initialize Drift service: Cannot read properties of undefined (reading 'DEVNET')","stack":"TypeError: Cannot read properties of undefined (reading 'DEVNET')\n    at DriftService.initialize (/Users/rickrichman/Desktop/Trader_Agent/server/src/services/drift.js:51:78)\n    at MarketService.initialize (/Users/rickrichman/Desktop/Trader_Agent/server/src/services/market.js:15:37)\n    at startServer (/Users/rickrichman/Desktop/Trader_Agent/server/src/index.js:157:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2024-11-03T22:06:59.739Z"}
+{"level":"info","message":"Initializing simulated Drift environment","timestamp":"2024-11-03T22:06:59.739Z"}
+{"level":"info","message":"Market service initialized with Drift Protocol","timestamp":"2024-11-03T22:06:59.740Z"}
+{"level":"info","message":"Market service initialized","timestamp":"2024-11-03T22:06:59.740Z"}
+{"level":"info","message":"Strategy Manager initialized successfully","timestamp":"2024-11-03T22:06:59.740Z"}
+{"level":"info","message":"Strategy manager initialized","timestamp":"2024-11-03T22:06:59.740Z"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2024-11-03T22:06:59.741Z"}
+{"level":"info","message":"WebSocket server available at ws://localhost:3000","timestamp":"2024-11-03T22:06:59.741Z"}
+{"level":"info","message":"REST API available at http://localhost:3000/api","timestamp":"2024-11-03T22:06:59.741Z"}
+{"level":"info","message":"Shutting down server...","timestamp":"2024-11-03T22:07:04.399Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T22:07:06.913Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T22:07:06.940Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T22:07:06.943Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2024-11-03T22:07:06.944Z"}
+{"level":"info","message":"Initializing Drift service...","timestamp":"2024-11-03T22:07:06.944Z"}
+{"level":"info","message":"Connecting to Solana devnet...","timestamp":"2024-11-03T22:07:06.945Z"}
+{"level":"info","message":"Wallet created","timestamp":"2024-11-03T22:07:07.018Z"}
+{"level":"error","message":"Error during Drift initialization: Cannot read properties of undefined (reading 'DEVNET')","stack":"TypeError: Cannot read properties of undefined (reading 'DEVNET')\n    at DriftService.initialize (/Users/rickrichman/Desktop/Trader_Agent/server/src/services/drift.js:51:78)\n    at MarketService.initialize (/Users/rickrichman/Desktop/Trader_Agent/server/src/services/market.js:15:37)\n    at startServer (/Users/rickrichman/Desktop/Trader_Agent/server/src/index.js:157:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2024-11-03T22:07:07.019Z"}
+{"level":"error","message":"Failed to initialize Drift service: Cannot read properties of undefined (reading 'DEVNET')","stack":"TypeError: Cannot read properties of undefined (reading 'DEVNET')\n    at DriftService.initialize (/Users/rickrichman/Desktop/Trader_Agent/server/src/services/drift.js:51:78)\n    at MarketService.initialize (/Users/rickrichman/Desktop/Trader_Agent/server/src/services/market.js:15:37)\n    at startServer (/Users/rickrichman/Desktop/Trader_Agent/server/src/index.js:157:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2024-11-03T22:07:07.020Z"}
+{"level":"info","message":"Initializing simulated Drift environment","timestamp":"2024-11-03T22:07:07.021Z"}
+{"level":"info","message":"Market service initialized with Drift Protocol","timestamp":"2024-11-03T22:07:07.024Z"}
+{"level":"info","message":"Market service initialized","timestamp":"2024-11-03T22:07:07.025Z"}
+{"level":"info","message":"Strategy Manager initialized successfully","timestamp":"2024-11-03T22:07:07.025Z"}
+{"level":"info","message":"Strategy manager initialized","timestamp":"2024-11-03T22:07:07.025Z"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2024-11-03T22:07:07.029Z"}
+{"level":"info","message":"WebSocket server available at ws://localhost:3000","timestamp":"2024-11-03T22:07:07.029Z"}
+{"level":"info","message":"REST API available at http://localhost:3000/api","timestamp":"2024-11-03T22:07:07.030Z"}
+{"code":20,"codeName":"IllegalOperation","level":"error","message":"Failed to update prices: Transaction numbers are only allowed on a replica set member or mongos","ok":0,"stack":"MongoServerError: Transaction numbers are only allowed on a replica set member or mongos\n    at Connection.onMessage (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/connection.js:202:26)\n    at MessageStream.<anonymous> (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/connection.js:61:60)\n    at MessageStream.emit (node:events:507:28)\n    at processIncomingData (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/message_stream.js:124:16)\n    at MessageStream._write (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/message_stream.js:33:9)\n    at writeOrBuffer (node:internal/streams/writable:570:12)\n    at _write (node:internal/streams/writable:499:10)\n    at Writable.write (node:internal/streams/writable:508:10)\n    at Socket.ondata (node:internal/streams/readable:1007:22)\n    at Socket.emit (node:events:507:28)","timestamp":"2024-11-03T22:08:07.036Z"}
+{"code":20,"codeName":"IllegalOperation","level":"error","message":"Error updating prices: Transaction numbers are only allowed on a replica set member or mongos","ok":0,"stack":"MongoServerError: Transaction numbers are only allowed on a replica set member or mongos\n    at Connection.onMessage (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/connection.js:202:26)\n    at MessageStream.<anonymous> (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/connection.js:61:60)\n    at MessageStream.emit (node:events:507:28)\n    at processIncomingData (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/message_stream.js:124:16)\n    at MessageStream._write (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/message_stream.js:33:9)\n    at writeOrBuffer (node:internal/streams/writable:570:12)\n    at _write (node:internal/streams/writable:499:10)\n    at Writable.write (node:internal/streams/writable:508:10)\n    at Socket.ondata (node:internal/streams/readable:1007:22)\n    at Socket.emit (node:events:507:28)","timestamp":"2024-11-03T22:08:07.038Z"}
+{"code":20,"codeName":"IllegalOperation","level":"error","message":"Failed to update prices: Transaction numbers are only allowed on a replica set member or mongos","ok":0,"stack":"MongoServerError: Transaction numbers are only allowed on a replica set member or mongos\n    at Connection.onMessage (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/connection.js:202:26)\n    at MessageStream.<anonymous> (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/connection.js:61:60)\n    at MessageStream.emit (node:events:507:28)\n    at processIncomingData (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/message_stream.js:124:16)\n    at MessageStream._write (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/message_stream.js:33:9)\n    at writeOrBuffer (node:internal/streams/writable:570:12)\n    at _write (node:internal/streams/writable:499:10)\n    at Writable.write (node:internal/streams/writable:508:10)\n    at Socket.ondata (node:internal/streams/readable:1007:22)\n    at Socket.emit (node:events:507:28)","timestamp":"2024-11-03T22:09:07.029Z"}
+{"code":20,"codeName":"IllegalOperation","level":"error","message":"Error updating prices: Transaction numbers are only allowed on a replica set member or mongos","ok":0,"stack":"MongoServerError: Transaction numbers are only allowed on a replica set member or mongos\n    at Connection.onMessage (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/connection.js:202:26)\n    at MessageStream.<anonymous> (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/connection.js:61:60)\n    at MessageStream.emit (node:events:507:28)\n    at processIncomingData (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/message_stream.js:124:16)\n    at MessageStream._write (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/message_stream.js:33:9)\n    at writeOrBuffer (node:internal/streams/writable:570:12)\n    at _write (node:internal/streams/writable:499:10)\n    at Writable.write (node:internal/streams/writable:508:10)\n    at Socket.ondata (node:internal/streams/readable:1007:22)\n    at Socket.emit (node:events:507:28)","timestamp":"2024-11-03T22:09:07.031Z"}
+{"code":20,"codeName":"IllegalOperation","level":"error","message":"Failed to update prices: Transaction numbers are only allowed on a replica set member or mongos","ok":0,"stack":"MongoServerError: Transaction numbers are only allowed on a replica set member or mongos\n    at Connection.onMessage (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/connection.js:202:26)\n    at MessageStream.<anonymous> (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/connection.js:61:60)\n    at MessageStream.emit (node:events:507:28)\n    at processIncomingData (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/message_stream.js:124:16)\n    at MessageStream._write (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/message_stream.js:33:9)\n    at writeOrBuffer (node:internal/streams/writable:570:12)\n    at _write (node:internal/streams/writable:499:10)\n    at Writable.write (node:internal/streams/writable:508:10)\n    at Socket.ondata (node:internal/streams/readable:1007:22)\n    at Socket.emit (node:events:507:28)","timestamp":"2024-11-03T22:10:07.032Z"}
+{"code":20,"codeName":"IllegalOperation","level":"error","message":"Error updating prices: Transaction numbers are only allowed on a replica set member or mongos","ok":0,"stack":"MongoServerError: Transaction numbers are only allowed on a replica set member or mongos\n    at Connection.onMessage (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/connection.js:202:26)\n    at MessageStream.<anonymous> (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/connection.js:61:60)\n    at MessageStream.emit (node:events:507:28)\n    at processIncomingData (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/message_stream.js:124:16)\n    at MessageStream._write (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/message_stream.js:33:9)\n    at writeOrBuffer (node:internal/streams/writable:570:12)\n    at _write (node:internal/streams/writable:499:10)\n    at Writable.write (node:internal/streams/writable:508:10)\n    at Socket.ondata (node:internal/streams/readable:1007:22)\n    at Socket.emit (node:events:507:28)","timestamp":"2024-11-03T22:10:07.033Z"}
+{"code":20,"codeName":"IllegalOperation","level":"error","message":"Failed to update prices: Transaction numbers are only allowed on a replica set member or mongos","ok":0,"stack":"MongoServerError: Transaction numbers are only allowed on a replica set member or mongos\n    at Connection.onMessage (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/connection.js:202:26)\n    at MessageStream.<anonymous> (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/connection.js:61:60)\n    at MessageStream.emit (node:events:507:28)\n    at processIncomingData (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/message_stream.js:124:16)\n    at MessageStream._write (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/message_stream.js:33:9)\n    at writeOrBuffer (node:internal/streams/writable:570:12)\n    at _write (node:internal/streams/writable:499:10)\n    at Writable.write (node:internal/streams/writable:508:10)\n    at Socket.ondata (node:internal/streams/readable:1007:22)\n    at Socket.emit (node:events:507:28)","timestamp":"2024-11-03T22:11:07.034Z"}
+{"code":20,"codeName":"IllegalOperation","level":"error","message":"Error updating prices: Transaction numbers are only allowed on a replica set member or mongos","ok":0,"stack":"MongoServerError: Transaction numbers are only allowed on a replica set member or mongos\n    at Connection.onMessage (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/connection.js:202:26)\n    at MessageStream.<anonymous> (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/connection.js:61:60)\n    at MessageStream.emit (node:events:507:28)\n    at processIncomingData (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/message_stream.js:124:16)\n    at MessageStream._write (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/message_stream.js:33:9)\n    at writeOrBuffer (node:internal/streams/writable:570:12)\n    at _write (node:internal/streams/writable:499:10)\n    at Writable.write (node:internal/streams/writable:508:10)\n    at Socket.ondata (node:internal/streams/readable:1007:22)\n    at Socket.emit (node:events:507:28)","timestamp":"2024-11-03T22:11:07.036Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T22:12:51.331Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T22:12:51.333Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T22:12:51.362Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T22:12:51.370Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T22:12:51.371Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T22:12:51.375Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2024-11-03T22:12:51.370Z"}
+{"level":"info","message":"Initializing Drift service...","timestamp":"2024-11-03T22:12:51.371Z"}
+{"level":"info","message":"Attempting to connect via https://us-proxy.drift.trade...","timestamp":"2024-11-03T22:12:51.371Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2024-11-03T22:12:51.376Z"}
+{"level":"info","message":"Initializing Drift service...","timestamp":"2024-11-03T22:12:51.376Z"}
+{"level":"info","message":"Attempting to connect via https://us-proxy.drift.trade...","timestamp":"2024-11-03T22:12:51.377Z"}
+{"level":"warn","message":"Failed to connect via https://us-proxy.drift.trade:","timestamp":"2024-11-03T22:12:51.741Z"}
+{"level":"warn","message":"Failed to connect via https://us-proxy.drift.trade:","timestamp":"2024-11-03T22:12:51.741Z"}
+{"level":"info","message":"Attempting to connect via https://proxy.drift.trade...","timestamp":"2024-11-03T22:12:51.741Z"}
+{"level":"info","message":"Attempting to connect via https://proxy.drift.trade...","timestamp":"2024-11-03T22:12:51.741Z"}
+{"level":"warn","message":"Failed to connect via https://proxy.drift.trade:","timestamp":"2024-11-03T22:12:51.996Z"}
+{"level":"warn","message":"Failed to connect via https://proxy.drift.trade:","timestamp":"2024-11-03T22:12:51.996Z"}
+{"level":"info","message":"Attempting to connect via https://drift-proxy.herokuapp.com...","timestamp":"2024-11-03T22:12:51.996Z"}
+{"level":"info","message":"Attempting to connect via https://drift-proxy.herokuapp.com...","timestamp":"2024-11-03T22:12:51.996Z"}
+{"level":"warn","message":"Failed to connect via https://drift-proxy.herokuapp.com:","timestamp":"2024-11-03T22:12:53.154Z"}
+{"level":"warn","message":"Failed to connect via https://drift-proxy.herokuapp.com:","timestamp":"2024-11-03T22:12:53.155Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T22:12:59.032Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T22:12:59.058Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T22:12:59.061Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2024-11-03T22:12:59.062Z"}
+{"level":"info","message":"Initializing Drift service...","timestamp":"2024-11-03T22:12:59.062Z"}
+{"level":"info","message":"Attempting to connect via https://us-proxy.drift.trade...","timestamp":"2024-11-03T22:12:59.062Z"}
+{"level":"warn","message":"Failed to connect via https://us-proxy.drift.trade:","timestamp":"2024-11-03T22:12:59.253Z"}
+{"level":"info","message":"Attempting to connect via https://proxy.drift.trade...","timestamp":"2024-11-03T22:12:59.254Z"}
+{"level":"warn","message":"Failed to connect via https://proxy.drift.trade:","timestamp":"2024-11-03T22:12:59.286Z"}
+{"level":"info","message":"Attempting to connect via https://drift-proxy.herokuapp.com...","timestamp":"2024-11-03T22:12:59.287Z"}
+{"level":"warn","message":"Failed to connect via https://drift-proxy.herokuapp.com:","timestamp":"2024-11-03T22:13:01.203Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T22:14:40.202Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T22:14:40.234Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T22:14:40.239Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2024-11-03T22:14:40.240Z"}
+{"level":"info","message":"Initializing Drift service...","timestamp":"2024-11-03T22:14:40.241Z"}
+{"level":"info","message":"Connecting to Drift custom endpoint...","timestamp":"2024-11-03T22:14:40.241Z"}
+{"cause":{"code":"ENOTFOUND","errno":-3008,"hostname":"api.drift.trade","syscall":"getaddrinfo"},"level":"error","message":"Error during Drift initialization: fetch failed","stack":"TypeError: fetch failed\n    at node:internal/deps/undici/undici:13392:13\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async ClientBrowser.callServer (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/@solana/web3.js/lib/index.cjs.js:5071:17)","timestamp":"2024-11-03T22:14:40.543Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T22:14:48.093Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T22:14:48.123Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T22:14:48.127Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2024-11-03T22:14:48.128Z"}
+{"level":"info","message":"Initializing Drift service...","timestamp":"2024-11-03T22:14:48.128Z"}
+{"level":"info","message":"Connecting to Drift custom endpoint...","timestamp":"2024-11-03T22:14:48.129Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T22:16:28.728Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T22:16:28.755Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T22:16:28.758Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2024-11-03T22:16:28.758Z"}
+{"level":"info","message":"Initializing Drift service...","timestamp":"2024-11-03T22:16:28.759Z"}
+{"level":"info","message":"Attempt 1 to connect to Solana...","timestamp":"2024-11-03T22:16:28.759Z"}
+{"level":"warn","message":"Connection attempt 1 failed, retrying...","timestamp":"2024-11-03T22:16:29.531Z"}
+{"level":"info","message":"Attempt 2 to connect to Solana...","timestamp":"2024-11-03T22:16:30.532Z"}
+{"level":"warn","message":"Connection attempt 2 failed, retrying...","timestamp":"2024-11-03T22:16:30.797Z"}
+{"level":"info","message":"Attempt 3 to connect to Solana...","timestamp":"2024-11-03T22:16:32.799Z"}
+{"level":"error","message":"Failed to establish connection: failed to get recent blockhash: Error: 401 Unauthorized: {\"jsonrpc\":\"2.0\",\"id\":\"a738b5d9-343b-4445-baa4-4c53d151bba8\",\"error\":{\"code\":-32600,\"message\":\"Must be authenticated!\"}}","stack":"Error: failed to get recent blockhash: Error: 401 Unauthorized: {\"jsonrpc\":\"2.0\",\"id\":\"a738b5d9-343b-4445-baa4-4c53d151bba8\",\"error\":{\"code\":-32600,\"message\":\"Must be authenticated!\"}}\n    at Connection.getLatestBlockhash (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/@solana/web3.js/lib/index.cjs.js:7243:13)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async DriftService.initialize (/Users/rickrichman/Desktop/Trader_Agent/server/src/services/drift.js:51:25)\n    at async MarketService.initialize (/Users/rickrichman/Desktop/Trader_Agent/server/src/services/market.js:15:13)\n    at async startServer (/Users/rickrichman/Desktop/Trader_Agent/server/src/index.js:157:9)","timestamp":"2024-11-03T22:16:33.072Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T22:16:38.366Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T22:16:38.395Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T22:16:38.399Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2024-11-03T22:16:38.399Z"}
+{"level":"info","message":"Initializing Drift service...","timestamp":"2024-11-03T22:16:38.400Z"}
+{"level":"info","message":"Attempt 1 to connect to Solana...","timestamp":"2024-11-03T22:16:38.400Z"}
+{"level":"warn","message":"Connection attempt 1 failed, retrying...","timestamp":"2024-11-03T22:16:39.020Z"}
+{"level":"info","message":"Attempt 2 to connect to Solana...","timestamp":"2024-11-03T22:16:40.021Z"}
+{"level":"warn","message":"Connection attempt 2 failed, retrying...","timestamp":"2024-11-03T22:16:40.297Z"}
+{"level":"info","message":"Attempt 3 to connect to Solana...","timestamp":"2024-11-03T22:16:42.298Z"}
+{"level":"error","message":"Failed to establish connection: failed to get recent blockhash: Error: 401 Unauthorized: {\"jsonrpc\":\"2.0\",\"id\":\"3d053b3a-fef0-4c0b-b940-abf2fc484096\",\"error\":{\"code\":-32600,\"message\":\"Must be authenticated!\"}}","stack":"Error: failed to get recent blockhash: Error: 401 Unauthorized: {\"jsonrpc\":\"2.0\",\"id\":\"3d053b3a-fef0-4c0b-b940-abf2fc484096\",\"error\":{\"code\":-32600,\"message\":\"Must be authenticated!\"}}\n    at Connection.getLatestBlockhash (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/@solana/web3.js/lib/index.cjs.js:7243:13)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async DriftService.initialize (/Users/rickrichman/Desktop/Trader_Agent/server/src/services/drift.js:51:25)\n    at async MarketService.initialize (/Users/rickrichman/Desktop/Trader_Agent/server/src/services/market.js:15:13)\n    at async startServer (/Users/rickrichman/Desktop/Trader_Agent/server/src/index.js:157:9)","timestamp":"2024-11-03T22:16:42.576Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T22:19:20.668Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T22:19:20.684Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T22:19:20.708Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T22:19:20.714Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T22:19:20.716Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T22:19:20.723Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2024-11-03T22:19:20.714Z"}
+{"level":"info","message":"Initializing Drift service...","timestamp":"2024-11-03T22:19:20.715Z"}
+{"level":"info","message":"Connecting to Solana...","timestamp":"2024-11-03T22:19:20.715Z"}
+{"level":"info","message":"Creating wallet...","timestamp":"2024-11-03T22:19:20.719Z"}
+{"level":"info","message":"Initializing Drift SDK...","timestamp":"2024-11-03T22:19:20.791Z"}
+{"level":"info","message":"Creating Drift client...","timestamp":"2024-11-03T22:19:20.791Z"}
+{"level":"info","message":"Subscribing to updates...","timestamp":"2024-11-03T22:19:20.831Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2024-11-03T22:19:20.723Z"}
+{"level":"info","message":"Initializing Drift service...","timestamp":"2024-11-03T22:19:20.724Z"}
+{"level":"info","message":"Connecting to Solana...","timestamp":"2024-11-03T22:19:20.725Z"}
+{"level":"info","message":"Creating wallet...","timestamp":"2024-11-03T22:19:20.727Z"}
+{"level":"info","message":"Initializing Drift SDK...","timestamp":"2024-11-03T22:19:20.793Z"}
+{"level":"info","message":"Creating Drift client...","timestamp":"2024-11-03T22:19:20.793Z"}
+{"level":"info","message":"Subscribing to updates...","timestamp":"2024-11-03T22:19:20.833Z"}
+{"cause":{"code":"UND_ERR_CONNECT_TIMEOUT","name":"ConnectTimeoutError"},"level":"error","message":"Error initializing Drift SDK/Client: fetch failed","stack":"TypeError: fetch failed\n    at node:internal/deps/undici/undici:13392:13\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at runNextTicks (node:internal/process/task_queues:69:3)\n    at process.processImmediate (node:internal/timers:479:9)\n    at async ClientBrowser.callServer (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/@solana/web3.js/lib/index.cjs.js:5071:17)","timestamp":"2024-11-03T22:19:31.369Z"}
+{"cause":{"code":"UND_ERR_CONNECT_TIMEOUT","name":"ConnectTimeoutError"},"level":"error","message":"Error initializing Drift SDK/Client: fetch failed","stack":"TypeError: fetch failed\n    at node:internal/deps/undici/undici:13392:13\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at runNextTicks (node:internal/process/task_queues:69:3)\n    at process.processImmediate (node:internal/timers:479:9)\n    at async ClientBrowser.callServer (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/@solana/web3.js/lib/index.cjs.js:5071:17)","timestamp":"2024-11-03T22:19:31.371Z"}
+{"cause":{"code":"UND_ERR_CONNECT_TIMEOUT","name":"ConnectTimeoutError"},"level":"error","message":"Error establishing connection: fetch failed","stack":"TypeError: fetch failed\n    at node:internal/deps/undici/undici:13392:13\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at runNextTicks (node:internal/process/task_queues:69:3)\n    at process.processImmediate (node:internal/timers:479:9)\n    at async ClientBrowser.callServer (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/@solana/web3.js/lib/index.cjs.js:5071:17)","timestamp":"2024-11-03T22:19:31.370Z"}
+{"cause":{"code":"UND_ERR_CONNECT_TIMEOUT","name":"ConnectTimeoutError"},"level":"error","message":"Fatal error during initialization: fetch failed","stack":"TypeError: fetch failed\n    at node:internal/deps/undici/undici:13392:13\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at runNextTicks (node:internal/process/task_queues:69:3)\n    at process.processImmediate (node:internal/timers:479:9)\n    at async ClientBrowser.callServer (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/@solana/web3.js/lib/index.cjs.js:5071:17)","timestamp":"2024-11-03T22:19:31.370Z"}
+{"level":"warn","message":"Fatal error encountered, falling back to simulation mode","timestamp":"2024-11-03T22:19:31.370Z"}
+{"level":"info","message":"Initializing simulated environment","timestamp":"2024-11-03T22:19:31.370Z"}
+{"level":"info","message":"Market service initialized with Drift Protocol","timestamp":"2024-11-03T22:19:31.370Z"}
+{"level":"info","message":"Market service initialized","timestamp":"2024-11-03T22:19:31.371Z"}
+{"level":"info","message":"Strategy Manager initialized successfully","timestamp":"2024-11-03T22:19:31.371Z"}
+{"level":"info","message":"Strategy manager initialized","timestamp":"2024-11-03T22:19:31.371Z"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2024-11-03T22:19:31.372Z"}
+{"level":"info","message":"WebSocket server available at ws://localhost:3000","timestamp":"2024-11-03T22:19:31.373Z"}
+{"level":"info","message":"REST API available at http://localhost:3000/api","timestamp":"2024-11-03T22:19:31.373Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T22:19:36.434Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T22:19:36.463Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T22:19:36.467Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2024-11-03T22:19:36.467Z"}
+{"level":"info","message":"Initializing Drift service...","timestamp":"2024-11-03T22:19:36.468Z"}
+{"level":"info","message":"Connecting to Solana...","timestamp":"2024-11-03T22:19:36.468Z"}
+{"level":"info","message":"Creating wallet...","timestamp":"2024-11-03T22:19:36.470Z"}
+{"level":"info","message":"Initializing Drift SDK...","timestamp":"2024-11-03T22:19:36.538Z"}
+{"level":"info","message":"Creating Drift client...","timestamp":"2024-11-03T22:19:36.538Z"}
+{"level":"info","message":"Subscribing to updates...","timestamp":"2024-11-03T22:19:36.723Z"}
+{"cause":{"code":"UND_ERR_CONNECT_TIMEOUT","name":"ConnectTimeoutError"},"level":"error","message":"Error initializing Drift SDK/Client: fetch failed","stack":"TypeError: fetch failed\n    at node:internal/deps/undici/undici:13392:13\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at runNextTicks (node:internal/process/task_queues:69:3)\n    at process.processImmediate (node:internal/timers:479:9)\n    at async ClientBrowser.callServer (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/@solana/web3.js/lib/index.cjs.js:5071:17)","timestamp":"2024-11-03T22:19:47.282Z"}
+{"level":"info","message":"Connected to MongoDB successfully","timestamp":"2024-11-03T22:20:15.851Z"}
+{"level":"info","message":"Created timestamp index for Trade","timestamp":"2024-11-03T22:20:15.874Z"}
+{"level":"info","message":"Database indexes created successfully","timestamp":"2024-11-03T22:20:15.877Z"}
+{"level":"info","message":"Connected to MongoDB","timestamp":"2024-11-03T22:20:15.878Z"}
+{"level":"info","message":"Initializing Drift service...","timestamp":"2024-11-03T22:20:15.878Z"}
+{"level":"info","message":"Connecting to Solana...","timestamp":"2024-11-03T22:20:15.879Z"}
+{"level":"info","message":"Creating wallet...","timestamp":"2024-11-03T22:20:15.880Z"}
+{"level":"info","message":"Initializing Drift SDK...","timestamp":"2024-11-03T22:20:15.951Z"}
+{"level":"info","message":"Creating Drift client...","timestamp":"2024-11-03T22:20:15.952Z"}
+{"level":"info","message":"Subscribing to updates...","timestamp":"2024-11-03T22:20:16.061Z"}
+{"cause":{"code":"UND_ERR_CONNECT_TIMEOUT","name":"ConnectTimeoutError"},"level":"error","message":"Error initializing Drift SDK/Client: fetch failed","stack":"TypeError: fetch failed\n    at node:internal/deps/undici/undici:13392:13\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at runNextTicks (node:internal/process/task_queues:69:3)\n    at process.processImmediate (node:internal/timers:479:9)\n    at async ClientBrowser.callServer (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/@solana/web3.js/lib/index.cjs.js:5071:17)","timestamp":"2024-11-03T22:20:26.612Z"}
+{"cause":{"code":"UND_ERR_CONNECT_TIMEOUT","name":"ConnectTimeoutError"},"level":"error","message":"Error establishing connection: fetch failed","stack":"TypeError: fetch failed\n    at node:internal/deps/undici/undici:13392:13\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at runNextTicks (node:internal/process/task_queues:69:3)\n    at process.processImmediate (node:internal/timers:479:9)\n    at async ClientBrowser.callServer (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/@solana/web3.js/lib/index.cjs.js:5071:17)","timestamp":"2024-11-03T22:20:26.612Z"}
+{"cause":{"code":"UND_ERR_CONNECT_TIMEOUT","name":"ConnectTimeoutError"},"level":"error","message":"Fatal error during initialization: fetch failed","stack":"TypeError: fetch failed\n    at node:internal/deps/undici/undici:13392:13\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at runNextTicks (node:internal/process/task_queues:69:3)\n    at process.processImmediate (node:internal/timers:479:9)\n    at async ClientBrowser.callServer (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/@solana/web3.js/lib/index.cjs.js:5071:17)","timestamp":"2024-11-03T22:20:26.612Z"}
+{"level":"warn","message":"Fatal error encountered, falling back to simulation mode","timestamp":"2024-11-03T22:20:26.612Z"}
+{"level":"info","message":"Initializing simulated environment","timestamp":"2024-11-03T22:20:26.613Z"}
+{"level":"info","message":"Market service initialized with Drift Protocol","timestamp":"2024-11-03T22:20:26.613Z"}
+{"level":"info","message":"Market service initialized","timestamp":"2024-11-03T22:20:26.613Z"}
+{"level":"info","message":"Strategy Manager initialized successfully","timestamp":"2024-11-03T22:20:26.613Z"}
+{"level":"info","message":"Strategy manager initialized","timestamp":"2024-11-03T22:20:26.613Z"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2024-11-03T22:20:26.615Z"}
+{"level":"info","message":"WebSocket server available at ws://localhost:3000","timestamp":"2024-11-03T22:20:26.615Z"}
+{"level":"info","message":"REST API available at http://localhost:3000/api","timestamp":"2024-11-03T22:20:26.615Z"}
+{"code":20,"codeName":"IllegalOperation","level":"error","message":"Failed to update prices: Transaction numbers are only allowed on a replica set member or mongos","ok":0,"stack":"MongoServerError: Transaction numbers are only allowed on a replica set member or mongos\n    at Connection.onMessage (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/connection.js:202:26)\n    at MessageStream.<anonymous> (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/connection.js:61:60)\n    at MessageStream.emit (node:events:507:28)\n    at processIncomingData (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/message_stream.js:124:16)\n    at MessageStream._write (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/message_stream.js:33:9)\n    at writeOrBuffer (node:internal/streams/writable:570:12)\n    at _write (node:internal/streams/writable:499:10)\n    at Writable.write (node:internal/streams/writable:508:10)\n    at Socket.ondata (node:internal/streams/readable:1007:22)\n    at Socket.emit (node:events:507:28)","timestamp":"2024-11-03T22:21:26.624Z"}
+{"code":20,"codeName":"IllegalOperation","level":"error","message":"Error updating prices: Transaction numbers are only allowed on a replica set member or mongos","ok":0,"stack":"MongoServerError: Transaction numbers are only allowed on a replica set member or mongos\n    at Connection.onMessage (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/connection.js:202:26)\n    at MessageStream.<anonymous> (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/connection.js:61:60)\n    at MessageStream.emit (node:events:507:28)\n    at processIncomingData (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/message_stream.js:124:16)\n    at MessageStream._write (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/mongodb/lib/cmap/message_stream.js:33:9)\n    at writeOrBuffer (node:internal/streams/writable:570:12)\n    at _write (node:internal/streams/writable:499:10)\n    at Writable.write (node:internal/streams/writable:508:10)\n    at Socket.ondata (node:internal/streams/readable:1007:22)\n    at Socket.emit (node:events:507:28)","timestamp":"2024-11-03T22:21:26.627Z"}
