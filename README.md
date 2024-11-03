@@ -1,177 +1,143 @@
+# Trader Agent - AI Cryptocurrency Trading System
 
-![cofounder-og-black](https://github.com/user-attachments/assets/b4e51f02-59e4-4540-ac14-e1f40e20a658)
+A sophisticated AI-powered cryptocurrency trading system designed to achieve $1,000,000 in equity from a $500 initial investment over 3-5 years using machine learning and multi-agent architecture.
 
-# Cofounder | Early alpha release
+## System Architecture
 
-* project - [cofounder.openinterface.ai](https://cofounder.openinterface.ai)
-* 👋 [@n_raidenai](https://x.com/n_raidenai)
+### Trading Components
+- Multiple AI trading agents for different strategies
+- Real-time market data processing
+- ML-based signal generation
+- Advanced risk management
+- Portfolio optimization
+- Performance analytics
+- Historical backtesting
 
-**cofounder**
-- full stack generative web apps ; backend + db + stateful web apps
-- gen ui rooted in app architecture, with ai-guided mockup designer & modular design systems
+### Technology Stack
+- **Backend:**
+  - Node.js/Express
+  - MongoDB for data persistence
+  - TensorFlow.js for ML models
+  - WebSocket for real-time updates
+  - Alpaca API for trading
+  
+- **Frontend:**
+  - React with TypeScript
+  - TailwindCSS for styling
+  - Chart.js for data visualization
+  - Real-time WebSocket integration
 
+### Features
 
+1. **Multi-Agent Trading System**
+   - TrendFollowing strategy
+   - MeanReversion strategy
+   - ML-enhanced decision making
+   - Automated trade execution
 
-https://github.com/user-attachments/assets/cfd09250-d21e-49fc-a29b-fa0c661abfc0
+2. **Risk Management**
+   - Position sizing
+   - Stop-loss management
+   - Portfolio exposure control
+   - Drawdown protection
 
-https://github.com/user-attachments/assets/c055f9c4-6bc0-4b11-ba8f-cc9f149387fa
+3. **Real-Time Analytics**
+   - Portfolio performance tracking
+   - Trade history analysis
+   - Risk metrics monitoring
+   - Strategy performance evaluation
 
+4. **Professional Dashboard**
+   - Real-time market data
+   - Portfolio overview
+   - Active trades monitoring
+   - Performance charts
+   - Strategy controls
 
+## Setup and Installation
 
+1. Prerequisites:
+   ```bash
+   # Install MongoDB
+   docker pull mongo
+   docker run -d -p 27017:27017 --name trader-agent-mongo mongo
+   ```
 
----
+2. Clone the repository:
+   ```bash
+   git clone https://github.com/FastyFresh/Trader_Agent.git
+   cd Trader_Agent
+   ```
 
-## Important
+3. Install dependencies:
+   ```bash
+   # Backend
+   cd server
+   npm install
+   
+   # Frontend
+   cd ../client
+   npm install
+   ```
 
-**Early alpha release ; earlier than expected by 5/6 weeks**
+4. Set up environment variables:
+   Create `.env` file in the server directory with:
+   ```
+   ALPACA_API_KEY=your_key
+   ALPACA_API_SECRET=your_secret
+   MONGODB_URI=mongodb://localhost:27017/trader_agent
+   ```
 
-Still not merged with key target features of the project, notably :
-- project iteration modules for all dimensions of generated projects
-- admin interface for event streams and (deeper) project iterations
-- integrate the full genUI plugin :
-  * generative design systems
-  * deploy finetuned models & serve from api.cofounder
-- local, browser-based dev env for the entire project scope
-- add { react-native , flutter , other web frameworks }
-- validations & swarm code review and autofix
-- code optimization
-- [...]
+5. Start the application:
+   ```bash
+   # Start backend (from server directory)
+   npm run dev
+   
+   # Start frontend (from client directory)
+   npm run dev
+   ```
 
-be patient :)
+6. Access the application:
+   - Frontend: http://localhost:5176
+   - Backend API: http://localhost:3000
+   - WebSocket: ws://localhost:3000
 
----
+## API Endpoints
 
-# Usage
+### Trading Operations
+- `GET /api/trading/portfolio` - Get portfolio overview
+- `GET /api/trading/performance` - Get performance metrics
+- `GET /api/trading/active-trades` - List active trades
+- `POST /api/trading/execute-trade` - Execute a trade
 
-## Install & Init
+### Strategy Management
+- `GET /api/strategies` - List available strategies
+- `POST /api/strategies/:name/start` - Start a strategy
+- `POST /api/strategies/:name/stop` - Stop a strategy
+- `GET /api/strategies/:name/performance` - Get strategy performance
 
-* Open your terminal and run
+### Analytics
+- `GET /api/analytics/portfolio/history` - Get portfolio history
+- `GET /api/analytics/trade/performance` - Get trade performance
+- `GET /api/analytics/risk/metrics` - Get risk metrics
 
-```sh
-npx @openinterface/cofounder
-```
+## Development Status
 
-Follow the instructions. The installer 
-- will ask you for your keys
-- setup dirs & start installs
-- will start the local `cofounder/api` builder and server
-- will open the web dashboard where you can create new projects (at `http://localhost:667` ) 🎉
+- [x] Basic trading infrastructure
+- [x] Database integration
+- [x] Real-time market data
+- [x] Trading strategies implementation
+- [x] Risk management system
+- [x] Frontend dashboard
+- [ ] Advanced ML models
+- [ ] Strategy optimization
+- [ ] Portfolio rebalancing
+- [ ] Extended backtesting
 
-```
-note :
-you will be asked for a cofounder.openinterface.ai key
-it is recommended to use one as it enables the designer/layoutv1 and swarm/external-apis features
-and can be used without limits during the current early alpha period
+## Contributing
 
-the full index will be available for local download on v1 release
-```
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
 
-```sh
-# alternatively, you can make a new project without going through the dashboard
-# by runing :
-npx @openinterface/cofounder -p "YourAppProjectName" -d "describe your app here" -a "(optional) design instructions"
-```
+## License
 
-
-## Run Generated Apps
-
-- Your backend & vite+react web app will incrementally generate inside `./apps/{YourApp}`
-Open your terminal in `./apps/{YourApp}` and run
-
-```sh
-npm i && npm run dev
-```
-
-It will start both the backend and vite+react, concurrently, after installing their dependencies
-Go to `http://localhost:5173/` to open the web app 🎉
-
-
-- From within the generated apps , you can use ⌘+K / Ctrl+K to iterate on UI components
-
-[more details later]
-
-## Notes
-
-### Dashboard & Local API
-
-If you resume later and would like to iterate on your generated apps,
-the local `./cofounder/api` server needs to be running to receive queries
-
-You can (re)start the `local cofounder API` running the following command from `./cofounder/api`
-
-```sh
-npm run start
-```
-
-The dashboard will open in `http://localhost:667`
-
-
-- note: You can also generate new apps from the same env, without the the dashboard, by running, from `./cofounder/api`, one of these commands
-    
-    ```sh
-    npm run start -- -p "ProjectName" -f "some app description" -a "minimalist and spacious , light theme"
-    npm run start -- -p "ProjectName" -f "./example_description.txt" -a "minimalist and spacious , light theme"
-    ```
-
-### Concurrency
-
-**[the architecture will be further detailed and documented later]**
-
-Every "node" in the `cofounder` architecture has a defined configuration under `./cofounder/api/system/structure/nodes/{category}/{name}.yaml` to handle things like concurrency, retries and limits per time interval
-
-For example, if you want multiple LLM generations to run in parallel (when possible - sequences and parallels are defined in DAGS under `./cofounder/api/system/structure/sequences/{definition}.yaml` ),
-go to
-
-```yaml
-#./cofounder/api/system/structure/nodes/op/llm.yaml
-nodes:
- op:LLM::GEN:
-  desc: "..."
-  in: [model, messages, preparser, parser, query, stream]
-  out: [generated, usage]
-  queue:
-   concurrency: 1 # <------------------------------- here 
- op:LLM::VECTORIZE:
-  desc: "{texts} -> {vectors}"
-  in: [texts]
-  out: [vectors, usage]
- mapreduce: true
- op:LLM::VECTORIZE:CHUNK:
-  desc: "{texts} -> {vectors}"
-  in: [texts]
-  out: [vectors, usage]
-  queue:
-   concurrency: 50
-```
-
-and change the `op:LLM::GEN` parameter `concurrency` to a higher value
-
-The default LLM concurrency is set to `2` so you can see what's happening in your console streams step by step - but you can increment it depending on your api keys limits
-
----
-
-# Docs, Design Systems, ...
-
-**[WIP]**
-
----
-
-# Architecture
-
-[more details later]
-
-archi/v1 is as follows :
-
-![architecture](https://github.com/user-attachments/assets/b2d8b70e-7a6d-45c9-a706-0cf955d13451)
-
-
----
-
-# Credits
-
-- Demo design systems built using Figma renders / UI kits from:
-  * blocks.pm by Hexa Plugin (see `cofounder/api/system/presets`)
-  * google material
-  * figma core
-  * shadcn
-- Dashboard node-based ui powered by [react flow](https://reactflow.dev/)
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
