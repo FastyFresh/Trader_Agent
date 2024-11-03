@@ -1,112 +1,119 @@
-import { useQuery } from '@tanstack/react-query'
-import { useState } from 'react'
-import PortfolioOverview from './PortfolioOverview'
-import ActiveTrades from './ActiveTrades'
-import PerformanceChart from './PerformanceChart'
-import RiskMetrics from './RiskMetrics'
-import StrategyManager from './StrategyManager'
+import { useState, useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import PortfolioOverview from './PortfolioOverview';
+import ActiveTrades from './ActiveTrades';
+import PerformanceChart from './PerformanceChart';
+import RiskMetrics from './RiskMetrics';
+import StrategyManager from './StrategyManager';
+import Launcher from './Launcher';
 
-// Mock data for initial development
-const mockPortfolioData = {
-  totalEquity: 750.25,
-  cashBalance: 250.75,
-  todayReturn: 5.25,
-  totalReturn: 50.05,
-  riskMetrics: {
-    maxDrawdown: 8.5,
-    sharpeRatio: 1.8,
-    volatility: 12.5,
-    valueAtRisk: 15.0,
-    exposure: {
-      total: 65.5,
-      byAsset: {
-        'BTC/USD': 30.5,
-        'ETH/USD': 20.0,
-        'SOL/USD': 15.0
-      }
-    }
-  }
-}
-
-const mockPerformanceData = {
-  dates: Array.from({ length: 30 }, (_, i) => {
-    const date = new Date()
-    date.setDate(date.getDate() - (29 - i))
-    return date.toISOString().split('T')[0]
-  }),
-  equity: Array.from({ length: 30 }, (_, i) => {
-    const baseValue = 500
-    const trend = i * 10
-    const noise = Math.random() * 20 - 10
-    return baseValue + trend + noise
-  }),
-  returns: Array.from({ length: 30 }, () => {
-    return (Math.random() * 4) - 1
-  })
+interface AutoTraderStatus {
+    isRunning: boolean;
+    currentPhase: string;
+    currentBalance: number;
+    activeMarkets: string[];
+    performance: any;
+    activeStrategies: string[];
 }
 
 const Dashboard = () => {
-  const [isLoading, setIsLoading] = useState(true)
+    const [isInitialized, setIsInitialized] = useState(false);
 
-  // Simulate API calls with mock data
-  const { data: portfolioData } = useQuery({
-    queryKey: ['portfolio'],
-    queryFn: async () => {
-      // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      setIsLoading(false)
-      return mockPortfolioData
-    },
-  })
+    const { data: status, error, isLoading } = useQuery<AutoTraderStatus>({
+        queryKey: ['autoTraderStatus'],
+        queryFn: () => 
+            fetch('http://localhost:3000/api/autotrader/status')
+                .then(res => res.json()),
+        enabled: isInitialized,
+        refetchInterval: 5000 // Refresh every 5 seconds
+    });
 
-  const { data: performanceData } = useQuery({
-    queryKey: ['performance'],
-    queryFn: async () => {
-      // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      return mockPerformanceData
-    },
-  })
+    const handleStart = async () => {
+        try {
+            const response = await fetch('http://localhost:3000/api/autotrader/start', {
+                method: 'POST'
+            });
+            const result = await response.json();
+            if (result.success) {
+                setIsInitialized(true);
+            }
+        } catch (error) {
+            console.error('Failed to start AutoTrader:', error);
+        }
+    };
 
-  if (isLoading || !portfolioData || !performanceData) {
+    if (!isInitialized) {
+        return <Launcher onStart={handleStart} />;
+    }
+
+    if (isLoading) {
+        return (
+            <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
+                <div className="text-center">
+                    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-500 mx-auto mb-4"></div>
+                    <p className="text-lg">Loading dashboard data...</p>
+                </div>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="text-red-500 p-4">
+                Error loading dashboard data
+            </div>
+        );
+    }
+
     return (
-      <div className="flex justify-center items-center h-[calc(100vh-4rem)]">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-500 mx-auto mb-4"></div>
-          <p className="text-gray-400">Loading dashboard data...</p>
+        <div className="space-y-6">
+            {/* Trading Status Header */}
+            <div className="bg-gray-800 p-4 rounded-lg">
+                <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-4">
+                        <div className="flex items-center">
+                            <div className={`h-3 w-3 rounded-full ${status?.isRunning ? 'bg-green-500' : 'bg-red-500'} mr-2`}></div>
+                            <span className="font-medium">
+                                {status?.isRunning ? 'Trading Active' : 'Trading Inactive'}
+                            </span>
+                        </div>
+                        <div className="text-gray-400">
+                            Phase: <span className="text-white">{status?.currentPhase}</span>
+                        </div>
+                    </div>
+                    <div className="text-right">
+                        <div className="text-sm text-gray-400">Current Balance</div>
+                        <div className="text-xl font-bold">${status?.currentBalance.toFixed(2)}</div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Main Dashboard Grid */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <PortfolioOverview 
+                    balance={status?.currentBalance || 0}
+                    performance={status?.performance}
+                />
+                <RiskMetrics 
+                    phase={status?.currentPhase || ''}
+                    metrics={status?.performance?.riskMetrics}
+                />
+                <ActiveTrades 
+                    trades={status?.performance?.activeTrades || []}
+                    markets={status?.activeMarkets || []}
+                />
+                <PerformanceChart 
+                    data={status?.performance?.equityCurve || []}
+                />
+            </div>
+
+            {/* Strategy Overview */}
+            <StrategyManager 
+                activeStrategies={status?.activeStrategies || []}
+                phase={status?.currentPhase}
+            />
         </div>
-      </div>
-    )
-  }
+    );
+};
 
-  return (
-    <div className="grid grid-cols-12 gap-4 p-4">
-      {/* Portfolio Overview */}
-      <div className="col-span-12 xl:col-span-8">
-        <PortfolioOverview data={portfolioData} />
-      </div>
-
-      {/* Risk Metrics */}
-      <div className="col-span-12 xl:col-span-4">
-        <RiskMetrics data={portfolioData} />
-      </div>
-
-      {/* Performance Chart */}
-      <div className="col-span-12">
-        <PerformanceChart data={performanceData} />
-      </div>
-
-      {/* Active Trades */}
-      <div className="col-span-12 lg:col-span-8">
-        <ActiveTrades />
-      </div>
-
-      {/* Strategy Manager */}
-      <div className="col-span-12 lg:col-span-4">
-        <StrategyManager />
-      </div>
-    </div>
-  )
-}
-
-export default Dashboard
+export default Dashboard;
