@@ -26,13 +26,25 @@ class ResearchAgent {
         try {
             // Initialize required services
             await marketAnalysis.initialize();
+            logger.info('Market Analysis Service initialized');
+            
             await backtestEngine.initialize();
+            logger.info('Backtest Engine initialized');
 
             // Calculate required growth rate
             const requiredDailyReturn = this.calculateRequiredReturn();
-            logger.info('Required daily return:', requiredDailyReturn);
+            logger.info('Required daily return to reach $1M:', requiredDailyReturn);
 
-            await this.initializeResearch();
+            // Get initial market insights
+            const marketInsights = await this.gatherMarketInsights();
+            
+            // Initialize research parameters based on market conditions
+            this.researchParams = this.determineResearchParameters(marketInsights);
+            
+            logger.info('Research parameters initialized:', this.researchParams);
+            logger.info('Research agent initialized');
+            return true;
+            
         } catch (error) {
             logger.error('Failed to initialize research agent:', error);
             throw error;
@@ -43,21 +55,6 @@ class ResearchAgent {
         const totalGrowth = this.config.targetEquity / this.config.initialCapital;
         const days = this.config.maxTimeHorizon;
         return Math.pow(totalGrowth, 1/days) - 1;
-    }
-
-    async initializeResearch() {
-        try {
-            // Get market analysis for initial insights
-            const marketInsights = await this.gatherMarketInsights();
-            
-            // Initialize research parameters based on market conditions
-            this.researchParams = this.determineResearchParameters(marketInsights);
-            
-            logger.info('Research parameters initialized:', this.researchParams);
-        } catch (error) {
-            logger.error('Error initializing research:', error);
-            throw error;
-        }
     }
 
     async gatherMarketInsights() {
@@ -88,7 +85,7 @@ class ResearchAgent {
     identifyTrends(analysis) {
         return Object.entries(analysis.markets).reduce((trends, [market, data]) => {
             trends[market] = {
-                trend: data.trend.trend,
+                trend: data.trend,
                 strength: data.trend.strength
             };
             return trends;
@@ -162,6 +159,8 @@ class ResearchAgent {
             this.researchResults = results;
             this.optimalStrategies = optimalStrategies;
 
+            logger.info('Research cycle completed');
+
             return optimalStrategies;
 
         } catch (error) {
@@ -220,29 +219,6 @@ class ResearchAgent {
         return this.rankStrategies(results);
     }
 
-    async researchCombinedStrategies(market, individualResults) {
-        const combinations = this.generateStrategyCombinations(
-            individualResults.grid,
-            individualResults.momentum
-        );
-
-        const results = [];
-
-        for (const combo of combinations) {
-            const combined = await strategyFactory.combineStrategies(
-                combo.strategies,
-                combo.weights
-            );
-
-            const backtest = await backtestEngine.runBacktest(combined);
-            if (this.meetsPerformanceCriteria(backtest)) {
-                results.push({ config: combo, performance: backtest.metrics });
-            }
-        }
-
-        return this.rankStrategies(results);
-    }
-
     generateGridConfigurations(market, marketData) {
         const { gridSpacing, leverageRange } = this.researchParams;
         const volatility = marketData.volatility;
@@ -292,6 +268,29 @@ class ResearchAgent {
         }
 
         return configurations;
+    }
+
+    async researchCombinedStrategies(market, individualResults) {
+        const combinations = this.generateStrategyCombinations(
+            individualResults.grid,
+            individualResults.momentum
+        );
+
+        const results = [];
+
+        for (const combo of combinations) {
+            const combined = await strategyFactory.combineStrategies(
+                combo.strategies,
+                combo.weights
+            );
+
+            const backtest = await backtestEngine.runBacktest(combined);
+            if (this.meetsPerformanceCriteria(backtest)) {
+                results.push({ config: combo, performance: backtest.metrics });
+            }
+        }
+
+        return this.rankStrategies(results);
     }
 
     generateStrategyCombinations(gridResults, momentumResults) {

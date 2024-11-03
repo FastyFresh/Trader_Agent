@@ -9,7 +9,7 @@ class MarketAnalysis {
             trendStrengthThreshold: 0.6, // 60% confidence for trend
             volumeSignificanceThreshold: 1.5, // 50% above average
             correlationWindow: 720, // 30 days of hourly data
-            markets: ['SOL-PERP', 'BTC-PERP', 'ETH-PERP'],
+            markets: ['SOL-PERP', 'WBTC-PERP'],
             ...config
         };
 
@@ -46,6 +46,7 @@ class MarketAnalysis {
             );
 
             this.marketData.set(market, historicalData);
+            logger.info(`Initialized market data for ${market}`);
             
         } catch (error) {
             logger.error(`Error initializing market data for ${market}:`, error);
@@ -298,6 +299,8 @@ class MarketAnalysis {
         const prices2 = data2.map(d => d.price);
         const n = Math.min(prices1.length, prices2.length);
 
+        if (n === 0) return 0;
+
         const mean1 = prices1.reduce((sum, p) => sum + p, 0) / n;
         const mean2 = prices2.reduce((sum, p) => sum + p, 0) / n;
 
@@ -313,6 +316,7 @@ class MarketAnalysis {
             denom2 += diff2 * diff2;
         }
 
+        if (denom1 === 0 || denom2 === 0) return 0;
         return numerator / Math.sqrt(denom1 * denom2);
     }
 

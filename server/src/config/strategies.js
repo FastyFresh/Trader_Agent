@@ -1,109 +1,106 @@
 module.exports = {
-    trendFollowing: {
-        name: 'TrendFollowing',
-        description: 'Follows market trends using moving averages and momentum indicators',
-        timeframe: '4h',
-        parameters: {
-            // Moving Averages
-            shortMA: 9,
-            longMA: 21,
-            
-            // RSI Settings
-            rsiPeriod: 14,
-            rsiOverbought: 70,
-            rsiOversold: 30,
-            
-            // Position Sizing
-            maxPositionSize: 0.1, // 10% of portfolio
-            initialRisk: 0.02,    // 2% risk per trade
-            
-            // Trade Management
-            stopLoss: 0.02,       // 2% stop loss
-            takeProfit: 0.04,     // 4% take profit
-            trailingStop: true,
-            trailingStopDistance: 0.015 // 1.5% trailing stop
+    // Initial Phase ($100-$1,000)
+    initialPhase: {
+        capital: {
+            min: 100,
+            max: 1000
         },
-        tradingPairs: ['BTC/USD', 'ETH/USD'],
-        enabled: true
+        grid: {
+            enabled: false
+        },
+        momentum: {
+            enabled: true,
+            timeframe: '15m',
+            threshold: 0.015,
+            volumeMultiplier: 1.5,
+            leverage: 5,
+            positionSize: 0.95 // 95% of capital per trade
+        },
+        riskManagement: {
+            stopLoss: 0.02,
+            takeProfit: 0.04,
+            maxDrawdown: 0.15
+        }
     },
 
-    meanReversion: {
-        name: 'MeanReversion',
-        description: 'Mean reversion strategy using Bollinger Bands and RSI',
-        timeframe: '1h',
-        parameters: {
-            // Bollinger Bands
-            bollingerPeriod: 20,
-            bollingerStdDev: 2,
-            
-            // RSI
-            rsiPeriod: 14,
-            rsiOverbought: 70,
-            rsiOversold: 30,
-            
-            // Position Sizing
-            maxPositionSize: 0.08, // 8% of portfolio
-            initialRisk: 0.015,    // 1.5% risk per trade
-            
-            // Trade Management
-            stopLoss: 0.015,      // 1.5% stop loss
-            takeProfit: 0.03,     // 3% take profit
-            trailingStop: false
+    // Growth Phase ($1,000-$10,000)
+    growthPhase: {
+        capital: {
+            min: 1000,
+            max: 10000
         },
-        tradingPairs: ['BTC/USD', 'ETH/USD'],
-        enabled: true
+        grid: {
+            enabled: true,
+            levels: 15,
+            spacing: 0.02,
+            leverage: 4,
+            allocation: 0.5 // 50% of capital
+        },
+        momentum: {
+            enabled: true,
+            timeframe: '15m',
+            threshold: 0.02,
+            volumeMultiplier: 1.5,
+            leverage: 4,
+            allocation: 0.5
+        },
+        riskManagement: {
+            stopLoss: 0.015,
+            takeProfit: 0.03,
+            maxDrawdown: 0.12
+        }
     },
 
-    // Grid Trading Strategy
-    gridTrading: {
-        name: 'GridTrading',
-        description: 'Grid trading with dynamic grid spacing based on volatility',
-        timeframe: '1h',
-        parameters: {
-            // Grid Configuration
-            gridLevels: 10,
-            gridSpacing: 0.01,    // 1% between grid levels
-            dynamicSpacing: true, // Adjust grid spacing based on volatility
-            
-            // Position Sizing
-            maxPositionSize: 0.05, // 5% of portfolio per grid level
-            totalAllocation: 0.3,  // 30% total portfolio allocation
-            
-            // Risk Management
-            stopLoss: 0.05,       // 5% global stop loss
-            takeProfit: 0.02,     // 2% profit per grid level
-            
-            // Volatility Settings
-            volatilityPeriod: 20,
-            volatilityMultiplier: 1.5
+    // Scaling Phase ($10,000+)
+    scalingPhase: {
+        capital: {
+            min: 10000,
+            max: 1000000
         },
-        tradingPairs: ['BTC/USD'],
-        enabled: false // Not enabled by default
+        grid: {
+            enabled: true,
+            levels: 20,
+            spacing: 0.015,
+            leverage: 3,
+            allocation: 0.6 // 60% of capital
+        },
+        momentum: {
+            enabled: true,
+            timeframe: '1h',
+            threshold: 0.025,
+            volumeMultiplier: 1.8,
+            leverage: 3,
+            allocation: 0.4
+        },
+        riskManagement: {
+            stopLoss: 0.01,
+            takeProfit: 0.02,
+            maxDrawdown: 0.1
+        }
     },
 
-    volumeProfile: {
-        name: 'VolumeProfile',
-        description: 'Trading based on volume profile and price action',
-        timeframe: '1h',
-        parameters: {
-            // Volume Profile
-            profilePeriod: 24,    // Hours to analyze
-            valueAreaVolume: 0.7,  // 70% of volume
-            
-            // VWAP Settings
-            vwapDeviations: [1, 2],
-            
-            // Position Sizing
-            maxPositionSize: 0.07, // 7% of portfolio
-            initialRisk: 0.018,    // 1.8% risk per trade
-            
-            // Trade Management
-            stopLoss: 0.018,      // 1.8% stop loss
-            takeProfit: 0.036,    // 3.6% take profit
-            trailingStop: true,
-            trailingStopDistance: 0.012 // 1.2% trailing stop
+    // Market-specific configurations
+    markets: {
+        'SOL-PERP': {
+            minOrderSize: 0.1,
+            tickSize: 0.01,
+            priceDecimalPlaces: 2,
+            sizeDecimalPlaces: 1
         },
-        tradingPairs: ['BTC/USD', 'ETH/USD'],
-        enabled: false // Not enabled by default
+        'WBTC-PERP': {
+            minOrderSize: 0.001,
+            tickSize: 1.0,
+            priceDecimalPlaces: 1,
+            sizeDecimalPlaces: 3
+        }
+    },
+
+    // Common parameters
+    common: {
+        compounding: true,
+        rebalanceThreshold: 0.1, // 10% deviation triggers rebalancing
+        minTradeInterval: 5 * 60 * 1000, // 5 minutes
+        maxConcurrentTrades: 3,
+        emergencyStopLoss: 0.25 // 25% portfolio drawdown stops trading
     }
 };
