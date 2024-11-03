@@ -1,124 +1,131 @@
 const express = require('express');
 const router = express.Router();
-const TradingAgent = require('../agents/TradingAgent');
+const mockData = require('../mockData');
 const logger = require('../utils/logger');
 
-const trader = new TradingAgent({
-    initialInvestment: 500,
-    targetEquity: 1000000
-});
-
-router.get('/portfolio', async (req, res) => {
+// Get portfolio overview
+router.get('/portfolio', (req, res) => {
     try {
-        const portfolio = await trader.getPortfolio();
-        res.json(portfolio);
+        res.json(mockData.portfolio);
     } catch (error) {
         logger.error('Error fetching portfolio:', error);
         res.status(500).json({ error: 'Failed to fetch portfolio' });
     }
 });
 
-router.get('/performance', async (req, res) => {
+// Get performance metrics
+router.get('/performance', (req, res) => {
     try {
-        const portfolio = await trader.getPortfolio();
-        const returns = {
-            currentEquity: portfolio.equity,
-            initialInvestment: trader.config.initialInvestment,
-            absoluteReturn: portfolio.equity - trader.config.initialInvestment,
-            percentageReturn: ((portfolio.equity - trader.config.initialInvestment) / 
-                             trader.config.initialInvestment) * 100,
-            progressToGoal: (portfolio.equity / trader.config.targetEquity) * 100
-        };
-        res.json(returns);
+        res.json(mockData.performanceData);
     } catch (error) {
-        logger.error('Error fetching performance:', error);
+        logger.error('Error fetching performance metrics:', error);
         res.status(500).json({ error: 'Failed to fetch performance metrics' });
     }
 });
 
-router.post('/execute-trade', async (req, res) => {
+// Get active trades
+router.get('/active-trades', (req, res) => {
     try {
-        const { strategy, market } = req.body;
-        
-        if (!strategy || !market) {
-            return res.status(400).json({ 
-                error: 'Strategy and market parameters are required' 
-            });
-        }
-
-        const result = await trader.executeStrategy(strategy, market);
-        res.json(result);
+        res.json(mockData.activeTrades);
     } catch (error) {
-        logger.error('Error executing trade:', error);
-        res.status(500).json({ error: 'Failed to execute trade' });
+        logger.error('Error fetching active trades:', error);
+        res.status(500).json({ error: 'Failed to fetch active trades' });
     }
 });
 
-router.get('/strategies', async (req, res) => {
+// Get trading strategies
+router.get('/strategies', (req, res) => {
     try {
-        const strategies = await trader.strategyManager.loadStrategies();
-        res.json(strategies);
+        res.json(mockData.strategies);
     } catch (error) {
         logger.error('Error fetching strategies:', error);
         res.status(500).json({ error: 'Failed to fetch strategies' });
     }
 });
 
-router.post('/update-strategy', async (req, res) => {
+// Execute trade
+router.post('/execute-trade', (req, res) => {
     try {
-        const { strategy, params } = req.body;
+        const { strategy, market } = req.body;
         
-        if (!strategy || !params) {
-            return res.status(400).json({ 
-                error: 'Strategy name and parameters are required' 
-            });
+        if (!strategy || !market) {
+            return res.status(400).json({ error: 'Strategy and market parameters are required' });
         }
 
-        const updated = await trader.strategyManager.updateStrategy(strategy, params);
-        res.json(updated);
+        // Simulate trade execution
+        const trade = {
+            id: Date.now().toString(),
+            symbol: market,
+            type: Math.random() > 0.5 ? 'BUY' : 'SELL',
+            quantity: Math.random() * 0.1,
+            entryPrice: 1000 + Math.random() * 100,
+            strategy,
+            timestamp: new Date().toISOString()
+        };
+
+        res.json(trade);
     } catch (error) {
-        logger.error('Error updating strategy:', error);
-        res.status(500).json({ error: 'Failed to update strategy' });
+        logger.error('Error executing trade:', error);
+        res.status(500).json({ error: 'Failed to execute trade' });
     }
 });
 
-router.get('/risk-assessment', async (req, res) => {
-    try {
-        const { market } = req.query;
-        
-        if (!market) {
-            return res.status(400).json({ 
-                error: 'Market parameter is required' 
-            });
-        }
-
-        const assessment = await trader.riskManager.assessRisk({
-            market,
-            portfolio: await trader.getPortfolio()
-        });
-        
-        res.json(assessment);
-    } catch (error) {
-        logger.error('Error performing risk assessment:', error);
-        res.status(500).json({ error: 'Failed to perform risk assessment' });
-    }
-});
-
-router.get('/market-data', async (req, res) => {
+// Get market data
+router.get('/market-data', (req, res) => {
     try {
         const { symbol, interval } = req.query;
         
         if (!symbol) {
-            return res.status(400).json({ 
-                error: 'Symbol parameter is required' 
-            });
+            return res.status(400).json({ error: 'Symbol parameter is required' });
         }
 
-        const marketData = await trader.binance.getMarketData(symbol, interval);
-        res.json(marketData);
+        // Generate mock market data
+        const data = {
+            symbol,
+            interval: interval || '1h',
+            prices: Array.from({ length: 100 }, (_, i) => ({
+                timestamp: new Date(Date.now() - i * 3600000).toISOString(),
+                price: 1000 + Math.random() * 100,
+                volume: Math.random() * 1000
+            }))
+        };
+
+        res.json(data);
     } catch (error) {
         logger.error('Error fetching market data:', error);
         res.status(500).json({ error: 'Failed to fetch market data' });
+    }
+});
+
+// Get risk assessment
+router.get('/risk-assessment', (req, res) => {
+    try {
+        const { market } = req.query;
+        
+        if (!market) {
+            return res.status(400).json({ error: 'Market parameter is required' });
+        }
+
+        // Generate mock risk assessment
+        const assessment = {
+            market,
+            riskScore: Math.random(),
+            metrics: {
+                volatility: Math.random() * 20,
+                exposure: Math.random() * 100,
+                correlation: Math.random() * 2 - 1
+            },
+            recommendations: {
+                maxPosition: Math.random() * 1000,
+                stopLoss: Math.random() * 5,
+                takeProfit: Math.random() * 10
+            }
+        };
+
+        res.json(assessment);
+    } catch (error) {
+        logger.error('Error performing risk assessment:', error);
+        res.status(500).json({ error: 'Failed to perform risk assessment' });
     }
 });
 

@@ -1,3 +1,0 @@
-nodes:
- BACKEND:ASYNCAPI::DEFINE:
-  desc: generate asyncAPI specs for realtime websockets (if applies)

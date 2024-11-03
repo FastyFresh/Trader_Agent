@@ -3,7 +3,10 @@ const logger = require('../utils/logger');
 
 async function setupDatabase() {
     try {
-        await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/trader_agent', {
+        // MongoDB connection URL - you can modify this to use a cloud-hosted MongoDB
+        const mongoUrl = process.env.MONGODB_URI || 'mongodb://localhost:27017/trader_agent';
+
+        await mongoose.connect(mongoUrl, {
             useNewUrlParser: true,
             useUnifiedTopology: true
         });
