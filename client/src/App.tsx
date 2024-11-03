@@ -1,6 +1,12 @@
 import { useState, useEffect } from 'react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { Routes, Route } from 'react-router-dom'
 import Dashboard from './components/Dashboard'
+import Trading from './components/Trading'
+import Analytics from './components/Analytics'
+import RiskManagement from './components/RiskManagement'
+import Performance from './components/Performance'
+import Settings from './components/Settings'
 import Sidebar from './components/Sidebar'
 import Header from './components/Header'
 
@@ -41,7 +47,14 @@ function App() {
               isSidebarOpen ? 'ml-64' : 'ml-0'
             } mt-16`}
           >
-            <Dashboard />
+            <Routes>
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/trading" element={<Trading />} />
+              <Route path="/analytics" element={<Analytics />} />
+              <Route path="/risk" element={<RiskManagement />} />
+              <Route path="/performance" element={<Performance />} />
+              <Route path="/settings" element={<Settings />} />
+            </Routes>
           </main>
         </div>
       </div>
