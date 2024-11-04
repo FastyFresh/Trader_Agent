@@ -9,7 +9,7 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: process.env.CLIENT_URL,
+  origin: '*',  // Allow all origins temporarily for development
   credentials: true
 }));
 app.use(express.json());
@@ -27,6 +27,12 @@ const wss = new WebSocket.Server({ noServer: true });
 
 wss.on('connection', function connection(ws) {
   logger.info('New WebSocket connection established');
+
+  // Send initial market data
+  ws.send(JSON.stringify({
+    type: 'market_update',
+    data: generateMarketData()
+  }));
 
   // Handle incoming messages
   ws.on('message', function incoming(message) {
@@ -53,12 +59,6 @@ wss.on('connection', function connection(ws) {
       }));
     }
   });
-
-  // Send initial market data
-  ws.send(JSON.stringify({
-    type: 'market_update',
-    data: generateMarketData()
-  }));
 
   // Set up periodic updates
   const interval = setInterval(() => {

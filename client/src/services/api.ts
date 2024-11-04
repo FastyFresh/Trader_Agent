@@ -1,99 +1,107 @@
-import { io } from 'socket.io-client'
+import { Socket } from 'socket.io-client';
+import socketIOClient from 'socket.io-client';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api'
-const WS_URL = import.meta.env.VITE_WS_URL || 'ws://localhost:3000'
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+const WS_URL = import.meta.env.VITE_WS_URL || 'ws://localhost:3000';
 
-// Initialize WebSocket connection
-export const socket = io(WS_URL, {
-  autoConnect: true,
-  reconnection: true,
-  reconnectionDelay: 1000,
-  reconnectionDelayMax: 5000,
-  reconnectionAttempts: 5
-})
+let socket: Socket;
 
-// API endpoints
+export interface MarketData {
+  symbol: string;
+  price: number;
+  change24h: number;
+  volume24h: number;
+}
+
+export interface TradeSignal {
+  type: 'long' | 'short';
+  symbol: string;
+  price: number;
+  timestamp: number;
+}
+
+export interface PortfolioUpdate {
+  balance: number;
+  positions: any[];
+  performance: {
+    daily: number;
+    weekly: number;
+    monthly: number;
+  };
+}
+
+// API Functions
 export const api = {
-  // Portfolio endpoints
-  getPortfolio: async () => {
-    const response = await fetch(`${API_URL}/trading/portfolio`)
-    return response.json()
+  init() {
+    socket = socketIOClient(WS_URL);
+    
+    socket.on('connect', () => {
+      console.log('Connected to trading server');
+    });
+
+    socket.on('disconnect', () => {
+      console.log('Disconnected from trading server');
+    });
+
+    socket.on('error', (error: any) => {
+      console.error('Socket error:', error);
+    });
+
+    return socket;
   },
 
-  getPerformance: async () => {
-    const response = await fetch(`${API_URL}/trading/performance`)
-    return response.json()
+  subscribeToMarketData(callback: (data: MarketData) => void) {
+    socket.on('market_update', (data: MarketData) => {
+      callback(data);
+    });
   },
 
-  // Trading endpoints
-  getActiveTrades: async () => {
-    const response = await fetch(`${API_URL}/trading/active-trades`)
-    return response.json()
+  subscribeToTradeSignals(callback: (signal: TradeSignal) => void) {
+    socket.on('trade_signal', (data: TradeSignal) => {
+      callback(data);
+    });
   },
 
-  executeStrategy: async (strategy: string, market: string) => {
-    const response = await fetch(`${API_URL}/trading/execute-trade`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ strategy, market })
-    })
-    return response.json()
+  subscribeToPortfolio(callback: (update: PortfolioUpdate) => void) {
+    socket.on('portfolio_update', (data: PortfolioUpdate) => {
+      callback(data);
+    });
   },
 
-  getStrategies: async () => {
-    const response = await fetch(`${API_URL}/trading/strategies`)
-    return response.json()
+  async getMarkets() {
+    const response = await fetch(`${API_URL}/api/markets`);
+    return response.json();
   },
 
-  // Risk management endpoints
-  getRiskAssessment: async (market: string) => {
-    const response = await fetch(`${API_URL}/trading/risk-assessment?market=${market}`)
-    return response.json()
+  async getBalance() {
+    const response = await fetch(`${API_URL}/api/balance`);
+    return response.json();
   },
 
-  getMarketData: async (symbol: string, interval?: string) => {
-    const response = await fetch(
-      `${API_URL}/trading/market-data?symbol=${symbol}${interval ? `&interval=${interval}` : ''}`
-    )
-    return response.json()
+  async getStrategies() {
+    const response = await fetch(`${API_URL}/api/strategies`);
+    return response.json();
+  },
+
+  async activateStrategy(id: string) {
+    const response = await fetch(`${API_URL}/api/strategies/${id}/activate`, {
+      method: 'POST'
+    });
+    return response.json();
+  },
+
+  async deactivateStrategy(id: string) {
+    const response = await fetch(`${API_URL}/api/strategies/${id}/deactivate`, {
+      method: 'POST'
+    });
+    return response.json();
+  },
+
+  disconnect() {
+    if (socket) {
+      socket.disconnect();
+    }
   }
-}
+};
 
-// WebSocket event listeners
-socket.on('connect', () => {
-  console.log('WebSocket connected')
-})
-
-socket.on('disconnect', () => {
-  console.log('WebSocket disconnected')
-})
-
-socket.on('market_update', (data) => {
-  console.log('Market update:', data)
-})
-
-socket.on('trade_signal', (data) => {
-  console.log('Trade signal:', data)
-})
-
-socket.on('portfolio_update', (data) => {
-  console.log('Portfolio update:', data)
-})
-
-socket.on('error', (error) => {
-  console.error('WebSocket error:', error)
-})
-
-// Subscribe to market updates
-export const subscribeToMarket = (symbol: string) => {
-  socket.emit('subscribe_market', symbol)
-}
-
-// Unsubscribe from market updates
-export const unsubscribeFromMarket = (symbol: string) => {
-  socket.emit('unsubscribe_market', symbol)
-}
-
-export default api
+export default api;

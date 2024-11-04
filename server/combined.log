@@ -1632,3 +1632,93 @@
 {"level":"info","message":"Server running on port 3000","timestamp":"2024-11-04T03:48:08.209Z"}
 {"level":"info","message":"WebSocket server available at ws://localhost:3000","timestamp":"2024-11-04T03:48:08.210Z"}
 {"level":"info","message":"REST API available at http://localhost:3000/api","timestamp":"2024-11-04T03:48:08.210Z"}
+{"level":"info","message":"Initializing Drift service...","timestamp":"2024-11-04T03:52:18.816Z"}
+{"level":"info","message":"Using simulated mode","timestamp":"2024-11-04T03:52:18.821Z"}
+{"level":"info","message":"Initializing simulated environment","timestamp":"2024-11-04T03:52:18.822Z"}
+{"level":"info","message":"Market service initialized with Drift Protocol","timestamp":"2024-11-04T03:52:18.823Z"}
+{"level":"info","message":"Market service initialized","timestamp":"2024-11-04T03:52:18.823Z"}
+{"level":"info","message":"Strategy manager initialized","timestamp":"2024-11-04T03:52:18.824Z"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2024-11-04T03:52:18.825Z"}
+{"level":"info","message":"WebSocket server available at ws://localhost:3000","timestamp":"2024-11-04T03:52:18.826Z"}
+{"level":"info","message":"REST API available at http://localhost:3000/api","timestamp":"2024-11-04T03:52:18.826Z"}
+{"level":"info","message":"Initializing Drift service...","timestamp":"2024-11-04T03:53:10.544Z"}
+{"level":"info","message":"Using simulated mode","timestamp":"2024-11-04T03:53:10.549Z"}
+{"level":"info","message":"Initializing simulated environment","timestamp":"2024-11-04T03:53:10.550Z"}
+{"level":"info","message":"Market service initialized with Drift Protocol","timestamp":"2024-11-04T03:53:10.551Z"}
+{"level":"info","message":"Market service initialized","timestamp":"2024-11-04T03:53:10.551Z"}
+{"level":"info","message":"Strategy manager initialized","timestamp":"2024-11-04T03:53:10.552Z"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2024-11-04T03:53:10.554Z"}
+{"level":"info","message":"WebSocket server available at ws://localhost:3000","timestamp":"2024-11-04T03:53:10.555Z"}
+{"level":"info","message":"REST API available at http://localhost:3000/api","timestamp":"2024-11-04T03:53:10.556Z"}
+{"level":"info","message":"Initializing Drift service...","timestamp":"2024-11-04T03:53:18.627Z"}
+{"level":"info","message":"Using simulated mode","timestamp":"2024-11-04T03:53:18.633Z"}
+{"level":"info","message":"Initializing simulated environment","timestamp":"2024-11-04T03:53:18.633Z"}
+{"level":"info","message":"Market service initialized with Drift Protocol","timestamp":"2024-11-04T03:53:18.638Z"}
+{"level":"info","message":"Market service initialized","timestamp":"2024-11-04T03:53:18.638Z"}
+{"level":"info","message":"Strategy manager initialized","timestamp":"2024-11-04T03:53:18.638Z"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2024-11-04T03:53:18.641Z"}
+{"level":"info","message":"WebSocket server available at ws://localhost:3000","timestamp":"2024-11-04T03:53:18.641Z"}
+{"level":"info","message":"REST API available at http://localhost:3000/api","timestamp":"2024-11-04T03:53:18.642Z"}
+{"level":"info","message":"Initializing Drift service...","timestamp":"2024-11-04T03:53:58.672Z"}
+{"level":"info","message":"Using simulated mode","timestamp":"2024-11-04T03:53:58.678Z"}
+{"level":"info","message":"Initializing simulated environment","timestamp":"2024-11-04T03:53:58.678Z"}
+{"level":"info","message":"Market service initialized with Drift Protocol","timestamp":"2024-11-04T03:53:58.680Z"}
+{"level":"info","message":"Market service initialized","timestamp":"2024-11-04T03:53:58.680Z"}
+{"level":"info","message":"Strategy manager initialized","timestamp":"2024-11-04T03:53:58.681Z"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2024-11-04T03:53:58.684Z"}
+{"level":"info","message":"WebSocket server available at ws://localhost:3000","timestamp":"2024-11-04T03:53:58.684Z"}
+{"level":"info","message":"REST API available at http://localhost:3000/api","timestamp":"2024-11-04T03:53:58.685Z"}
+{"level":"info","message":"Initializing Drift service...","timestamp":"2024-11-04T03:57:19.401Z"}
+{"level":"info","message":"Using simulated mode","timestamp":"2024-11-04T03:57:19.406Z"}
+{"level":"info","message":"Initializing simulated environment","timestamp":"2024-11-04T03:57:19.406Z"}
+{"level":"info","message":"Market service initialized with Drift Protocol","timestamp":"2024-11-04T03:57:19.407Z"}
+{"level":"info","message":"Market service initialized","timestamp":"2024-11-04T03:57:19.408Z"}
+{"level":"info","message":"Strategy manager initialized","timestamp":"2024-11-04T03:57:19.408Z"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2024-11-04T03:57:19.410Z"}
+{"level":"info","message":"WebSocket server available at ws://localhost:3000","timestamp":"2024-11-04T03:57:19.410Z"}
+{"level":"info","message":"REST API available at http://localhost:3000/api","timestamp":"2024-11-04T03:57:19.411Z"}
+{"level":"info","message":"Initializing Drift service...","timestamp":"2024-11-04T04:01:41.404Z"}
+{"level":"info","message":"Using simulated mode","timestamp":"2024-11-04T04:01:41.408Z"}
+{"level":"info","message":"Initializing simulated environment","timestamp":"2024-11-04T04:01:41.408Z"}
+{"level":"info","message":"Market service initialized with Drift Protocol","timestamp":"2024-11-04T04:01:41.410Z"}
+{"level":"info","message":"Market service initialized","timestamp":"2024-11-04T04:01:41.411Z"}
+{"level":"info","message":"Strategy manager initialized","timestamp":"2024-11-04T04:01:41.411Z"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2024-11-04T04:01:41.413Z"}
+{"level":"info","message":"WebSocket server available at ws://localhost:3000","timestamp":"2024-11-04T04:01:41.413Z"}
+{"level":"info","message":"REST API available at http://localhost:3000/api","timestamp":"2024-11-04T04:01:41.413Z"}
+{"level":"info","message":"Initializing Drift service...","timestamp":"2024-11-04T04:04:16.337Z"}
+{"level":"info","message":"Using simulated mode","timestamp":"2024-11-04T04:04:16.341Z"}
+{"level":"info","message":"Initializing simulated environment","timestamp":"2024-11-04T04:04:16.341Z"}
+{"level":"info","message":"Market service initialized with Drift Protocol","timestamp":"2024-11-04T04:04:16.343Z"}
+{"level":"info","message":"Market service initialized","timestamp":"2024-11-04T04:04:16.343Z"}
+{"level":"info","message":"Strategy manager initialized","timestamp":"2024-11-04T04:04:16.343Z"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2024-11-04T04:04:16.346Z"}
+{"level":"info","message":"WebSocket server available at ws://localhost:3000","timestamp":"2024-11-04T04:04:16.346Z"}
+{"level":"info","message":"REST API available at http://localhost:3000/api","timestamp":"2024-11-04T04:04:16.346Z"}
+{"level":"info","message":"Initializing Drift service...","timestamp":"2024-11-04T04:15:24.389Z"}
+{"level":"info","message":"Using simulated mode","timestamp":"2024-11-04T04:15:24.397Z"}
+{"level":"info","message":"Initializing simulated environment","timestamp":"2024-11-04T04:15:24.397Z"}
+{"level":"info","message":"Market service initialized with Drift Protocol","timestamp":"2024-11-04T04:15:24.399Z"}
+{"level":"info","message":"Market service initialized","timestamp":"2024-11-04T04:15:24.399Z"}
+{"level":"info","message":"Strategy manager initialized","timestamp":"2024-11-04T04:15:24.399Z"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2024-11-04T04:15:24.401Z"}
+{"level":"info","message":"WebSocket server available at ws://localhost:3000","timestamp":"2024-11-04T04:15:24.401Z"}
+{"level":"info","message":"REST API available at http://localhost:3000/api","timestamp":"2024-11-04T04:15:24.402Z"}
+{"level":"info","message":"Initializing Drift service...","timestamp":"2024-11-04T04:37:14.202Z"}
+{"level":"info","message":"Using simulated mode","timestamp":"2024-11-04T04:37:14.208Z"}
+{"level":"info","message":"Initializing simulated environment","timestamp":"2024-11-04T04:37:14.208Z"}
+{"level":"info","message":"Market service initialized with Drift Protocol","timestamp":"2024-11-04T04:37:14.209Z"}
+{"level":"info","message":"Market service initialized","timestamp":"2024-11-04T04:37:14.210Z"}
+{"level":"info","message":"Strategy manager initialized","timestamp":"2024-11-04T04:37:14.210Z"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2024-11-04T04:37:14.212Z"}
+{"level":"info","message":"WebSocket server available at ws://localhost:3000","timestamp":"2024-11-04T04:37:14.212Z"}
+{"level":"info","message":"REST API available at http://localhost:3000/api","timestamp":"2024-11-04T04:37:14.212Z"}
+{"level":"info","message":"Initializing Drift service...","timestamp":"2024-11-04T04:37:38.395Z"}
+{"level":"info","message":"Using simulated mode","timestamp":"2024-11-04T04:37:38.399Z"}
+{"level":"info","message":"Initializing simulated environment","timestamp":"2024-11-04T04:37:38.400Z"}
+{"level":"info","message":"Market service initialized with Drift Protocol","timestamp":"2024-11-04T04:37:38.401Z"}
+{"level":"info","message":"Market service initialized","timestamp":"2024-11-04T04:37:38.401Z"}
+{"level":"info","message":"Strategy manager initialized","timestamp":"2024-11-04T04:37:38.402Z"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2024-11-04T04:37:38.404Z"}
+{"level":"info","message":"WebSocket server available at ws://localhost:3000","timestamp":"2024-11-04T04:37:38.405Z"}
+{"level":"info","message":"REST API available at http://localhost:3000/api","timestamp":"2024-11-04T04:37:38.405Z"}
