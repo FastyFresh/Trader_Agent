@@ -1,0 +1,31 @@
+tasks:
+  - name: Frontend
+    init: |
+      cd client
+      npm install
+    command: |
+      cd client
+      npm run dev
+
+  - name: Backend
+    init: |
+      cd server
+      npm install
+    command: |
+      cd server
+      npm run dev
+
+ports:
+  - port: 3000
+    onOpen: open-preview
+    visibility: public
+  - port: 4000
+    onOpen: ignore
+    visibility: public
+
+vscode:
+  extensions:
+    - dbaeumer.vscode-eslint
+    - esbenp.prettier-vscode
+    - dsznajder.es7-react-js-snippets
+    - bradlc.vscode-tailwindcss
