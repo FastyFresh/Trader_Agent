@@ -1722,3 +1722,62 @@
 {"level":"info","message":"Server running on port 3000","timestamp":"2024-11-04T04:37:38.404Z"}
 {"level":"info","message":"WebSocket server available at ws://localhost:3000","timestamp":"2024-11-04T04:37:38.405Z"}
 {"level":"info","message":"REST API available at http://localhost:3000/api","timestamp":"2024-11-04T04:37:38.405Z"}
+{"level":"info","message":"Initializing Drift service...","timestamp":"2024-11-04T04:43:27.586Z"}
+{"level":"info","message":"Using simulated mode","timestamp":"2024-11-04T04:43:27.591Z"}
+{"level":"info","message":"Initializing simulated environment","timestamp":"2024-11-04T04:43:27.592Z"}
+{"level":"info","message":"Market service initialized with Drift Protocol","timestamp":"2024-11-04T04:43:27.593Z"}
+{"level":"info","message":"Market service initialized","timestamp":"2024-11-04T04:43:27.594Z"}
+{"level":"info","message":"Strategy manager initialized","timestamp":"2024-11-04T04:43:27.594Z"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2024-11-04T04:43:27.596Z"}
+{"level":"info","message":"WebSocket server available at ws://localhost:3000","timestamp":"2024-11-04T04:43:27.596Z"}
+{"level":"info","message":"REST API available at http://localhost:3000/api","timestamp":"2024-11-04T04:43:27.597Z"}
+{"level":"info","message":"Initializing Drift service...","timestamp":"2024-11-04T04:43:27.586Z"}
+{"level":"info","message":"Using simulated mode","timestamp":"2024-11-04T04:43:27.592Z"}
+{"level":"info","message":"Initializing simulated environment","timestamp":"2024-11-04T04:43:27.592Z"}
+{"level":"info","message":"Market service initialized with Drift Protocol","timestamp":"2024-11-04T04:43:27.594Z"}
+{"level":"info","message":"Market service initialized","timestamp":"2024-11-04T04:43:27.594Z"}
+{"level":"info","message":"Strategy manager initialized","timestamp":"2024-11-04T04:43:27.594Z"}
+{"address":"::","code":"EADDRINUSE","errno":-48,"level":"error","message":"Server error: listen EADDRINUSE: address already in use :::3000","port":3000,"stack":"Error: listen EADDRINUSE: address already in use :::3000\n    at Server.setupListenHandle [as _listen2] (node:net:1912:16)\n    at listenInCluster (node:net:1969:12)\n    at Server.listen (node:net:2074:7)\n    at Function.listen (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/express/lib/application.js:635:24)\n    at startServer (/Users/rickrichman/Desktop/Trader_Agent/server/src/server.js:171:24)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","syscall":"listen","timestamp":"2024-11-04T04:43:27.596Z"}
+{"level":"info","message":"Initializing Drift service...","timestamp":"2024-11-04T04:43:27.586Z"}
+{"level":"info","message":"Using simulated mode","timestamp":"2024-11-04T04:43:27.593Z"}
+{"level":"info","message":"Initializing simulated environment","timestamp":"2024-11-04T04:43:27.593Z"}
+{"level":"info","message":"Market service initialized with Drift Protocol","timestamp":"2024-11-04T04:43:27.595Z"}
+{"level":"info","message":"Market service initialized","timestamp":"2024-11-04T04:43:27.595Z"}
+{"level":"info","message":"Strategy manager initialized","timestamp":"2024-11-04T04:43:27.595Z"}
+{"address":"::","code":"EADDRINUSE","errno":-48,"level":"error","message":"Server error: listen EADDRINUSE: address already in use :::3000","port":3000,"stack":"Error: listen EADDRINUSE: address already in use :::3000\n    at Server.setupListenHandle [as _listen2] (node:net:1912:16)\n    at listenInCluster (node:net:1969:12)\n    at Server.listen (node:net:2074:7)\n    at Function.listen (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/express/lib/application.js:635:24)\n    at startServer (/Users/rickrichman/Desktop/Trader_Agent/server/src/server.js:171:24)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","syscall":"listen","timestamp":"2024-11-04T04:43:27.598Z"}
+{"level":"info","message":"Initializing Drift service...","timestamp":"2024-11-04T04:43:27.586Z"}
+{"level":"info","message":"Using simulated mode","timestamp":"2024-11-04T04:43:27.594Z"}
+{"level":"info","message":"Initializing simulated environment","timestamp":"2024-11-04T04:43:27.594Z"}
+{"level":"info","message":"Market service initialized with Drift Protocol","timestamp":"2024-11-04T04:43:27.596Z"}
+{"level":"info","message":"Market service initialized","timestamp":"2024-11-04T04:43:27.596Z"}
+{"level":"info","message":"Strategy manager initialized","timestamp":"2024-11-04T04:43:27.596Z"}
+{"address":"::","code":"EADDRINUSE","errno":-48,"level":"error","message":"Server error: listen EADDRINUSE: address already in use :::3000","port":3000,"stack":"Error: listen EADDRINUSE: address already in use :::3000\n    at Server.setupListenHandle [as _listen2] (node:net:1912:16)\n    at listenInCluster (node:net:1969:12)\n    at Server.listen (node:net:2074:7)\n    at Function.listen (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/express/lib/application.js:635:24)\n    at startServer (/Users/rickrichman/Desktop/Trader_Agent/server/src/server.js:171:24)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","syscall":"listen","timestamp":"2024-11-04T04:43:27.599Z"}
+{"level":"info","message":"Initializing Drift service...","timestamp":"2024-11-04T04:43:27.588Z"}
+{"level":"info","message":"Using simulated mode","timestamp":"2024-11-04T04:43:27.608Z"}
+{"level":"info","message":"Initializing simulated environment","timestamp":"2024-11-04T04:43:27.609Z"}
+{"level":"info","message":"Market service initialized with Drift Protocol","timestamp":"2024-11-04T04:43:27.611Z"}
+{"level":"info","message":"Market service initialized","timestamp":"2024-11-04T04:43:27.612Z"}
+{"level":"info","message":"Strategy manager initialized","timestamp":"2024-11-04T04:43:27.612Z"}
+{"address":"::","code":"EADDRINUSE","errno":-48,"level":"error","message":"Server error: listen EADDRINUSE: address already in use :::3000","port":3000,"stack":"Error: listen EADDRINUSE: address already in use :::3000\n    at Server.setupListenHandle [as _listen2] (node:net:1912:16)\n    at listenInCluster (node:net:1969:12)\n    at Server.listen (node:net:2074:7)\n    at Function.listen (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/express/lib/application.js:635:24)\n    at startServer (/Users/rickrichman/Desktop/Trader_Agent/server/src/server.js:171:24)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","syscall":"listen","timestamp":"2024-11-04T04:43:27.615Z"}
+{"level":"info","message":"Initializing Drift service...","timestamp":"2024-11-04T04:43:27.588Z"}
+{"level":"info","message":"Using simulated mode","timestamp":"2024-11-04T04:43:27.621Z"}
+{"level":"info","message":"Initializing simulated environment","timestamp":"2024-11-04T04:43:27.621Z"}
+{"level":"info","message":"Market service initialized with Drift Protocol","timestamp":"2024-11-04T04:43:27.623Z"}
+{"level":"info","message":"Market service initialized","timestamp":"2024-11-04T04:43:27.624Z"}
+{"level":"info","message":"Strategy manager initialized","timestamp":"2024-11-04T04:43:27.625Z"}
+{"address":"::","code":"EADDRINUSE","errno":-48,"level":"error","message":"Server error: listen EADDRINUSE: address already in use :::3000","port":3000,"stack":"Error: listen EADDRINUSE: address already in use :::3000\n    at Server.setupListenHandle [as _listen2] (node:net:1912:16)\n    at listenInCluster (node:net:1969:12)\n    at Server.listen (node:net:2074:7)\n    at Function.listen (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/express/lib/application.js:635:24)\n    at startServer (/Users/rickrichman/Desktop/Trader_Agent/server/src/server.js:171:24)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","syscall":"listen","timestamp":"2024-11-04T04:43:27.628Z"}
+{"level":"info","message":"Initializing Drift service...","timestamp":"2024-11-04T04:43:27.588Z"}
+{"level":"info","message":"Using simulated mode","timestamp":"2024-11-04T04:43:27.607Z"}
+{"level":"info","message":"Initializing simulated environment","timestamp":"2024-11-04T04:43:27.607Z"}
+{"level":"info","message":"Market service initialized with Drift Protocol","timestamp":"2024-11-04T04:43:27.609Z"}
+{"level":"info","message":"Market service initialized","timestamp":"2024-11-04T04:43:27.609Z"}
+{"level":"info","message":"Strategy manager initialized","timestamp":"2024-11-04T04:43:27.609Z"}
+{"address":"::","code":"EADDRINUSE","errno":-48,"level":"error","message":"Server error: listen EADDRINUSE: address already in use :::3000","port":3000,"stack":"Error: listen EADDRINUSE: address already in use :::3000\n    at Server.setupListenHandle [as _listen2] (node:net:1912:16)\n    at listenInCluster (node:net:1969:12)\n    at Server.listen (node:net:2074:7)\n    at Function.listen (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/express/lib/application.js:635:24)\n    at startServer (/Users/rickrichman/Desktop/Trader_Agent/server/src/server.js:171:24)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","syscall":"listen","timestamp":"2024-11-04T04:43:27.612Z"}
+{"level":"info","message":"Initializing Drift service...","timestamp":"2024-11-04T04:43:27.589Z"}
+{"level":"info","message":"Using simulated mode","timestamp":"2024-11-04T04:43:27.634Z"}
+{"level":"info","message":"Initializing simulated environment","timestamp":"2024-11-04T04:43:27.635Z"}
+{"level":"info","message":"Market service initialized with Drift Protocol","timestamp":"2024-11-04T04:43:27.637Z"}
+{"level":"info","message":"Market service initialized","timestamp":"2024-11-04T04:43:27.637Z"}
+{"level":"info","message":"Strategy manager initialized","timestamp":"2024-11-04T04:43:27.638Z"}
+{"address":"::","code":"EADDRINUSE","errno":-48,"level":"error","message":"Server error: listen EADDRINUSE: address already in use :::3000","port":3000,"stack":"Error: listen EADDRINUSE: address already in use :::3000\n    at Server.setupListenHandle [as _listen2] (node:net:1912:16)\n    at listenInCluster (node:net:1969:12)\n    at Server.listen (node:net:2074:7)\n    at Function.listen (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/express/lib/application.js:635:24)\n    at startServer (/Users/rickrichman/Desktop/Trader_Agent/server/src/server.js:171:24)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","syscall":"listen","timestamp":"2024-11-04T04:43:27.643Z"}
+{"level":"info","message":"Health check request received","timestamp":"2024-11-04T04:45:08.354Z"}
