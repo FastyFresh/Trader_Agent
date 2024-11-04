@@ -1,35 +1,9 @@
-import { useState } from 'react';
+import { useWallet } from '@solana/wallet-adapter-react';
+import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { useTrading } from '../hooks/useTrading';
 
 const queryClient = new QueryClient();
-
-interface TradingStats {
-  accountBalance: number;
-  equity: number;
-  totalPnL: number;
-  pnL24h: number;
-  pnL7d: number;
-  winRate: number;
-  totalTrades: number;
-  accountHealth: number;
-  availableMargin: number;
-  currentGoal: number;
-  progressToGoal: number;
-}
-
-const initialStats: TradingStats = {
-  accountBalance: 0,
-  equity: 0,
-  totalPnL: 0,
-  pnL24h: 0,
-  pnL7d: 0,
-  winRate: 0,
-  totalTrades: 0,
-  accountHealth: 0,
-  availableMargin: 0,
-  currentGoal: 0,
-  progressToGoal: 0
-};
 
 const tradingParameters = {
   maxPositionSize: 1000,
@@ -41,28 +15,8 @@ const tradingParameters = {
 const targetGoal = 1000000;
 
 const Launcher = () => {
-  const [isConnected, setIsConnected] = useState(false);
-  const [walletAddress, setWalletAddress] = useState<string | null>(null);
-  const [stats, setStats] = useState<TradingStats>(initialStats);
-
-  const handleConnect = async () => {
-    try {
-      // Check if Phantom is available
-      const { solana } = window as any;
-
-      if (!solana?.isPhantom) {
-        throw new Error('Phantom wallet not found! Get it from https://phantom.app/');
-      }
-
-      // Connect to Phantom
-      const response = await solana.connect();
-      console.log('Connected with Public Key:', response.publicKey.toString());
-      setWalletAddress(response.publicKey.toString());
-      setIsConnected(true);
-    } catch (error) {
-      console.error('Error connecting:', error);
-    }
-  };
+  const { publicKey } = useWallet();
+  const { stats, isTrading, error, startTrading } = useTrading();
 
   const formatAddress = (address: string) => {
     return `${address.slice(0, 4)}...${address.slice(-4)}`;
@@ -84,6 +38,10 @@ const Launcher = () => {
     }).format(value / 100);
   };
 
+  const handleStartTrading = async () => {
+    await startTrading();
+  };
+
   return (
     <QueryClientProvider client={queryClient}>
       <div className="bg-gray-900 min-h-screen text-white p-8">
@@ -91,16 +49,14 @@ const Launcher = () => {
           <div className="text-center mb-8">
             <h1 className="text-4xl font-bold mb-2">Trader Agent</h1>
             <p className="text-gray-400">Beta</p>
+            {error && (
+              <p className="mt-2 text-red-500">{error}</p>
+            )}
           </div>
 
-          {!isConnected ? (
+          {!publicKey ? (
             <div className="max-w-md mx-auto text-center">
-              <button
-                onClick={handleConnect}
-                className="w-full bg-purple-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-purple-700 transition duration-200"
-              >
-                Connect Wallet
-              </button>
+              <WalletMultiButton className="w-full bg-purple-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-purple-700 transition duration-200" />
             </div>
           ) : (
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -109,7 +65,7 @@ const Launcher = () => {
                 <div className="bg-gray-800 rounded-lg p-6">
                   <div className="text-green-400 font-semibold mb-4">System Online</div>
                   <div className="text-gray-300 mb-4">
-                    Connected: {walletAddress && formatAddress(walletAddress)}
+                    Connected: {formatAddress(publicKey.toString())}
                   </div>
                   <div className="text-2xl font-bold mb-4">{formatCurrency(targetGoal)}</div>
                   <div className="text-gray-400 mb-6">Target Goal</div>
@@ -152,9 +108,17 @@ const Launcher = () => {
                   </div>
 
                   <button
-                    className="w-full bg-green-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-green-700 transition duration-200"
+                    onClick={handleStartTrading}
+                    disabled={isTrading}
+                    className={`
+                      w-full font-semibold py-3 px-6 rounded-lg transition duration-200
+                      ${isTrading 
+                        ? 'bg-gray-600 cursor-not-allowed' 
+                        : 'bg-green-600 hover:bg-green-700'
+                      }
+                    `}
                   >
-                    Start Trading
+                    {isTrading ? 'Trading Active' : 'Start Trading'}
                   </button>
                 </div>
 

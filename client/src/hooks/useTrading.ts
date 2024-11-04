@@ -1,241 +1,165 @@
-import { useState, useEffect, useCallback } from 'react';
-import { useConnection } from './useConnection';
-import { toast } from 'react-hot-toast';
+import { useState, useCallback, useEffect } from 'react';
+import { useWallet } from '@solana/wallet-adapter-react';
+import { TradingStats, TradeConfig, TradeResponse } from '../types/trading';
 
-interface MarketData {
-  price: number;
-  change24h: number;
-  volume24h: number;
-  fundingRate: number;
-}
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+const WS_URL = import.meta.env.VITE_WS_URL || 'ws://localhost:3000/ws';
 
-interface PositionData {
-  symbol: string;
-  side: 'long' | 'short';
-  size: number;
-  leverage: number;
-  entryPrice: number;
-  markPrice: number;
-  pnl: number;
-  roe: number;
-}
+const initialStats: TradingStats = {
+  accountBalance: 0,
+  equity: 0,
+  totalPnL: 0,
+  pnL24h: 0,
+  pnL7d: 0,
+  winRate: 0,
+  totalTrades: 0,
+  accountHealth: 0,
+  availableMargin: 0,
+  currentGoal: 0,
+  progressToGoal: 0
+};
 
 export const useTrading = () => {
-  const { connected, publicKey } = useConnection();
-  const [isInitialized, setIsInitialized] = useState(false);
+  const { publicKey } = useWallet();
+  const [stats, setStats] = useState<TradingStats>(initialStats);
   const [isTrading, setIsTrading] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [marketData, setMarketData] = useState<MarketData | null>(null);
-  const [positions, setPositions] = useState<PositionData[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const [ws, setWs] = useState<WebSocket | null>(null);
 
-  const handleMarketUpdate = useCallback((data: any) => {
-    if (data.type === 'market_update') {
-      setMarketData(data.payload);
-    } else if (data.type === 'position_update') {
-      setPositions(data.payload);
-    }
-  }, []);
+  const connect = useCallback(() => {
+    if (!publicKey) return;
 
-  useEffect(() => {
-    if (!connected) return;
-
-    let ws: WebSocket | null = null;
-    let reconnectAttempts = 0;
-    const maxReconnectAttempts = 5;
-    const reconnectDelay = 2000; // 2 seconds
-
-    const connect = () => {
-      // Close existing connection if any
-      if (ws) {
-        ws.close();
-      }
-
-      ws = new WebSocket('ws://localhost:3000');
-      
-      ws.onopen = () => {
-        console.log('WebSocket connected');
-        toast.success('Connected to trading server');
-        reconnectAttempts = 0;
-      };
-
-      ws.onmessage = (event) => {
-        try {
-          const data = JSON.parse(event.data);
-          handleMarketUpdate(data);
-        } catch (error) {
-          console.error('Error parsing WebSocket message:', error);
-        }
-      };
-
-      ws.onerror = (error) => {
-        console.error('WebSocket error:', error);
-      };
-
-      ws.onclose = () => {
-        console.log('WebSocket disconnected');
-        
-        if (connected && reconnectAttempts < maxReconnectAttempts) {
-          console.log(`Reconnecting... Attempt ${reconnectAttempts + 1}`);
-          reconnectAttempts++;
-          setTimeout(connect, reconnectDelay);
-        } else if (reconnectAttempts >= maxReconnectAttempts) {
-          toast.error('Failed to connect to trading server after multiple attempts');
-        }
-      };
+    const socket = new WebSocket(WS_URL);
+    
+    socket.onopen = () => {
+      console.log('WebSocket connected');
+      socket.send(JSON.stringify({
+        type: 'auth',
+        publicKey: publicKey.toString()
+      }));
     };
 
-    // Initial connection
-    connect();
+    socket.onmessage = (event) => {
+      try {
+        const data = JSON.parse(event.data);
+        if (data.type === 'stats') {
+          setStats(data.stats);
+        }
+      } catch (error) {
+        console.error('Error parsing message:', error);
+      }
+    };
 
-    // Cleanup
+    socket.onclose = () => {
+      console.log('WebSocket disconnected');
+      setTimeout(connect, 1000);
+    };
+
+    socket.onerror = (error) => {
+      console.error('WebSocket error:', error);
+      setError('Connection error');
+    };
+
+    setWs(socket);
+
+    return () => {
+      socket.close();
+    };
+  }, [publicKey]);
+
+  useEffect(() => {
+    if (publicKey) {
+      connect();
+    }
     return () => {
       if (ws) {
         ws.close();
       }
     };
-  }, [connected, handleMarketUpdate]);
+  }, [connect, publicKey]);
 
-  const initialize = useCallback(async () => {
-    if (!connected || !publicKey) {
-      toast.error('Please connect your wallet first');
-      return;
-    }
-
+  const placeTrade = async (config: TradeConfig): Promise<TradeResponse> => {
     try {
-      setIsLoading(true);
-
-      // First check if the server is healthy
-      const healthCheck = await fetch('http://localhost:3000/api/health');
-      if (!healthCheck.ok) {
-        throw new Error('Trading server is not responding');
-      }
-
-      const response = await fetch('http://localhost:3000/api/autotrader/initialize', {
+      const response = await fetch(`${API_URL}/api/trade`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          walletPublicKey: publicKey
+          publicKey: publicKey?.toString(),
+          ...config
         })
       });
 
+      const data = await response.json();
       if (!response.ok) {
-        const data = await response.json();
-        throw new Error(data.error || 'Failed to initialize trading');
+        throw new Error(data.error || 'Failed to place trade');
       }
 
-      setIsInitialized(true);
-      toast.success('Trading initialized successfully');
-    } catch (error) {
-      console.error('Error initializing trading:', error);
-      toast.error(error instanceof Error ? error.message : 'Failed to initialize trading');
-      setIsInitialized(false);
-    } finally {
-      setIsLoading(false);
+      return data;
+    } catch (error: any) {
+      console.error('Error placing trade:', error);
+      return {
+        success: false,
+        error: error.message
+      };
     }
-  }, [connected, publicKey]);
+  };
 
   const startTrading = async () => {
-    if (!connected) {
-      toast.error('Wallet not connected');
-      return;
-    }
-
-    if (!isInitialized) {
-      await initialize();
-    }
-
     try {
-      setIsLoading(true);
-      const response = await fetch('http://localhost:3000/api/autotrader/start', {
+      const response = await fetch(`${API_URL}/api/autotrader/start`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          walletPublicKey: publicKey
+          publicKey: publicKey?.toString()
         })
       });
 
+      const data = await response.json();
       if (!response.ok) {
-        const data = await response.json();
         throw new Error(data.error || 'Failed to start trading');
       }
 
       setIsTrading(true);
-      toast.success('Trading started successfully');
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error starting trading:', error);
-      toast.error(error instanceof Error ? error.message : 'Failed to start trading');
-    } finally {
-      setIsLoading(false);
+      setError(error.message);
     }
   };
 
   const stopTrading = async () => {
-    if (!connected) {
-      toast.error('Wallet not connected');
-      return;
-    }
-
     try {
-      setIsLoading(true);
-      const response = await fetch('http://localhost:3000/api/autotrader/stop', {
+      const response = await fetch(`${API_URL}/api/autotrader/stop`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          walletPublicKey: publicKey
+          publicKey: publicKey?.toString()
         })
       });
 
+      const data = await response.json();
       if (!response.ok) {
-        const data = await response.json();
         throw new Error(data.error || 'Failed to stop trading');
       }
 
       setIsTrading(false);
-      toast.success('Trading stopped successfully');
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error stopping trading:', error);
-      toast.error(error instanceof Error ? error.message : 'Failed to stop trading');
-    } finally {
-      setIsLoading(false);
+      setError(error.message);
     }
   };
 
-  const checkHealth = useCallback(async () => {
-    try {
-      const response = await fetch('http://localhost:3000/api/health');
-      if (!response.ok) {
-        throw new Error('Trading server not responding');
-      }
-
-      const data = await response.json();
-      return {
-        healthy: data.status === 'ok',
-        details: data
-      };
-    } catch (error) {
-      console.error('Health check failed:', error);
-      return {
-        healthy: false,
-        error: error instanceof Error ? error.message : 'Failed to check server health'
-      };
-    }
-  }, []);
-
   return {
-    isInitialized,
+    stats,
     isTrading,
-    isLoading,
-    marketData,
-    positions,
-    initialize,
+    error,
+    placeTrade,
     startTrading,
-    stopTrading,
-    checkHealth
+    stopTrading
   };
 };
