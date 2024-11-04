@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect } from 'react';
 import { useWallet, useConnection } from '@solana/wallet-adapter-react';
 import { TradingStats, TradeConfig, TradeResponse } from '../types/trading';
 import { DriftClient, initialize } from '@drift-labs/sdk';
+import { PublicKey } from '@solana/web3.js';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
@@ -28,25 +29,18 @@ export const useTrading = () => {
   const [driftClient, setDriftClient] = useState<DriftClient | null>(null);
 
   const initializeDrift = useCallback(async () => {
-    if (!publicKey || !wallet) return;
+    if (!publicKey || !wallet?.adapter) return;
 
     try {
       setError(null);
       console.log('Initializing Drift client...');
 
-      // Initialize drift SDK
+      // Initialize drift SDK with hardcoded program ID for devnet
+      const programId = new PublicKey('dRiftyHA39MWEi3m9aunc5MzRF1JYuBsbn6VPcn33UH');
+
       await initialize({
         env: 'devnet',
-        connection,
-        wallet: {
-          publicKey,
-          signTransaction: wallet.adapter.signTransaction.bind(wallet.adapter),
-          signAllTransactions: wallet.adapter.signAllTransactions.bind(wallet.adapter),
-        },
-        programID: 'dRiftyHA39MWEi3m9aunc5MzRF1JYuBsbn6VPcn33UH',
-        opts: {
-          commitment: 'confirmed',
-        },
+        programId
       });
 
       // Create drift client
@@ -54,19 +48,26 @@ export const useTrading = () => {
         connection,
         wallet: {
           publicKey,
-          signTransaction: wallet.adapter.signTransaction.bind(wallet.adapter),
-          signAllTransactions: wallet.adapter.signAllTransactions.bind(wallet.adapter),
+          signTransaction: async (tx) => {
+            return await wallet.adapter.signTransaction?.(tx) || tx;
+          },
+          signAllTransactions: async (txs) => {
+            return await wallet.adapter.signAllTransactions?.(txs) || txs;
+          }
         },
-        programID: 'dRiftyHA39MWEi3m9aunc5MzRF1JYuBsbn6VPcn33UH',
+        programID: programId,
         env: 'devnet',
-        opts: {
-          commitment: 'confirmed',
-        },
+        userStats: true,
+        perpMarkets: true,
+        spotMarkets: true,
+        accountSubscription: {
+          type: 'polling',
+          frequency: 1000
+        }
       });
 
-      // Subscribe to drift updates
       await client.subscribe();
-      console.log('Drift client initialized');
+      console.log('Drift client initialized and subscribed');
       setDriftClient(client);
       
     } catch (error: any) {
@@ -76,7 +77,7 @@ export const useTrading = () => {
   }, [publicKey, wallet, connection]);
 
   useEffect(() => {
-    if (publicKey && wallet) {
+    if (publicKey && wallet?.adapter) {
       initializeDrift();
     }
     return () => {
@@ -85,6 +86,35 @@ export const useTrading = () => {
       }
     };
   }, [publicKey, wallet, initializeDrift]);
+
+  const fetchStats = useCallback(async () => {
+    try {
+      const response = await fetch(`${API_URL}/api/stats`, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch stats');
+      }
+
+      const data = await response.json();
+      setStats(data);
+    } catch (error: any) {
+      console.error('Error fetching stats:', error);
+    }
+  }, []);
+
+  useEffect(() => {
+    // Fetch initial stats
+    fetchStats();
+
+    // Set up interval to fetch stats every 5 seconds
+    const interval = setInterval(fetchStats, 5000);
+
+    return () => clearInterval(interval);
+  }, [fetchStats]);
 
   const placeTrade = async (config: TradeConfig): Promise<TradeResponse> => {
     try {
@@ -107,6 +137,9 @@ export const useTrading = () => {
       if (!response.ok) {
         throw new Error(data.error || 'Failed to place trade');
       }
+
+      // Trigger stats update after trade
+      await fetchStats();
 
       return data;
     } catch (error: any) {

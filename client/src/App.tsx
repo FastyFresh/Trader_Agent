@@ -7,10 +7,9 @@ import { clusterApiUrl } from '@solana/web3.js';
 import Launcher from './components/Launcher';
 
 import '@solana/wallet-adapter-react-ui/styles.css';
-import './styles/tailwind.css';
-import './styles/index.css';
+import './index.css';
 
-// Make global available for Solana wallets
+// Required for Solana wallets
 window.global = window;
 
 const App: FC = () => {
