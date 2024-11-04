@@ -8,10 +8,11 @@
   </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
     <script>
       // Required for Solana wallets
-      window.global ||= window;
+      window.global = window;
+      var exports = {};
     </script>
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

@@ -23,6 +23,7 @@
     "@types/socket.io-client": "^1.4.36",
     "bn.js": "^5.2.1",
     "browserify-zlib": "^0.2.0",
+    "buffer": "^6.0.3",
     "lucide-react": "^0.454.0",
     "process": "^0.11.10",
     "react": "^18.2.0",

@@ -5,12 +5,15 @@ import { PhantomWalletAdapter } from '@solana/wallet-adapter-phantom';
 import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
 import { clusterApiUrl } from '@solana/web3.js';
 import Launcher from './components/Launcher';
-
-import '@solana/wallet-adapter-react-ui/styles.css';
-import './index.css';
+import { Buffer } from 'buffer';
 
 // Required for Solana wallets
+window.Buffer = Buffer;
 window.global = window;
+
+// Import styles
+import '@solana/wallet-adapter-react-ui/styles.css';
+import './index.css';
 
 const App: FC = () => {
   const network = WalletAdapterNetwork.Devnet;
@@ -24,7 +27,9 @@ const App: FC = () => {
     <ConnectionProvider endpoint={endpoint}>
       <WalletProvider wallets={wallets} autoConnect>
         <WalletModalProvider>
-          <Launcher />
+          <div className="app-wrapper">
+            <Launcher />
+          </div>
         </WalletModalProvider>
       </WalletProvider>
     </ConnectionProvider>
