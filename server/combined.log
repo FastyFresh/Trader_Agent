@@ -1781,3 +1781,76 @@
 {"level":"info","message":"Strategy manager initialized","timestamp":"2024-11-04T04:43:27.638Z"}
 {"address":"::","code":"EADDRINUSE","errno":-48,"level":"error","message":"Server error: listen EADDRINUSE: address already in use :::3000","port":3000,"stack":"Error: listen EADDRINUSE: address already in use :::3000\n    at Server.setupListenHandle [as _listen2] (node:net:1912:16)\n    at listenInCluster (node:net:1969:12)\n    at Server.listen (node:net:2074:7)\n    at Function.listen (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/express/lib/application.js:635:24)\n    at startServer (/Users/rickrichman/Desktop/Trader_Agent/server/src/server.js:171:24)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","syscall":"listen","timestamp":"2024-11-04T04:43:27.643Z"}
 {"level":"info","message":"Health check request received","timestamp":"2024-11-04T04:45:08.354Z"}
+{"level":"info","message":"Initializing Drift service...","timestamp":"2024-11-04T04:55:34.884Z"}
+{"level":"info","message":"Using simulated mode","timestamp":"2024-11-04T04:55:34.893Z"}
+{"level":"info","message":"Initializing simulated environment","timestamp":"2024-11-04T04:55:34.893Z"}
+{"level":"info","message":"Market service initialized with Drift Protocol","timestamp":"2024-11-04T04:55:34.895Z"}
+{"level":"info","message":"Market service initialized","timestamp":"2024-11-04T04:55:34.896Z"}
+{"level":"info","message":"Strategy manager initialized","timestamp":"2024-11-04T04:55:34.896Z"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2024-11-04T04:55:34.900Z"}
+{"level":"info","message":"WebSocket server will be available at ws://localhost:3000","timestamp":"2024-11-04T04:55:34.900Z"}
+{"level":"info","message":"REST API available at http://localhost:3000/api","timestamp":"2024-11-04T04:55:34.900Z"}
+{"level":"info","message":"Initializing Drift service...","timestamp":"2024-11-04T04:57:27.305Z"}
+{"level":"info","message":"Using simulated mode","timestamp":"2024-11-04T04:57:27.310Z"}
+{"level":"info","message":"Initializing simulated environment","timestamp":"2024-11-04T04:57:27.310Z"}
+{"level":"info","message":"Market service initialized with Drift Protocol","timestamp":"2024-11-04T04:57:27.312Z"}
+{"level":"info","message":"Market service initialized","timestamp":"2024-11-04T04:57:27.312Z"}
+{"level":"info","message":"Strategy manager initialized","timestamp":"2024-11-04T04:57:27.312Z"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2024-11-04T04:57:27.315Z"}
+{"level":"info","message":"WebSocket server will be available at ws://localhost:3000","timestamp":"2024-11-04T04:57:27.315Z"}
+{"level":"info","message":"REST API available at http://localhost:3000/api","timestamp":"2024-11-04T04:57:27.315Z"}
+{"level":"info","message":"Initializing Drift service...","timestamp":"2024-11-04T05:01:13.404Z"}
+{"level":"info","message":"Loading wallet keypair...","timestamp":"2024-11-04T05:01:13.410Z"}
+{"level":"info","message":"Wallet loaded successfully","timestamp":"2024-11-04T05:01:13.522Z"}
+{"level":"info","message":"Connecting to Solana network...","timestamp":"2024-11-04T05:01:13.522Z"}
+{"level":"info","message":"Testing Solana connection...","timestamp":"2024-11-04T05:01:13.524Z"}
+{"blockHeight":325820065,"level":"info","message":"Connected to Solana network","timestamp":"2024-11-04T05:01:14.119Z"}
+{"level":"info","message":"Requesting devnet SOL airdrop...","timestamp":"2024-11-04T05:01:14.120Z"}
+{"code":-32603,"level":"warn","message":"Airdrop failed, continuing anyway: airdrop to 5KKdkYx7g7XY6Pjp1fKktdHBaQQvTPBC5eRzKwnHDv3g failed: Internal error","name":"SolanaJSONRPCError","stack":"SolanaJSONRPCError: airdrop to 5KKdkYx7g7XY6Pjp1fKktdHBaQQvTPBC5eRzKwnHDv3g failed: Internal error\n    at Connection.requestAirdrop (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/@solana/web3.js/lib/index.cjs.js:7914:13)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async DriftService.initialize (/Users/rickrichman/Desktop/Trader_Agent/server/src/services/drift.js:91:50)\n    at async MarketService.initialize (/Users/rickrichman/Desktop/Trader_Agent/server/src/market.js:14:13)\n    at async startServer (/Users/rickrichman/Desktop/Trader_Agent/server/src/server.js:38:5)","timestamp":"2024-11-04T05:01:14.332Z"}
+{"level":"info","message":"Initializing Drift SDK...","timestamp":"2024-11-04T05:01:14.333Z"}
+{"level":"info","message":"Creating Drift client...","timestamp":"2024-11-04T05:01:14.333Z"}
+{"level":"info","message":"Drift client subscribed to updates","timestamp":"2024-11-04T05:01:15.487Z"}
+{"blockHeight":325820069,"level":"info","message":"Solana connection test passed","timestamp":"2024-11-04T05:01:15.558Z"}
+{"level":"info","message":"Drift client test passed","subscribed":true,"timestamp":"2024-11-04T05:01:15.558Z"}
+{"balance":"0 SOL","level":"info","message":"Wallet test passed","publicKey":"5KKdkYx7g7XY6Pjp1fKktdHBaQQvTPBC5eRzKwnHDv3g","timestamp":"2024-11-04T05:01:15.630Z"}
+{"level":"info","message":"Drift service initialization complete","timestamp":"2024-11-04T05:01:15.630Z"}
+{"level":"info","message":"Market service initialized with Drift Protocol","timestamp":"2024-11-04T05:01:15.630Z"}
+{"level":"info","message":"Market service initialized","timestamp":"2024-11-04T05:01:15.631Z"}
+{"level":"info","message":"Strategy manager initialized","timestamp":"2024-11-04T05:01:15.631Z"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2024-11-04T05:01:15.633Z"}
+{"level":"info","message":"WebSocket server will be available at ws://localhost:3000","timestamp":"2024-11-04T05:01:15.633Z"}
+{"level":"info","message":"REST API available at http://localhost:3000/api","timestamp":"2024-11-04T05:01:15.633Z"}
+{"level":"info","message":"Initializing Drift service...","timestamp":"2024-11-04T05:05:35.024Z"}
+{"level":"info","message":"Using simulated mode","timestamp":"2024-11-04T05:05:35.028Z"}
+{"level":"info","message":"Initializing simulated environment","timestamp":"2024-11-04T05:05:35.029Z"}
+{"level":"info","message":"Market service initialized with Drift Protocol","timestamp":"2024-11-04T05:05:35.031Z"}
+{"level":"info","message":"Market service initialized","timestamp":"2024-11-04T05:05:35.031Z"}
+{"level":"info","message":"Strategy manager initialized","timestamp":"2024-11-04T05:05:35.031Z"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2024-11-04T05:05:35.034Z"}
+{"level":"info","message":"WebSocket server will be available at ws://localhost:3000","timestamp":"2024-11-04T05:05:35.034Z"}
+{"level":"info","message":"REST API available at http://localhost:3000/api","timestamp":"2024-11-04T05:05:35.035Z"}
+{"level":"info","message":"Initializing Drift service...","timestamp":"2024-11-04T05:06:03.349Z"}
+{"level":"info","message":"Using simulated mode","timestamp":"2024-11-04T05:06:03.354Z"}
+{"level":"info","message":"Initializing simulated environment","timestamp":"2024-11-04T05:06:03.354Z"}
+{"level":"info","message":"Market service initialized with Drift Protocol","timestamp":"2024-11-04T05:06:03.356Z"}
+{"level":"info","message":"Market service initialized","timestamp":"2024-11-04T05:06:03.357Z"}
+{"level":"info","message":"Strategy manager initialized","timestamp":"2024-11-04T05:06:03.357Z"}
+{"level":"info","message":"Server running on port 3000","timestamp":"2024-11-04T05:06:03.360Z"}
+{"level":"info","message":"WebSocket server will be available at ws://localhost:3000","timestamp":"2024-11-04T05:06:03.361Z"}
+{"level":"info","message":"REST API available at http://localhost:3000/api","timestamp":"2024-11-04T05:06:03.361Z"}
+{"level":"info","message":"Initializing Drift service...","timestamp":"2024-11-04T05:11:34.143Z"}
+{"level":"info","message":"Using simulated mode","timestamp":"2024-11-04T05:11:34.149Z"}
+{"level":"info","message":"Initializing simulated environment","timestamp":"2024-11-04T05:11:34.149Z"}
+{"level":"info","message":"Market service initialized with Drift Protocol","timestamp":"2024-11-04T05:11:34.151Z"}
+{"level":"info","message":"Market service initialized","timestamp":"2024-11-04T05:11:34.152Z"}
+{"level":"info","message":"Starting server...","timestamp":"2024-11-04T05:11:34.152Z"}
+{"level":"info","message":"WebSocket server created","timestamp":"2024-11-04T05:11:34.156Z"}
+{"level":"info","message":"HTTP server running on port 3000","timestamp":"2024-11-04T05:11:34.157Z"}
+{"level":"info","message":"Initializing Drift service...","timestamp":"2024-11-04T05:11:56.636Z"}
+{"level":"info","message":"Using simulated mode","timestamp":"2024-11-04T05:11:56.640Z"}
+{"level":"info","message":"Initializing simulated environment","timestamp":"2024-11-04T05:11:56.640Z"}
+{"level":"info","message":"Market service initialized with Drift Protocol","timestamp":"2024-11-04T05:11:56.642Z"}
+{"level":"info","message":"Market service initialized","timestamp":"2024-11-04T05:11:56.642Z"}
+{"level":"info","message":"Starting server...","timestamp":"2024-11-04T05:11:56.642Z"}
+{"level":"info","message":"WebSocket server created","timestamp":"2024-11-04T05:11:56.645Z"}
+{"level":"info","message":"HTTP server running on port 3000","timestamp":"2024-11-04T05:11:56.645Z"}

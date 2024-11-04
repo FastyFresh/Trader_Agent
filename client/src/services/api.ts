@@ -1,5 +1,5 @@
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
-const WS_URL = import.meta.env.VITE_WS_URL || 'ws://localhost:3000';
+const WS_URL = import.meta.env.VITE_WS_URL || 'ws://localhost:3000/ws';
 
 interface MarketData {
   symbol: string;
@@ -39,13 +39,11 @@ class API {
         this.ws = new WebSocket(WS_URL);
 
         this.ws.onopen = () => {
-          console.log('Connected to trading server');
-          this.reconnectAttempts = 0;
-          resolve();
+          console.log('WebSocket connection opened');
         };
 
-        this.ws.onclose = () => {
-          console.log('Disconnected from trading server');
+        this.ws.onclose = (event) => {
+          console.log('WebSocket closed:', event.code, event.reason);
           this.handleReconnect();
         };
 
@@ -59,7 +57,14 @@ class API {
         this.ws.onmessage = (event) => {
           try {
             const data = JSON.parse(event.data);
-            this.handleMessage(data);
+            console.log('Received message:', data);
+            
+            if (data.type === 'connection_status' && data.status === 'connected') {
+              console.log('Server confirmed connection');
+              resolve();
+            } else {
+              this.handleMessage(data);
+            }
           } catch (error) {
             console.error('Error parsing message:', error);
           }

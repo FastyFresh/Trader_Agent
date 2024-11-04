@@ -3,186 +3,102 @@ const cors = require('cors');
 const WebSocket = require('ws');
 const logger = require('./utils/logger');
 const marketService = require('./market');
-const researchAgent = require('./agents/ResearchAgent');
 
 const app = express();
 
 // Middleware
 app.use(cors({
   origin: '*',  // Allow all origins temporarily for development
-  credentials: true
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
+
 app.use(express.json());
 
-// Debug route to check server status
-app.get('/', (req, res) => {
-  logger.info('Received request to root endpoint');
-  res.json({ status: 'Server is running' });
-});
-
-// API Routes
+// Basic health check route
 app.get('/api/health', (req, res) => {
-  logger.info('Health check request received');
   res.json({ status: 'ok' });
 });
 
-app.use('/api/balance', require('./routes/balance'));
-app.use('/api/autotrader', require('./routes/autoTrader'));
-
-// WebSocket server
-const wss = new WebSocket.Server({ noServer: true });
-
-// Log active connections
-let activeConnections = 0;
-
-wss.on('connection', function connection(ws, request) {
-  activeConnections++;
-  logger.info(`New WebSocket connection established. Active connections: ${activeConnections}`);
-  logger.info(`Connection request headers: ${JSON.stringify(request.headers)}`);
-
-  try {
-    // Send initial market data
-    const marketData = generateMarketData();
-    logger.info('Sending initial market data:', marketData);
-    ws.send(JSON.stringify({
-      type: 'market_update',
-      data: marketData
-    }));
-  } catch (error) {
-    logger.error('Error sending initial market data:', error);
-  }
-
-  // Handle incoming messages
-  ws.on('message', function incoming(message) {
-    try {
-      logger.info('Raw message received:', message.toString());
-      const data = JSON.parse(message);
-      logger.info('Parsed message:', data);
-
-      // Handle different message types
-      switch (data.type) {
-        case 'subscribe':
-          handleSubscription(ws, data);
-          break;
-        case 'trade':
-          handleTrade(ws, data);
-          break;
-        default:
-          logger.warn('Unknown message type:', data.type);
-          ws.send(JSON.stringify({
-            type: 'error',
-            error: 'Unknown message type'
-          }));
-      }
-    } catch (error) {
-      logger.error('Error handling message:', error);
-      try {
-        ws.send(JSON.stringify({
-          type: 'error',
-          error: error.message
-        }));
-      } catch (sendError) {
-        logger.error('Error sending error message:', sendError);
-      }
-    }
-  });
-
-  // Set up periodic updates
-  const interval = setInterval(() => {
-    if (ws.readyState === WebSocket.OPEN) {
-      try {
-        const marketData = generateMarketData();
-        logger.info('Sending periodic market update:', marketData);
-        ws.send(JSON.stringify({
-          type: 'market_update',
-          data: marketData
-        }));
-      } catch (error) {
-        logger.error('Error sending periodic update:', error);
-      }
-    }
-  }, 5000);
-
-  // Handle errors
-  ws.on('error', (error) => {
-    logger.error('WebSocket error:', error);
-  });
-
-  // Clean up on connection close
-  ws.on('close', () => {
-    activeConnections--;
-    clearInterval(interval);
-    logger.info(`WebSocket connection closed. Active connections: ${activeConnections}`);
-  });
-});
-
-function generateMarketData() {
-  return {
-    markets: [{
-      symbol: 'SOL-PERP',
-      price: 60 + (Math.random() - 0.5) * 2,
-      change24h: (Math.random() - 0.5) * 5,
-      volume24h: 1000000 + Math.random() * 500000,
-      fundingRate: 0.0001 + (Math.random() - 0.5) * 0.0001
-    }]
-  };
-}
-
-function handleSubscription(ws, data) {
-  logger.info('New subscription:', data);
-  try {
-    ws.send(JSON.stringify({
-      type: 'subscription_confirmed',
-      data: {
-        symbol: data.symbol,
-        status: 'subscribed'
-      }
-    }));
-  } catch (error) {
-    logger.error('Error handling subscription:', error);
-  }
-}
-
-function handleTrade(ws, data) {
-  logger.info('New trade:', data);
-  try {
-    ws.send(JSON.stringify({
-      type: 'trade_confirmed',
-      data: {
-        id: Date.now(),
-        ...data
-      }
-    }));
-  } catch (error) {
-    logger.error('Error handling trade:', error);
-  }
-}
-
+// Create a basic server and WebSocket server
 async function startServer(port) {
   try {
-    // Initialize market service
     await marketService.initialize();
     logger.info('Market service initialized');
 
-    // Initialize strategy manager
-    logger.info('Strategy manager initialized');
-
-    // Create HTTP server
-    const server = app.listen(port, () => {
-      logger.info(`Server running on port ${port}`);
-      logger.info(`WebSocket server available at ws://localhost:${port}`);
-      logger.info(`REST API available at http://localhost:${port}/api`);
-    });
-
-    // Handle WebSocket upgrade
-    server.on('upgrade', (request, socket, head) => {
-      logger.info('Received WebSocket upgrade request');
-      wss.handleUpgrade(request, socket, head, ws => {
-        wss.emit('connection', ws, request);
+    logger.info('Starting server...');
+    
+    const server = express()
+      .use((req, res) => res.send({ status: 'Server is running' }))
+      .listen(port, () => {
+        logger.info(`HTTP server running on port ${port}`);
       });
+
+    // Create WebSocket server
+    const wss = new WebSocket.Server({ server, path: '/ws' });
+    logger.info('WebSocket server created');
+
+    // Connection handling
+    wss.on('connection', function connection(ws, req) {
+      logger.info('New WebSocket connection from:', req.socket.remoteAddress);
+
+      // Send immediate connection confirmation
+      try {
+        ws.send(JSON.stringify({
+          type: 'connection_status',
+          status: 'connected'
+        }));
+        logger.info('Sent connection confirmation');
+      } catch (error) {
+        logger.error('Error sending connection confirmation:', error);
+      }
+
+      // Handle incoming messages
+      ws.on('message', function incoming(message) {
+        try {
+          const data = JSON.parse(message);
+          logger.info('Received message:', data);
+
+          // Echo the message back
+          ws.send(JSON.stringify({
+            type: 'echo',
+            data: data
+          }));
+        } catch (error) {
+          logger.error('Error handling message:', error);
+          ws.send(JSON.stringify({
+            type: 'error',
+            error: 'Failed to process message'
+          }));
+        }
+      });
+
+      // Handle connection close
+      ws.on('close', function close() {
+        logger.info('Client disconnected');
+      });
+
+      // Handle errors
+      ws.on('error', function error(err) {
+        logger.error('WebSocket error:', err);
+      });
+
+      // Send periodic keepalive
+      const intervalId = setInterval(() => {
+        if (ws.readyState === WebSocket.OPEN) {
+          ws.send(JSON.stringify({
+            type: 'ping',
+            timestamp: Date.now()
+          }));
+        }
+      }, 30000);
+
+      // Clean up interval on close
+      ws.on('close', () => clearInterval(intervalId));
     });
 
-    // Log server events
+    // Server error handling
     server.on('error', (error) => {
       logger.error('Server error:', error);
     });

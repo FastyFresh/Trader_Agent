@@ -1,6 +1,7 @@
 const { Wallet } = require('@project-serum/anchor');
 const { Connection, Keypair, PublicKey } = require('@solana/web3.js');
 const { DriftClient, initialize } = require('@drift-labs/sdk');
+const { connectionClusterTestnetMode } = require('@drift-labs/sdk');
 const fs = require('fs');
 const logger = require('../utils/logger');
 
@@ -14,6 +15,7 @@ class DriftService {
         this.marketSubscriptions = new Map();
         this.lastPrices = new Map();
         this.useSimulated = process.env.USE_SIMULATED_DATA === 'true';
+        this.useTestnetMode = process.env.CLUSTER_TEST_NET === 'true';
     }
 
     async testConnection() {
@@ -73,11 +75,20 @@ class DriftService {
 
                 // Initialize connection to Solana
                 logger.info('Connecting to Solana network...');
-                this.connection = new Connection(process.env.SOLANA_RPC_ENDPOINT, {
-                    commitment: 'confirmed',
-                    confirmTransactionInitialTimeout: 60000,
-                    wsEndpoint: process.env.SOLANA_RPC_ENDPOINT.replace('https', 'wss')
-                });
+                
+                // Use testnet mode if configured
+                const connectionConfig = this.useTestnetMode ? 
+                    connectionClusterTestnetMode :
+                    {
+                        commitment: 'confirmed',
+                        confirmTransactionInitialTimeout: 60000,
+                        wsEndpoint: process.env.SOLANA_RPC_ENDPOINT.replace('https', 'wss')
+                    };
+
+                this.connection = new Connection(
+                    process.env.SOLANA_RPC_ENDPOINT,
+                    connectionConfig
+                );
 
                 // Test connection
                 logger.info('Testing Solana connection...');
@@ -111,6 +122,7 @@ class DriftService {
                     perpMarkets: true,
                     userStats: true,
                     authority: this.wallet.publicKey,
+                    testMode: this.useTestnetMode
                 });
 
                 logger.info('Creating Drift client...');
@@ -124,6 +136,7 @@ class DriftService {
                         commitment: 'confirmed',
                         preflightCommitment: 'confirmed',
                     },
+                    testMode: this.useTestnetMode
                 });
 
                 // Subscribe to updates
