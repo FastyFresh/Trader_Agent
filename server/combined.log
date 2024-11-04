@@ -1854,3 +1854,46 @@
 {"level":"info","message":"Starting server...","timestamp":"2024-11-04T05:11:56.642Z"}
 {"level":"info","message":"WebSocket server created","timestamp":"2024-11-04T05:11:56.645Z"}
 {"level":"info","message":"HTTP server running on port 3000","timestamp":"2024-11-04T05:11:56.645Z"}
+{"level":"info","message":"Initializing Drift service...","timestamp":"2024-11-04T05:17:46.775Z"}
+{"level":"info","message":"Using simulated mode","timestamp":"2024-11-04T05:17:46.781Z"}
+{"level":"info","message":"Initializing simulated environment","timestamp":"2024-11-04T05:17:46.781Z"}
+{"level":"info","message":"Market service initialized with Drift Protocol","timestamp":"2024-11-04T05:17:46.783Z"}
+{"level":"info","message":"Market service initialized","timestamp":"2024-11-04T05:17:46.784Z"}
+{"level":"info","message":"Starting server...","timestamp":"2024-11-04T05:17:46.784Z"}
+{"level":"info","message":"WebSocket server created","timestamp":"2024-11-04T05:17:46.788Z"}
+{"level":"info","message":"HTTP server running on port 3000","timestamp":"2024-11-04T05:17:46.788Z"}
+{"level":"info","message":"Initializing Drift service...","timestamp":"2024-11-04T05:18:01.842Z"}
+{"level":"info","message":"Loading wallet keypair...","timestamp":"2024-11-04T05:18:01.846Z"}
+{"level":"info","message":"Wallet loaded successfully","timestamp":"2024-11-04T05:18:01.915Z"}
+{"level":"info","message":"Connecting to Solana network...","timestamp":"2024-11-04T05:18:01.915Z"}
+{"level":"info","message":"Testing Solana connection...","timestamp":"2024-11-04T05:18:01.917Z"}
+{"level":"error","message":"Error during initialization: 403 Forbidden:  {\"jsonrpc\":\"2.0\",\"error\":{\"code\": 403, \"message\":\"Access forbidden\"}, \"id\": \"928e1879-41d0-407b-81d3-e183396153dc\" } \r\n","stack":"Error: 403 Forbidden:  {\"jsonrpc\":\"2.0\",\"error\":{\"code\": 403, \"message\":\"Access forbidden\"}, \"id\": \"928e1879-41d0-407b-81d3-e183396153dc\" } \r\n\n    at ClientBrowser.callServer (/Users/rickrichman/Desktop/Trader_Agent/server/node_modules/@solana/web3.js/lib/index.cjs.js:5091:18)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2024-11-04T05:18:02.301Z"}
+{"level":"info","message":"Falling back to simulated mode","timestamp":"2024-11-04T05:18:02.303Z"}
+{"level":"info","message":"Initializing simulated environment","timestamp":"2024-11-04T05:18:02.303Z"}
+{"level":"info","message":"Market service initialized with Drift Protocol","timestamp":"2024-11-04T05:18:02.304Z"}
+{"level":"info","message":"Market service initialized","timestamp":"2024-11-04T05:18:02.304Z"}
+{"level":"info","message":"Starting server...","timestamp":"2024-11-04T05:18:02.304Z"}
+{"level":"info","message":"WebSocket server created","timestamp":"2024-11-04T05:18:02.307Z"}
+{"level":"info","message":"HTTP server running on port 3000","timestamp":"2024-11-04T05:18:02.308Z"}
+{"level":"info","message":"Initializing Drift service...","timestamp":"2024-11-04T05:19:02.420Z"}
+{"level":"info","message":"Using simulated mode","timestamp":"2024-11-04T05:19:02.425Z"}
+{"level":"info","message":"Initializing simulated environment","timestamp":"2024-11-04T05:19:02.426Z"}
+{"level":"info","message":"Market service initialized with Drift Protocol","timestamp":"2024-11-04T05:19:02.427Z"}
+{"level":"info","message":"Market service initialized","timestamp":"2024-11-04T05:19:02.427Z"}
+{"level":"info","message":"Starting server...","timestamp":"2024-11-04T05:19:02.427Z"}
+{"level":"info","message":"WebSocket server created","timestamp":"2024-11-04T05:19:02.430Z"}
+{"level":"info","message":"HTTP server running on port 3000","timestamp":"2024-11-04T05:19:02.430Z"}
+{"level":"info","message":"Initializing Drift service...","timestamp":"2024-11-04T05:29:58.490Z"}
+{"level":"info","message":"Using simulated mode","timestamp":"2024-11-04T05:29:58.494Z"}
+{"level":"info","message":"Initializing simulated environment","timestamp":"2024-11-04T05:29:58.494Z"}
+{"level":"info","message":"Market service initialized with Drift Protocol","timestamp":"2024-11-04T05:29:58.497Z"}
+{"level":"info","message":"Market service initialized","timestamp":"2024-11-04T05:29:58.497Z"}
+{"level":"info","message":"Starting server...","timestamp":"2024-11-04T05:29:58.497Z"}
+{"level":"info","message":"WebSocket server created","timestamp":"2024-11-04T05:29:58.499Z"}
+{"level":"info","message":"HTTP server running on port 3000","timestamp":"2024-11-04T05:29:58.500Z"}
+{"level":"info","message":"Starting server...","timestamp":"2024-11-04T05:30:58.630Z"}
+{"level":"info","message":"WebSocket server created","timestamp":"2024-11-04T05:30:58.641Z"}
+{"level":"info","message":"HTTP server running on port 3000","timestamp":"2024-11-04T05:30:58.643Z"}
+{"level":"info","message":"Starting server...","timestamp":"2024-11-04T05:31:27.738Z"}
+{"level":"info","message":"WebSocket server created","timestamp":"2024-11-04T05:31:27.770Z"}
+{"level":"info","message":"HTTP server running on port 3000","timestamp":"2024-11-04T05:31:27.775Z"}
