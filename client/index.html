@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -8,10 +8,10 @@
   </head>
   <body>
     <div id="root"></div>
-    <script>
-      window.global = window;
-      var exports = {};
-    </script>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      // Required for Solana wallets
+      window.global ||= window;
+    </script>
   </body>
 </html>
