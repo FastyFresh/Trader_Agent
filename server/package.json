@@ -11,6 +11,7 @@
   "dependencies": {
     "@alpacahq/alpaca-trade-api": "^2.16.1",
     "@drift-labs/sdk": "^2.98.0-beta.20",
+    "@project-serum/anchor": "^0.26.0",
     "@solana/web3.js": "^1.95.4",
     "@tensorflow/tfjs": "^3.11.0",
     "@tensorflow/tfjs-node": "^3.11.0",
@@ -19,6 +20,7 @@
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "mongoose": "^7.8.2",
+    "node-fetch": "^3.3.2",
     "socket.io": "^4.8.1",
     "winston": "^3.16.0"
   },

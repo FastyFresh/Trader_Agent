@@ -1,6 +1,7 @@
 const { Wallet } = require('@project-serum/anchor');
 const { Connection, Keypair, PublicKey } = require('@solana/web3.js');
-const { DriftClient, initialize, PositionDirection } = require('@drift-labs/sdk');
+const { DriftClient, initialize } = require('@drift-labs/sdk');
+const fs = require('fs');
 const logger = require('../utils/logger');
 const targets = require('../config/targets');
 
@@ -24,91 +25,117 @@ class DriftService {
             }
 
             logger.info('Initializing Drift service...');
-
+            
             if (this.useSimulated) {
-                logger.info('Using simulated mode due to configuration');
+                logger.info('Using simulated mode');
                 return this.initializeSimulated();
             }
 
             try {
+                // Load keypair from file
+                logger.info('Loading wallet keypair...');
+                const keypairPath = process.env.ANCHOR_WALLET;
+                if (!keypairPath || !fs.existsSync(keypairPath)) {
+                    throw new Error('Wallet keypair file not found');
+                }
+
+                const keypairData = JSON.parse(fs.readFileSync(keypairPath, 'utf-8'));
+                const keypair = Keypair.fromSecretKey(new Uint8Array(keypairData));
+                this.wallet = new Wallet(keypair);
+                logger.info('Wallet loaded successfully');
+
                 // Initialize connection to Solana
-                logger.info('Connecting to Solana...');
+                logger.info('Connecting to Solana network...');
                 this.connection = new Connection(process.env.SOLANA_RPC_ENDPOINT, {
-                    commitment: 'confirmed'
+                    commitment: 'confirmed',
+                    confirmTransactionInitialTimeout: 60000
                 });
 
-                // Initialize wallet with new keypair
-                logger.info('Creating wallet...');
-                const keypair = Keypair.generate();
-                this.wallet = new Wallet(keypair);
+                // Test connection
+                logger.info('Testing connection...');
+                const blockHeight = await this.connection.getBlockHeight();
+                logger.info('Connected to Solana network', { blockHeight });
 
-                // Initialize Drift program ID
-                this.driftProgramId = new PublicKey(process.env.DRIFT_PROGRAM_ID);
-
-                try {
-                    // Initialize Drift SDK
-                    logger.info('Initializing Drift SDK...');
-                    await initialize({
-                        env: process.env.SOLANA_NETWORK,
-                        connection: this.connection,
-                        wallet: this.wallet,
-                        programID: this.driftProgramId,
-                        perpMarkets: true,
-                        spotMarkets: false,
-                        authority: this.wallet.publicKey,
-                    });
-
-                    // Create Drift client
-                    logger.info('Creating Drift client...');
-                    this.client = new DriftClient({
-                        connection: this.connection,
-                        wallet: this.wallet,
-                        programID: this.driftProgramId,
-                        env: process.env.SOLANA_NETWORK,
-                        opts: {
-                            skipPreflight: true,
-                            commitment: 'confirmed'
-                        },
-                    });
-
-                    // Try to subscribe to updates
-                    logger.info('Subscribing to updates...');
-                    await this.client.subscribe();
-
-                    // Mark as initialized and return
-                    this.initialized = true;
-                    logger.info('Drift service initialized successfully');
-                    return true;
-                } catch (error) {
-                    // Handle SDK/Client initialization errors
-                    logger.error('Error initializing Drift SDK/Client:', error);
-                    if (error.message?.includes('region restricted') || 
-                        error.message?.includes('401') ||
-                        error.message?.includes('403')) {
-                        if (process.env.ALLOW_REGION_RESTRICTED === 'true') {
-                            logger.warn('Region restriction detected, falling back to simulation mode');
-                            return this.initializeSimulated();
-                        }
+                // Request airdrop for testing on devnet
+                if (process.env.SOLANA_NETWORK === 'devnet') {
+                    try {
+                        logger.info('Requesting devnet SOL airdrop...');
+                        const airdropSignature = await this.connection.requestAirdrop(
+                            this.wallet.publicKey,
+                            1000000000 // 1 SOL
+                        );
+                        await this.connection.confirmTransaction(airdropSignature);
+                        logger.info('Airdrop successful');
+                    } catch (e) {
+                        logger.warn('Airdrop failed, continuing anyway:', e);
                     }
-                    throw error;
                 }
+
+                // Initialize Drift
+                this.driftProgramId = new PublicKey(process.env.DRIFT_PROGRAM_ID);
+                
+                logger.info('Initializing Drift SDK...');
+                await initialize({
+                    env: process.env.SOLANA_NETWORK,
+                    connection: this.connection,
+                    wallet: this.wallet,
+                    programID: this.driftProgramId,
+                    perpMarkets: true,
+                    userStats: true,
+                    authority: this.wallet.publicKey,
+                });
+
+                logger.info('Creating Drift client...');
+                this.client = new DriftClient({
+                    connection: this.connection,
+                    wallet: this.wallet,
+                    programID: this.driftProgramId,
+                    env: process.env.SOLANA_NETWORK,
+                    opts: {
+                        skipPreflight: true,
+                        commitment: 'confirmed',
+                        preflightCommitment: 'confirmed',
+                    },
+                });
+
+                // Subscribe to updates
+                await this.client.subscribe();
+                logger.info('Drift client subscribed to updates');
+
+                // Verify market access
+                try {
+                    const market = await this.client.getPerpMarket(0);
+                    logger.info('Successfully verified market access:', {
+                        marketIndex: market.marketIndex,
+                        baseAssetSymbol: market.baseAssetSymbol
+                    });
+                } catch (e) {
+                    logger.warn('Market data not available yet:', e);
+                }
+
+                this.initialized = true;
+                logger.info('Drift service initialization complete');
+                return true;
             } catch (error) {
-                // Handle connection errors
-                logger.error('Error establishing connection:', error);
-                if (this.useSimulated) {
-                    logger.info('Falling back to simulated mode');
-                    return this.initializeSimulated();
+                logger.error('Error during initialization:', error);
+
+                if (error.message.includes('region restricted') || 
+                    error.message.includes('401') || 
+                    error.message.includes('403')) {
+                    throw new Error('Access denied. Your region may be restricted.');
                 }
+
                 throw error;
             }
         } catch (error) {
-            // Handle all other errors
-            logger.error('Fatal error during initialization:', error);
-            if (process.env.ALLOW_REGION_RESTRICTED === 'true') {
-                logger.warn('Fatal error encountered, falling back to simulation mode');
+            logger.error('Fatal error in Drift service:', error);
+            
+            if (this.useSimulated) {
+                logger.info('Falling back to simulated mode due to error');
                 return this.initializeSimulated();
             }
-            throw error;
+            
+            throw new Error(`Failed to initialize Drift service: ${error.message}`);
         }
     }
 
@@ -298,7 +325,7 @@ class DriftService {
             const orderParams = {
                 marketIndex,
                 baseAssetAmount: size,
-                direction: direction === 'long' ? PositionDirection.LONG : PositionDirection.SHORT,
+                direction: direction === 'long' ? 'LONG' : 'SHORT',
                 price: perpMarket.price,
                 reduceOnly: false
             };
