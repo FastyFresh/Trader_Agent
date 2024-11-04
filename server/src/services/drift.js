@@ -3,7 +3,6 @@ const { Connection, Keypair, PublicKey } = require('@solana/web3.js');
 const { DriftClient, initialize } = require('@drift-labs/sdk');
 const fs = require('fs');
 const logger = require('../utils/logger');
-const targets = require('../config/targets');
 
 class DriftService {
     constructor() {
@@ -15,6 +14,34 @@ class DriftService {
         this.marketSubscriptions = new Map();
         this.lastPrices = new Map();
         this.useSimulated = process.env.USE_SIMULATED_DATA === 'true';
+    }
+
+    async testConnection() {
+        try {
+            // Test Solana connection
+            const blockHeight = await this.connection.getBlockHeight();
+            logger.info('Solana connection test passed', { blockHeight });
+
+            // Test Drift client
+            if (this.client && this.client.isSubscribed) {
+                logger.info('Drift client test passed', { subscribed: true });
+            } else {
+                logger.warn('Drift client not properly initialized');
+                return false;
+            }
+
+            // Test wallet
+            const balance = await this.connection.getBalance(this.wallet.publicKey);
+            logger.info('Wallet test passed', { 
+                publicKey: this.wallet.publicKey.toString(),
+                balance: balance / 1e9 + ' SOL'
+            });
+
+            return true;
+        } catch (error) {
+            logger.error('Connection test failed:', error);
+            return false;
+        }
     }
 
     async initialize() {
@@ -48,11 +75,12 @@ class DriftService {
                 logger.info('Connecting to Solana network...');
                 this.connection = new Connection(process.env.SOLANA_RPC_ENDPOINT, {
                     commitment: 'confirmed',
-                    confirmTransactionInitialTimeout: 60000
+                    confirmTransactionInitialTimeout: 60000,
+                    wsEndpoint: process.env.SOLANA_RPC_ENDPOINT.replace('https', 'wss')
                 });
 
                 // Test connection
-                logger.info('Testing connection...');
+                logger.info('Testing Solana connection...');
                 const blockHeight = await this.connection.getBlockHeight();
                 logger.info('Connected to Solana network', { blockHeight });
 
@@ -102,15 +130,10 @@ class DriftService {
                 await this.client.subscribe();
                 logger.info('Drift client subscribed to updates');
 
-                // Verify market access
-                try {
-                    const market = await this.client.getPerpMarket(0);
-                    logger.info('Successfully verified market access:', {
-                        marketIndex: market.marketIndex,
-                        baseAssetSymbol: market.baseAssetSymbol
-                    });
-                } catch (e) {
-                    logger.warn('Market data not available yet:', e);
+                // Run full connection test
+                const isConnected = await this.testConnection();
+                if (!isConnected) {
+                    throw new Error('Connection test failed');
                 }
 
                 this.initialized = true;
@@ -119,9 +142,9 @@ class DriftService {
             } catch (error) {
                 logger.error('Error during initialization:', error);
 
-                if (error.message.includes('region restricted') || 
-                    error.message.includes('401') || 
-                    error.message.includes('403')) {
+                if (error.message?.includes('region restricted') || 
+                    error.message?.includes('401') || 
+                    error.message?.includes('403')) {
                     throw new Error('Access denied. Your region may be restricted.');
                 }
 
@@ -187,6 +210,15 @@ class DriftService {
             logger.error(`Error getting market data for ${symbol}:`, error);
             return this.generateSimulatedData(symbol);
         }
+    }
+
+    getMarketIndex(symbol) {
+        const marketIndices = {
+            'SOL-PERP': 1,
+            'BTC-PERP': 2,
+            'ETH-PERP': 3
+        };
+        return marketIndices[symbol] || 1;
     }
 
     async getHistoricalData(symbol, timeframe = '1h', startTime, endTime) {
@@ -264,13 +296,15 @@ class DriftService {
                 return this.getSimulatedAccount();
             }
 
-            const account = await this.client.getUserAccount();
+            const balance = await this.connection.getBalance(this.wallet.publicKey);
+            const positions = await this.client.getPositions();
+
             return {
-                equity: account.totalCollateral,
-                freeCollateral: account.freeCollateral,
-                marginFraction: account.marginFraction,
-                leverage: account.leverage,
-                unrealizedPnl: account.unrealizedPnl
+                equity: balance / 1e9,
+                freeCollateral: balance / 1e9,
+                marginFraction: positions.length > 0 ? 0.8 : 1,
+                leverage: positions.length,
+                unrealizedPnl: positions.reduce((sum, pos) => sum + (pos.unrealizedPnl || 0), 0)
             };
         } catch (error) {
             logger.error('Error getting account:', error);
@@ -286,15 +320,6 @@ class DriftService {
             leverage: 2,
             unrealizedPnl: 50
         };
-    }
-
-    getMarketIndex(symbol) {
-        const marketIndices = {
-            'SOL-PERP': 1,
-            'BTC-PERP': 2,
-            'ETH-PERP': 3
-        };
-        return marketIndices[symbol] || 1;
     }
 
     getResolution(timeframe) {
@@ -331,7 +356,7 @@ class DriftService {
             };
 
             const tx = await this.client.openPosition(orderParams);
-            await tx.wait();
+            await this.connection.confirmTransaction(tx.signature);
 
             return {
                 success: true,
