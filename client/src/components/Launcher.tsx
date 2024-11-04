@@ -1,7 +1,8 @@
-import { useWallet } from '@solana/wallet-adapter-react';
+import { useWallet, useConnection } from '@solana/wallet-adapter-react';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useTrading } from '../hooks/useTrading';
+import { useEffect, useState } from 'react';
 
 const queryClient = new QueryClient();
 
@@ -16,7 +17,32 @@ const targetGoal = 1000000;
 
 const Launcher = () => {
   const { publicKey } = useWallet();
+  const { connection } = useConnection();
   const { stats, isTrading, error, startTrading } = useTrading();
+  const [connectionError, setConnectionError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const checkConnection = async () => {
+      try {
+        const balance = publicKey ? await connection.getBalance(publicKey) : 0;
+        // Convert lamports to SOL (1 SOL = 1e9 lamports)
+        const solBalance = balance / 1e9;
+
+        if (solBalance < 0.1) {
+          setConnectionError('Insufficient SOL balance. Please fund your wallet with at least 0.1 SOL');
+        } else {
+          setConnectionError(null);
+        }
+      } catch (error) {
+        console.error('Error checking balance:', error);
+        setConnectionError('Failed to check wallet balance');
+      }
+    };
+
+    if (publicKey) {
+      checkConnection();
+    }
+  }, [publicKey, connection]);
 
   const formatAddress = (address: string) => {
     return `${address.slice(0, 4)}...${address.slice(-4)}`;
@@ -39,6 +65,7 @@ const Launcher = () => {
   };
 
   const handleStartTrading = async () => {
+    if (connectionError) return;
     await startTrading();
   };
 
@@ -51,6 +78,9 @@ const Launcher = () => {
             <p className="text-gray-400">Beta</p>
             {error && (
               <p className="mt-2 text-red-500">{error}</p>
+            )}
+            {connectionError && (
+              <p className="mt-2 text-yellow-500">{connectionError}</p>
             )}
           </div>
 
@@ -109,16 +139,16 @@ const Launcher = () => {
 
                   <button
                     onClick={handleStartTrading}
-                    disabled={isTrading}
+                    disabled={isTrading || !!connectionError}
                     className={`
                       w-full font-semibold py-3 px-6 rounded-lg transition duration-200
-                      ${isTrading 
+                      ${isTrading || connectionError
                         ? 'bg-gray-600 cursor-not-allowed' 
                         : 'bg-green-600 hover:bg-green-700'
                       }
                     `}
                   >
-                    {isTrading ? 'Trading Active' : 'Start Trading'}
+                    {isTrading ? 'Trading Active' : connectionError ? 'Cannot Start Trading' : 'Start Trading'}
                   </button>
                 </div>
 
