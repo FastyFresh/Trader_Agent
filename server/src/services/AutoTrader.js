@@ -4,54 +4,82 @@ const strategyFactory = require('./strategy/StrategyFactory');
 const strategyConfig = require('../config/strategies');
 const targets = require('../config/targets');
 const performanceTracker = require('./PerformanceTracker');
+const { validateConfig } = require('../utils/validation');
+const { RateLimiter } = require('../utils/rateLimiter');
 
 class AutoTrader {
     constructor() {
         this.activeStrategies = new Map();
         this.walletSubscriptions = new Map();
+        this.eventListeners = new Set();
+        this.rateLimiter = new RateLimiter(10, 1000); // 10 requests per second
         this.status = {
             isRunning: false,
             currentPhase: null,
             activeMarkets: [],
             currentBalance: 0,
-            lastUpdate: null
+            lastUpdate: null,
+            errors: []
         };
     }
 
     async initialize(walletPublicKey) {
         try {
-            // Initialize Drift connection
-            await driftService.initialize();
+            if (!walletPublicKey) {
+                throw new Error('Wallet public key is required');
+            }
 
-            // Subscribe to wallet
+            // Initialize Drift connection with retry logic
+            let retries = 3;
+            while (retries > 0) {
+                try {
+                    await driftService.initialize();
+                    break;
+                } catch (error) {
+                    retries--;
+                    if (retries === 0) throw error;
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                }
+            }
+
+            // Subscribe to wallet with validation
             await this.subscribeToWallet(walletPublicKey);
 
-            // Initialize performance tracking
+            // Initialize performance tracking with validation
             await this.initializeTracking();
 
             logger.info('AutoTrader initialized for wallet:', walletPublicKey);
             return true;
         } catch (error) {
-            logger.error('Failed to initialize AutoTrader:', error);
+            this.handleError('initialization', error);
             throw error;
         }
     }
 
     async subscribeToWallet(walletPublicKey) {
         try {
-            // Get initial balance
-            const account = await driftService.getAccount();
+            if (this.walletSubscriptions.has(walletPublicKey)) {
+                logger.warn('Already subscribed to wallet:', walletPublicKey);
+                return;
+            }
+
+            // Get initial balance with timeout
+            const account = await this.executeWithTimeout(
+                driftService.getAccount(),
+                5000,
+                'Account fetch timeout'
+            );
             this.status.currentBalance = account.equity;
 
-            // Subscribe to account updates
-            driftService.drift.eventEmitter.on('accountUpdate', this.handleAccountUpdate.bind(this));
+            // Subscribe to account updates with cleanup
+            const handleUpdate = this.handleAccountUpdate.bind(this);
+            driftService.drift.eventEmitter.on('accountUpdate', handleUpdate);
+            this.eventListeners.add(['accountUpdate', handleUpdate]);
 
-            // Store subscription
             this.walletSubscriptions.set(walletPublicKey, true);
-
             logger.info('Subscribed to wallet updates:', walletPublicKey);
         } catch (error) {
-            logger.error('Error subscribing to wallet:', error);
+            this.handleError('wallet subscription', error);
             throw error;
         }
     }
@@ -64,10 +92,14 @@ class AutoTrader {
                 timeHorizon: targets.goal.maxTimeHorizon
             };
 
+            if (!validateConfig(config)) {
+                throw new Error('Invalid tracking configuration');
+            }
+
             await performanceTracker.initialize(config);
             logger.info('Performance tracking initialized');
         } catch (error) {
-            logger.error('Error initializing performance tracking:', error);
+            this.handleError('tracking initialization', error);
             throw error;
         }
     }
@@ -79,26 +111,42 @@ class AutoTrader {
                 return;
             }
 
-            // Determine current phase
+            // Check prerequisites
+            if (!this.status.currentBalance) {
+                throw new Error('Account balance not initialized');
+            }
+
+            // Determine and validate current phase
             const phase = this.determinePhase();
+            if (!strategyConfig[phase]) {
+                throw new Error(`Invalid phase: ${phase}`);
+            }
+
             this.status.currentPhase = phase;
 
-            // Initialize strategies for current phase
-            await this.initializePhaseStrategies(phase);
+            // Initialize strategies with rate limiting
+            await this.rateLimiter.execute(() => 
+                this.initializePhaseStrategies(phase)
+            );
 
             this.status.isRunning = true;
             this.status.lastUpdate = Date.now();
+            this.status.errors = [];
 
             logger.info('AutoTrader started in phase:', phase);
             return true;
         } catch (error) {
-            logger.error('Error starting AutoTrader:', error);
+            this.handleError('startup', error);
             throw error;
         }
     }
 
     determinePhase() {
         const balance = this.status.currentBalance;
+        
+        if (balance <= 0) {
+            throw new Error('Invalid balance');
+        }
         
         if (balance <= strategyConfig.initialPhase.capital.max) {
             return 'initialPhase';
@@ -111,18 +159,34 @@ class AutoTrader {
 
     async initializePhaseStrategies(phase) {
         const config = strategyConfig[phase];
+        if (!config) {
+            throw new Error(`Invalid phase configuration: ${phase}`);
+        }
+
         const markets = Object.keys(strategyConfig.markets);
+        if (!markets.length) {
+            throw new Error('No markets configured');
+        }
         
-        // Clear existing strategies
+        // Clear existing strategies safely
         await this.stopAllStrategies();
         
         for (const market of markets) {
-            if (config.momentum.enabled) {
-                await this.initializeMomentumStrategy(market, config.momentum);
-            }
-            
-            if (config.grid.enabled) {
-                await this.initializeGridStrategy(market, config.grid);
+            try {
+                if (config.momentum.enabled) {
+                    await this.rateLimiter.execute(() =>
+                        this.initializeMomentumStrategy(market, config.momentum)
+                    );
+                }
+                
+                if (config.grid.enabled) {
+                    await this.rateLimiter.execute(() =>
+                        this.initializeGridStrategy(market, config.grid)
+                    );
+                }
+            } catch (error) {
+                logger.error(`Failed to initialize strategies for ${market}:`, error);
+                // Continue with other markets
             }
         }
 
@@ -131,6 +195,10 @@ class AutoTrader {
 
     async initializeMomentumStrategy(market, config) {
         try {
+            if (!market || !config) {
+                throw new Error('Invalid momentum strategy parameters');
+            }
+
             const strategy = await strategyFactory.createStrategy('momentum', {
                 market,
                 ...config
@@ -139,13 +207,17 @@ class AutoTrader {
             this.activeStrategies.set(`momentum_${market}`, strategy);
             logger.info('Momentum strategy initialized for:', market);
         } catch (error) {
-            logger.error('Error initializing momentum strategy:', error);
+            this.handleError(`momentum strategy initialization for ${market}`, error);
             throw error;
         }
     }
 
     async initializeGridStrategy(market, config) {
         try {
+            if (!market || !config) {
+                throw new Error('Invalid grid strategy parameters');
+            }
+
             const strategy = await strategyFactory.createStrategy('grid', {
                 market,
                 ...config
@@ -154,17 +226,23 @@ class AutoTrader {
             this.activeStrategies.set(`grid_${market}`, strategy);
             logger.info('Grid strategy initialized for:', market);
         } catch (error) {
-            logger.error('Error initializing grid strategy:', error);
+            this.handleError(`grid strategy initialization for ${market}`, error);
             throw error;
         }
     }
 
     async handleAccountUpdate(update) {
         try {
-            // Update balance
-            this.status.currentBalance = update.equity;
+            if (!update || typeof update.equity !== 'number') {
+                throw new Error('Invalid account update');
+            }
 
-            // Check if phase change is needed
+            // Update balance with validation
+            if (update.equity >= 0) {
+                this.status.currentBalance = update.equity;
+            }
+
+            // Check phase transition
             const currentPhase = this.determinePhase();
             if (currentPhase !== this.status.currentPhase) {
                 await this.handlePhaseTransition(currentPhase);
@@ -173,12 +251,12 @@ class AutoTrader {
             // Update performance tracking
             await performanceTracker.updatePerformance(update);
 
-            // Check emergency conditions
+            // Check risk conditions
             await this.checkEmergencyConditions(update);
 
             this.status.lastUpdate = Date.now();
         } catch (error) {
-            logger.error('Error handling account update:', error);
+            this.handleError('account update', error);
         }
     }
 
@@ -186,15 +264,15 @@ class AutoTrader {
         try {
             logger.info('Transitioning from', this.status.currentPhase, 'to', newPhase);
 
-            // Initialize new phase strategies
-            await this.initializePhaseStrategies(newPhase);
+            // Initialize new phase strategies with rate limiting
+            await this.rateLimiter.execute(() =>
+                this.initializePhaseStrategies(newPhase)
+            );
 
-            // Update status
             this.status.currentPhase = newPhase;
-
             logger.info('Phase transition completed');
         } catch (error) {
-            logger.error('Error during phase transition:', error);
+            this.handleError('phase transition', error);
         }
     }
 
@@ -202,19 +280,28 @@ class AutoTrader {
         try {
             const performance = performanceTracker.getPerformanceReport();
             
-            // Check emergency stop loss
+            if (!performance) {
+                throw new Error('Unable to get performance report');
+            }
+            
+            // Check emergency conditions with thresholds
             if (performance.drawdown > strategyConfig.common.emergencyStopLoss) {
                 await this.emergencyStop('Emergency stop loss triggered');
                 return;
             }
 
-            // Check minimum balance
             if (update.equity < targets.goal.initialCapital * 0.75) {
                 await this.emergencyStop('Balance below 75% of initial capital');
                 return;
             }
+
+            // Additional risk checks
+            if (performance.sharpeRatio < -2) {
+                await this.emergencyStop('Critical risk metrics detected');
+                return;
+            }
         } catch (error) {
-            logger.error('Error checking emergency conditions:', error);
+            this.handleError('emergency condition check', error);
         }
     }
 
@@ -222,8 +309,12 @@ class AutoTrader {
         try {
             logger.warn('Emergency stop triggered:', reason);
 
-            // Close all positions
-            await this.closeAllPositions();
+            // Close all positions with retry
+            await this.executeWithRetry(
+                () => this.closeAllPositions(),
+                3,
+                1000
+            );
 
             // Stop all strategies
             await this.stopAllStrategies();
@@ -231,10 +322,15 @@ class AutoTrader {
             // Update status
             this.status.isRunning = false;
             this.status.lastUpdate = Date.now();
+            this.status.errors.push({
+                time: Date.now(),
+                type: 'emergency_stop',
+                reason
+            });
 
             logger.info('Emergency stop completed');
         } catch (error) {
-            logger.error('Error during emergency stop:', error);
+            this.handleError('emergency stop', error);
         }
     }
 
@@ -242,33 +338,54 @@ class AutoTrader {
         try {
             const positions = await driftService.getOpenPositions();
             
-            for (const position of positions) {
-                await driftService.closePosition(position.marketIndex);
+            if (!Array.isArray(positions)) {
+                throw new Error('Invalid positions data');
             }
+            
+            const closePromises = positions.map(position =>
+                this.rateLimiter.execute(() =>
+                    driftService.closePosition(position.marketIndex)
+                )
+            );
 
+            await Promise.all(closePromises);
             logger.info('All positions closed');
         } catch (error) {
-            logger.error('Error closing positions:', error);
+            this.handleError('position closing', error);
+            throw error;
         }
     }
 
     async stopAllStrategies() {
         try {
-            for (const [id, strategy] of this.activeStrategies.entries()) {
-                await strategy.stop();
-                this.activeStrategies.delete(id);
-            }
+            const stopPromises = Array.from(this.activeStrategies.values()).map(
+                strategy => strategy.stop().catch(error => {
+                    logger.error('Error stopping strategy:', error);
+                })
+            );
 
+            await Promise.all(stopPromises);
+            this.activeStrategies.clear();
             logger.info('All strategies stopped');
         } catch (error) {
-            logger.error('Error stopping strategies:', error);
+            this.handleError('strategy stopping', error);
+            throw error;
         }
     }
 
     async stop() {
         try {
-            await this.closeAllPositions();
-            await this.stopAllStrategies();
+            // Close positions and stop strategies
+            await Promise.all([
+                this.closeAllPositions(),
+                this.stopAllStrategies()
+            ]);
+
+            // Clean up event listeners
+            this.eventListeners.forEach(([event, handler]) => {
+                driftService.drift.eventEmitter.removeListener(event, handler);
+            });
+            this.eventListeners.clear();
 
             // Clear subscriptions
             this.walletSubscriptions.clear();
@@ -280,7 +397,7 @@ class AutoTrader {
             logger.info('AutoTrader stopped');
             return true;
         } catch (error) {
-            logger.error('Error stopping AutoTrader:', error);
+            this.handleError('shutdown', error);
             throw error;
         }
     }
@@ -289,8 +406,46 @@ class AutoTrader {
         return {
             ...this.status,
             performance: performanceTracker.getPerformanceReport(),
-            activeStrategies: Array.from(this.activeStrategies.keys())
+            activeStrategies: Array.from(this.activeStrategies.keys()),
+            rateLimiterStatus: this.rateLimiter.getStatus()
         };
+    }
+
+    // Utility methods
+    async executeWithTimeout(promise, timeout, errorMessage) {
+        return Promise.race([
+            promise,
+            new Promise((_, reject) => 
+                setTimeout(() => reject(new Error(errorMessage)), timeout)
+            )
+        ]);
+    }
+
+    async executeWithRetry(fn, maxRetries, delay) {
+        let retries = maxRetries;
+        while (retries > 0) {
+            try {
+                return await fn();
+            } catch (error) {
+                retries--;
+                if (retries === 0) throw error;
+                await new Promise(resolve => setTimeout(resolve, delay));
+            }
+        }
+    }
+
+    handleError(context, error) {
+        logger.error(`Error in ${context}:`, error);
+        this.status.errors.push({
+            time: Date.now(),
+            type: context,
+            message: error.message
+        });
+
+        // Maintain error history limit
+        if (this.status.errors.length > 100) {
+            this.status.errors = this.status.errors.slice(-100);
+        }
     }
 }
 

@@ -1,9 +1,9 @@
 import { useState, useCallback, useEffect } from 'react';
-import { useWallet } from '@solana/wallet-adapter-react';
+import { useWallet, useConnection } from '@solana/wallet-adapter-react';
 import { TradingStats, TradeConfig, TradeResponse } from '../types/trading';
+import { DriftClient, initialize } from '@drift-labs/sdk';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
-const WS_URL = import.meta.env.VITE_WS_URL || 'ws://localhost:3000/ws';
 
 const initialStats: TradingStats = {
   accountBalance: 0,
@@ -20,66 +20,78 @@ const initialStats: TradingStats = {
 };
 
 export const useTrading = () => {
-  const { publicKey } = useWallet();
+  const { publicKey, wallet } = useWallet();
+  const { connection } = useConnection();
   const [stats, setStats] = useState<TradingStats>(initialStats);
   const [isTrading, setIsTrading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [ws, setWs] = useState<WebSocket | null>(null);
+  const [driftClient, setDriftClient] = useState<DriftClient | null>(null);
 
-  const connect = useCallback(() => {
-    if (!publicKey) return;
+  const initializeDrift = useCallback(async () => {
+    if (!publicKey || !wallet) return;
 
-    const socket = new WebSocket(WS_URL);
-    
-    socket.onopen = () => {
-      console.log('WebSocket connected');
-      socket.send(JSON.stringify({
-        type: 'auth',
-        publicKey: publicKey.toString()
-      }));
-    };
+    try {
+      setError(null);
+      console.log('Initializing Drift client...');
 
-    socket.onmessage = (event) => {
-      try {
-        const data = JSON.parse(event.data);
-        if (data.type === 'stats') {
-          setStats(data.stats);
-        }
-      } catch (error) {
-        console.error('Error parsing message:', error);
-      }
-    };
+      // Initialize drift SDK
+      await initialize({
+        env: 'devnet',
+        connection,
+        wallet: {
+          publicKey,
+          signTransaction: wallet.adapter.signTransaction.bind(wallet.adapter),
+          signAllTransactions: wallet.adapter.signAllTransactions.bind(wallet.adapter),
+        },
+        programID: 'dRiftyHA39MWEi3m9aunc5MzRF1JYuBsbn6VPcn33UH',
+        opts: {
+          commitment: 'confirmed',
+        },
+      });
 
-    socket.onclose = () => {
-      console.log('WebSocket disconnected');
-      setTimeout(connect, 1000);
-    };
+      // Create drift client
+      const client = new DriftClient({
+        connection,
+        wallet: {
+          publicKey,
+          signTransaction: wallet.adapter.signTransaction.bind(wallet.adapter),
+          signAllTransactions: wallet.adapter.signAllTransactions.bind(wallet.adapter),
+        },
+        programID: 'dRiftyHA39MWEi3m9aunc5MzRF1JYuBsbn6VPcn33UH',
+        env: 'devnet',
+        opts: {
+          commitment: 'confirmed',
+        },
+      });
 
-    socket.onerror = (error) => {
-      console.error('WebSocket error:', error);
-      setError('Connection error');
-    };
-
-    setWs(socket);
-
-    return () => {
-      socket.close();
-    };
-  }, [publicKey]);
+      // Subscribe to drift updates
+      await client.subscribe();
+      console.log('Drift client initialized');
+      setDriftClient(client);
+      
+    } catch (error: any) {
+      console.error('Error initializing Drift:', error);
+      setError(error.message || 'Failed to initialize Drift');
+    }
+  }, [publicKey, wallet, connection]);
 
   useEffect(() => {
-    if (publicKey) {
-      connect();
+    if (publicKey && wallet) {
+      initializeDrift();
     }
     return () => {
-      if (ws) {
-        ws.close();
+      if (driftClient) {
+        driftClient.unsubscribe();
       }
     };
-  }, [connect, publicKey]);
+  }, [publicKey, wallet, initializeDrift]);
 
   const placeTrade = async (config: TradeConfig): Promise<TradeResponse> => {
     try {
+      if (!driftClient) {
+        throw new Error('Drift client not initialized');
+      }
+
       const response = await fetch(`${API_URL}/api/trade`, {
         method: 'POST',
         headers: {
@@ -108,6 +120,10 @@ export const useTrading = () => {
 
   const startTrading = async () => {
     try {
+      if (!driftClient) {
+        throw new Error('Please wait for connection to initialize');
+      }
+
       const response = await fetch(`${API_URL}/api/autotrader/start`, {
         method: 'POST',
         headers: {
@@ -124,6 +140,7 @@ export const useTrading = () => {
       }
 
       setIsTrading(true);
+      setError(null);
     } catch (error: any) {
       console.error('Error starting trading:', error);
       setError(error.message);
@@ -148,6 +165,7 @@ export const useTrading = () => {
       }
 
       setIsTrading(false);
+      setError(null);
     } catch (error: any) {
       console.error('Error stopping trading:', error);
       setError(error.message);
@@ -158,6 +176,7 @@ export const useTrading = () => {
     stats,
     isTrading,
     error,
+    isInitialized: !!driftClient,
     placeTrade,
     startTrading,
     stopTrading
