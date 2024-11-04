@@ -1,15 +1,16 @@
-# Trader Agent - Automated Crypto Trading Bot
+# Trader Agent
 
-An automated trading system that aims to grow $100 to $1M using the Drift Protocol on Solana.
+An autonomous trading agent for cryptocurrency trading using Solana and Drift Protocol.
 
-## Development Setup
+## Recent Updates
 
-### Prerequisites
-- Node.js v16+
-- NPM or Yarn
-- Phantom Wallet Browser Extension
+- Configured Solana wallet authentication
+- Implemented simulated trading mode
+- Added market data service
+- Enhanced WebSocket connections
+- Improved error handling
 
-### Environment Setup
+## Setup
 
 1. Clone the repository:
 ```bash
@@ -19,129 +20,54 @@ cd Trader_Agent
 
 2. Install dependencies:
 ```bash
-# Install server dependencies
-cd server
-npm install
-
-# Install client dependencies
-cd ../client
-npm install
+cd server && npm install
+cd ../client && npm install
 ```
 
-3. Configure development environment:
+3. Generate Solana Wallet:
 ```bash
-# Copy environment files
-cp server/.env.development server/.env
-cp client/.env.development client/.env
+solana-keygen new
 ```
 
-### Devnet Testing
-
-1. **Setup Phantom Wallet for Devnet**:
-   - Open Phantom Wallet
-   - Click Settings (gear icon)
-   - Select "Developer Settings"
-   - Choose "Solana Devnet"
-
-2. **Get Devnet SOL** (Multiple Options):
-
-   a) **Using QuickNode Faucet**:
-   - Visit [QuickNode Faucet](https://quicknode.com/faucet/sol)
-   - Enter your wallet address
-   - Request SOL (supports larger amounts)
-
-   b) **Using Helius Faucet**:
-   - Visit [Helius](https://www.helius.dev/)
-   - Create free account
-   - Use their faucet feature
-
-   c) **Using Discord Faucets**:
-   - Join "The 76 Devs" or "LamportDAO" Discord
-   - Use their faucet bots
-   - Request devnet SOL
-
-   d) **Using CLI** (if other methods fail):
-   ```bash
-   solana config set --url https://api.devnet.solana.com
-   solana airdrop 2 YOUR_WALLET_ADDRESS
-   ```
-
-   You need 2 SOL minimum for testing (simulates $125 requirement)
-
-3. **Start the Development Servers**:
+4. Configure environment variables:
 ```bash
-# Terminal 1 - Start server
-cd server
-npm run dev
-
-# Terminal 2 - Start client
-cd client
-npm run dev
+# server/.env
+SOLANA_RPC_ENDPOINT=https://api.mainnet-beta.solana.com
+SOLANA_NETWORK=mainnet-beta
+ANCHOR_WALLET=/path/to/your/solana/wallet.json
 ```
 
-4. **Access the Application**:
-   - Open browser to http://localhost:5173
-   - Connect your Phantom wallet
-   - Click "Start Trading Bot"
+5. Start development servers:
+```bash
+# In one terminal
+cd client && npm run dev
 
-### Testing Features
+# In another terminal
+cd server && npm run dev
+```
 
-1. **Wallet Connection**:
-   - Click "Connect Wallet" button
-   - Approve connection in Phantom
-   - System will check for 2 SOL minimum balance
+## Features
 
-2. **Trading Bot**:
-   - Initial Phase uses aggressive momentum strategy
-   - Grid trading activates at higher balances
-   - Real-time updates in dashboard
-   - Automatic strategy adjustments
+- Real-time market data streaming
+- Automated trading strategies
+- Risk management system
+- Performance tracking
+- WebSocket-based updates
 
-3. **Monitoring**:
-   - View portfolio value
-   - Track active trades
-   - Monitor risk metrics
-   - Check strategy performance
+## Testing
 
-### Development Notes
+Use simulated mode for testing by setting:
+```
+USE_SIMULATED_DATA=true
+```
 
-- All trades are simulated in development mode
-- Price data uses realistic market simulation
-- Wallet transactions use devnet
-- Real-time updates every 5 seconds
+## Production
 
-### Troubleshooting
-
-1. **Wallet Connection Issues**:
-   - Ensure Phantom is set to Devnet
-   - Check wallet has sufficient SOL
-   - Clear browser cache if needed
-
-2. **Server Connection Issues**:
-   - Verify both servers are running
-   - Check console for error messages
-   - Ensure ports 3000 and 5173 are free
-
-3. **Trading Issues**:
-   - Check server logs for details
-   - Verify Drift Protocol connection
-   - Ensure wallet has approved transactions
-
-4. **SOL Airdrop Issues**:
-   If you get "airdrop limit reached" or other errors:
-   - Try different faucets listed above
-   - Wait a few hours between attempts
-   - Use multiple faucets to accumulate required amount
-   - Join Discord communities for additional help
-
-## Contributing
-
-1. Fork the repository
-2. Create feature branch
-3. Commit changes
-4. Push to branch
-5. Create Pull Request
+For live trading:
+1. Fund your Solana wallet
+2. Set USE_SIMULATED_DATA=false
+3. Configure proper RPC endpoints
 
 ## License
 
-MIT
+[MIT License](LICENSE)
