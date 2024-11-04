@@ -1,36 +1,38 @@
 # dependencies
-/node_modules
-/client/node_modules
-/server/node_modules
+node_modules
+/.pnp
+.pnp.js
 
-# environment variables
+# testing
+/coverage
+
+# production
+/build
+dist
+dist-ssr
+*.local
+
+# misc
+.DS_Store
 .env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
 
-# build output
-/dist
-/client/dist
-/server/dist
-
-# debug logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# MongoDB
-/data
-mongodb-macos-*
-
-# IDE
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
 .idea
-.vscode
-*.swp
-*.swo
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
 
-# macOS
-.DS_Store
-.AppleDouble
-.LSOverride
+# Local Netlify folder
+.netlify
